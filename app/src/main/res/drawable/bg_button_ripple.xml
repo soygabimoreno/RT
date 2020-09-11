@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/grayDark">
+    <item>
+        <selector>
+            <item
+                android:id="@android:id/mask"
+                android:state_pressed="true">
+                <shape android:shape="rectangle">
+                    <corners android:radius="4dp"/>
+                    <solid android:color="@color/grayMedium"/>
+                </shape>
+            </item>
+            <item android:drawable="@drawable/bg_button"/>
+        </selector>
+    </item>
+</ripple>

@@ -1,8 +1,23 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
+    Properties properties = new Properties()
+    properties.load(project.file('../local.properties').newDataInputStream())
+
+    signingConfigs {
+        release {
+            storeFile file(properties.getProperty('keystore.storeFile'))
+            storePassword properties.getProperty('keystore.storePassword')
+            keyAlias properties.getProperty('keystore.keyAlias')
+            keyPassword properties.getProperty('keystore.keyPassword')
+        }
+    }
+
     compileSdkVersion 30
     buildToolsVersion "29.0.3"
 
@@ -10,28 +25,56 @@ android {
         applicationId "com.appacoustic.rt"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode 8
+        versionName "3.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    bundle {
+        density { enableSplit true }
+        abi { enableSplit true }
+        language { enableSplit false }
+    }
+
     buildTypes {
-        release {
+        debug {
+            applicationIdSuffix ".debug"
             minifyEnabled false
+            splits.abi.enable = false
+            splits.density.enable = false
+            ext.enableCrashlytics = false
+        }
+        release {
+            minifyEnabled true
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.1'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
+    implementation 'com.google.firebase:firebase-analytics-ktx:17.5.0'
+    implementation 'com.google.firebase:firebase-crashlytics:17.2.1'
+    implementation 'com.google.android.material:material:1.2.1'
+
+    implementation 'org.koin:koin-androidx-scope:2.1.6'
+    implementation 'org.koin:koin-androidx-viewmodel:2.1.6'
+
+    implementation "io.arrow-kt:arrow-core:0.10.5"
+    implementation "io.arrow-kt:arrow-syntax:0.10.5"
+    kapt "io.arrow-kt:arrow-meta:0.10.5"
+
+    testImplementation 'junit:junit:4.13'
+    testImplementation "io.mockk:mockk:1.10.0"
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions.freeCompilerArgs += ["-Xopt-in=kotlin.RequiresOptIn"]
 }
