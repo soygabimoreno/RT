@@ -1,21 +1,36 @@
 package com.appacoustic.rt.presentation
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.appacoustic.rt.framework.event.Event
+import androidx.lifecycle.viewModelScope
+import com.appacoustic.rt.domain.CheckRecordAudioPermission
+import com.appacoustic.rt.framework.base.BaseViewModel
+import kotlinx.coroutines.launch
 
 class MainViewModel(
-) : ViewModel() {
-
-    private val _navigateToWeb = MutableLiveData<Event<String>>()
-    val navigateToWeb: LiveData<Event<String>> = _navigateToWeb
+    checkRecordAudioPermission: CheckRecordAudioPermission
+) : BaseViewModel<MainViewModel.ViewEvents>() {
 
     init {
+        checkRecordAudioPermission()
+    }
 
+    private fun checkRecordAudioPermission() {
+    }
+
+    private fun showContent() {
+    }
+
+    private fun showRecordAudioPermissionRequiredDialog() {
     }
 
     fun handleInfoClicked() {
-        _navigateToWeb.value = Event("http://appacoustic.com")
+        viewModelScope.launch {
+            sendViewEvent(ViewEvents.NavigateToWeb("http://appacoustic.com"))
+        }
+    }
+
+    sealed class ViewEvents {
+        data class NavigateToWeb(val uriString: String) : ViewEvents()
+        object ShowContent : ViewEvents()
+        object ShowRecordAudioPermissionRequiredDialog : ViewEvents()
     }
 }
