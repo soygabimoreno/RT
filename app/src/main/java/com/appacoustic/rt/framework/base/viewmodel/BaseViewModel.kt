@@ -11,7 +11,7 @@ abstract class BaseViewModel<
     private val _viewState = MutableLiveData<VIEW_STATE>()
     val viewState: LiveData<VIEW_STATE> = _viewState
 
-    protected fun setViewState(viewState: VIEW_STATE) {
+    protected fun updateViewState(viewState: VIEW_STATE) {
         _viewState.value = viewState
     }
 

@@ -5,6 +5,7 @@ import android.net.Uri
 import com.appacoustic.rt.R
 import com.appacoustic.rt.framework.base.activity.BaseActivity
 import com.appacoustic.rt.framework.extension.exhaustive
+import com.appacoustic.rt.framework.extension.toast
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.scope.viewModel
 import org.koin.androidx.scope.lifecycleScope as koinScope
@@ -22,10 +23,30 @@ class MainActivity : BaseActivity<
         initInfoButton()
     }
 
+    private fun initInfoButton() {
+        btn.setOnClickListener {
+            viewModel.handleInfoClicked()
+        }
+    }
+
     override fun renderViewState(viewState: MainViewModel.ViewState) {
         when (viewState) {
+            MainViewModel.ViewState.Loading -> showLoading()
+            MainViewModel.ViewState.Error -> showError()
             is MainViewModel.ViewState.Content -> showContent(viewState.text)
         }.exhaustive
+    }
+
+    private fun showLoading() {
+        toast("Loading...")
+    }
+
+    private fun showError() {
+        toast("Error")
+    }
+
+    private fun showContent(text: String) {
+        btn.text = text
     }
 
     override fun handleViewEvent(viewEvent: MainViewModel.ViewEvents) {
@@ -34,16 +55,6 @@ class MainActivity : BaseActivity<
             MainViewModel.ViewEvents.ShowUI -> showUI()
             MainViewModel.ViewEvents.ShowRecordAudioPermissionRequiredDialog -> showRecordAudioPermissionRequiredDialog()
         }.exhaustive
-    }
-
-    private fun initInfoButton() {
-        btn.setOnClickListener {
-            viewModel.handleInfoClicked()
-        }
-    }
-
-    private fun showContent(text: String) {
-        btn.text = text
     }
 
     private fun navigateToWeb(uriString: String) {
