@@ -1,16 +1,17 @@
-package com.appacoustic.rt.framework.base
+package com.appacoustic.rt.framework.base.activity
 
 import android.os.Bundle
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.appacoustic.rt.framework.base.viewmodel.StatelessBaseViewModel
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-abstract class BaseActivity<
+abstract class StatelessBaseActivity<
     VIEW_EVENT,
-    VIEW_MODEL : BaseViewModel<VIEW_EVENT>
+    VIEW_MODEL : StatelessBaseViewModel<VIEW_EVENT>
     > : AppCompatActivity() {
 
     @get:LayoutRes
