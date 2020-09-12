@@ -1,4 +1,4 @@
-package com.appacoustic.rt.presentation
+package com.appacoustic.rt.presentation.permission
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import arrow.core.left
@@ -9,7 +9,10 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.*
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -17,15 +20,13 @@ import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class MainViewModelTest {
+class PermissionViewModelTest {
 
     private val testDispatcher = TestCoroutineDispatcher()
     private val testCoroutineScope = TestCoroutineScope(testDispatcher)
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
-
-    private lateinit var viewModel: MainViewModel
 
     private val recordAudioPermissionChecker = mockk<RecordAudioPermissionChecker>()
 
@@ -47,7 +48,7 @@ class MainViewModelTest {
         val viewModel = buildViewModel()
 
         val event = viewModel.viewEvents.poll()
-        assertTrue(event is MainViewModel.ViewEvents.ShowUI)
+        assertTrue(event is PermissionViewModel.ViewEvents.NavigateToMeasure)
     }
 
     @Test
@@ -57,7 +58,7 @@ class MainViewModelTest {
         val viewModel = buildViewModel()
 
         val event = viewModel.viewEvents.poll()
-        assertTrue(event is MainViewModel.ViewEvents.ShowRecordAudioPermissionRequiredDialog)
+        assertTrue(event is PermissionViewModel.ViewEvents.ShowRecordAudioPermissionRequiredDialog)
     }
 
     @Test
@@ -67,7 +68,7 @@ class MainViewModelTest {
         val viewModel = buildViewModel()
 
         val event = viewModel.viewEvents.poll()
-        assertTrue(event is MainViewModel.ViewEvents.ShowRationale)
+        assertTrue(event is PermissionViewModel.ViewEvents.ShowRationale)
     }
 
     @Test
@@ -77,7 +78,7 @@ class MainViewModelTest {
         val viewModel = buildViewModel()
 
         val event = viewModel.viewEvents.poll()
-        assertTrue(event is MainViewModel.ViewEvents.ShowPermissionError)
+        assertTrue(event is PermissionViewModel.ViewEvents.ShowPermissionError)
     }
 
     @Test
@@ -87,7 +88,7 @@ class MainViewModelTest {
         val viewModel = buildViewModel()
 
         val state = viewModel.viewState.value!!
-        assertTrue(state is MainViewModel.ViewState.Content)
+        assertTrue(state is PermissionViewModel.ViewState.Content)
     }
 
     @Test
@@ -97,24 +98,7 @@ class MainViewModelTest {
         val viewModel = buildViewModel()
 
         val state = viewModel.viewState.value!!
-        assertTrue(state is MainViewModel.ViewState.Loading)
-    }
-
-    @Test
-    fun `when the user clicks on info, then navigate to the corresponding url`() {
-        testCoroutineScope.runBlockingTest {
-            givenRecordAudioPermissionGranted()
-            val viewModel = buildViewModel()
-
-            viewModel.handleInfoClicked()
-
-            val viewEvents = viewModel.viewEvents
-            val firstEvent = viewEvents.poll()
-            val secondEvent = viewEvents.poll()
-
-            assertTrue(firstEvent is MainViewModel.ViewEvents.ShowUI)
-            assertTrue(secondEvent is MainViewModel.ViewEvents.NavigateToWeb)
-        }
+        assertTrue(state is PermissionViewModel.ViewState.Loading)
     }
 
     private fun givenRecordAudioPermissionGranted() {
@@ -133,7 +117,7 @@ class MainViewModelTest {
         coEvery { recordAudioPermissionChecker() } returns PermissionRequester.PermissionRequestException().left()
     }
 
-    private fun buildViewModel() = MainViewModel(
+    private fun buildViewModel() = PermissionViewModel(
         recordAudioPermissionChecker
     )
 }

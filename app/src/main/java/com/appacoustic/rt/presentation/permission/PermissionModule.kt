@@ -1,4 +1,4 @@
-package com.appacoustic.rt.presentation
+package com.appacoustic.rt.presentation.permission
 
 import com.appacoustic.rt.domain.PermissionRequester
 import com.appacoustic.rt.domain.RecordAudioPermissionChecker
@@ -7,11 +7,11 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-val mainModule = module {
+val permissionModule = module {
     single { PermissionRequester(androidContext()) }
-    scope(named<MainActivity>()) {
+    scope(named<PermissionFragment>()) {
         viewModel {
-            MainViewModel(
+            PermissionViewModel(
                 RecordAudioPermissionChecker(
                     permissionRequester = get()
                 )

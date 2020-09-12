@@ -1,7 +1,11 @@
 package com.appacoustic.rt
 
-import com.appacoustic.rt.presentation.mainModule
+import com.appacoustic.rt.presentation.main.mainModule
+import com.appacoustic.rt.presentation.measure.measureModule
+import com.appacoustic.rt.presentation.permission.permissionModule
 
 val serviceLocator = listOf(
-    mainModule
+    mainModule,
+    permissionModule,
+    measureModule
 )
