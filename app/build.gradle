@@ -76,6 +76,8 @@ dependencies {
     implementation "io.arrow-kt:arrow-syntax:0.10.5"
     kapt "io.arrow-kt:arrow-meta:0.10.5"
 
+    implementation 'com.karumi:dexter:6.2.1'
+
     testImplementation "junit:junit:4.13"
     testImplementation "io.mockk:mockk:1.10.0"
     testImplementation "androidx.arch.core:core-testing:2.1.0"

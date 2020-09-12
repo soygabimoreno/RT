@@ -1,9 +1,11 @@
 package com.appacoustic.rt.presentation
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import arrow.core.Either
-import com.appacoustic.rt.domain.CheckRecordAudioPermissionUseCase
-import io.mockk.every
+import arrow.core.left
+import arrow.core.right
+import com.appacoustic.rt.domain.PermissionRequester
+import com.appacoustic.rt.domain.RecordAudioPermissionChecker
+import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -25,7 +27,7 @@ class MainViewModelTest {
 
     private lateinit var viewModel: MainViewModel
 
-    private val checkRecordAudioPermissionUseCase = mockk<CheckRecordAudioPermissionUseCase>()
+    private val recordAudioPermissionChecker = mockk<RecordAudioPermissionChecker>()
 
     @Before
     fun setUp() {
@@ -59,6 +61,26 @@ class MainViewModelTest {
     }
 
     @Test
+    fun `if the audio record permission indicates a show rationale, then show it`() {
+        givenRecordAudioPermissionShowRationale()
+
+        val viewModel = buildViewModel()
+
+        val event = viewModel.viewEvents.poll()
+        assertTrue(event is MainViewModel.ViewEvents.ShowRationale)
+    }
+
+    @Test
+    fun `if the audio record permission triggers an error, then show it`() {
+        givenRecordAudioPermissionError()
+
+        val viewModel = buildViewModel()
+
+        val event = viewModel.viewEvents.poll()
+        assertTrue(event is MainViewModel.ViewEvents.ShowPermissionError)
+    }
+
+    @Test
     fun `if the audio record permission is granted, then the content is shown`() {
         givenRecordAudioPermissionGranted()
 
@@ -79,16 +101,6 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `if an error happens when the audio record permission is requested, then the screen shows an error`() {
-        givenRecordAudioPermissionError()
-
-        val viewModel = buildViewModel()
-
-        val state = viewModel.viewState.value!!
-        assertTrue(state is MainViewModel.ViewState.Error)
-    }
-
-    @Test
     fun `when the user clicks on info, then navigate to the corresponding url`() {
         testCoroutineScope.runBlockingTest {
             givenRecordAudioPermissionGranted()
@@ -106,18 +118,22 @@ class MainViewModelTest {
     }
 
     private fun givenRecordAudioPermissionGranted() {
-        every { checkRecordAudioPermissionUseCase() } returns Either.right(true)
+        coEvery { recordAudioPermissionChecker() } returns PermissionRequester.PermissionState.GRANTED.right()
     }
 
     private fun givenRecordAudioPermissionDenied() {
-        every { checkRecordAudioPermissionUseCase() } returns Either.right(false)
+        coEvery { recordAudioPermissionChecker() } returns PermissionRequester.PermissionState.DENIED.right()
+    }
+
+    private fun givenRecordAudioPermissionShowRationale() {
+        coEvery { recordAudioPermissionChecker() } returns PermissionRequester.PermissionState.SHOW_RATIONALE.right()
     }
 
     private fun givenRecordAudioPermissionError() {
-        every { checkRecordAudioPermissionUseCase() } returns Either.left(Exception("Foo"))
+        coEvery { recordAudioPermissionChecker() } returns PermissionRequester.PermissionRequestException().left()
     }
 
     private fun buildViewModel() = MainViewModel(
-        checkRecordAudioPermissionUseCase
+        recordAudioPermissionChecker
     )
 }

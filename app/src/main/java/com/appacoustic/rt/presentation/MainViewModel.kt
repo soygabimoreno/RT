@@ -1,12 +1,14 @@
 package com.appacoustic.rt.presentation
 
 import androidx.lifecycle.viewModelScope
-import com.appacoustic.rt.domain.CheckRecordAudioPermissionUseCase
+import com.appacoustic.rt.domain.PermissionRequester
+import com.appacoustic.rt.domain.RecordAudioPermissionChecker
 import com.appacoustic.rt.framework.base.viewmodel.BaseViewModel
+import com.appacoustic.rt.framework.extension.exhaustive
 import kotlinx.coroutines.launch
 
 class MainViewModel(
-    private val checkRecordAudioPermissionUseCase: CheckRecordAudioPermissionUseCase
+    private val recordAudioPermissionChecker: RecordAudioPermissionChecker
 ) : BaseViewModel<
     MainViewModel.ViewState,
     MainViewModel.ViewEvents>() {
@@ -17,16 +19,18 @@ class MainViewModel(
     }
 
     private fun checkRecordAudioPermission() {
-        checkRecordAudioPermissionUseCase()
-            .fold({
-                updateViewState(ViewState.Error)
-            }, { granted ->
-                if (granted) {
-                    showUI()
-                } else {
-                    showRecordAudioPermissionRequiredDialog()
-                }
+        viewModelScope.launch {
+            recordAudioPermissionChecker().fold({
+                showPermissionError()
+            }, { onPermissionRequested ->
+                when (onPermissionRequested) {
+                    PermissionRequester.PermissionState.GRANTED -> showUI()
+                    PermissionRequester.PermissionState.DENIED -> showRecordAudioPermissionRequiredDialog()
+                    PermissionRequester.PermissionState.SHOW_RATIONALE -> showRationale()
+                    PermissionRequester.PermissionState.SHOW_APP_SETTINGS -> showAppSettings()
+                }.exhaustive
             })
+        }
     }
 
     private fun showUI() {
@@ -39,6 +43,24 @@ class MainViewModel(
     private fun showRecordAudioPermissionRequiredDialog() {
         viewModelScope.launch {
             sendViewEvent(ViewEvents.ShowRecordAudioPermissionRequiredDialog)
+        }
+    }
+
+    private fun showRationale() {
+        viewModelScope.launch {
+            sendViewEvent(ViewEvents.ShowRationale)
+        }
+    }
+
+    private fun showAppSettings() {
+        viewModelScope.launch {
+            sendViewEvent(ViewEvents.ShowAppSettings)
+        }
+    }
+
+    private fun showPermissionError() {
+        viewModelScope.launch {
+            sendViewEvent(ViewEvents.ShowPermissionError)
         }
     }
 
@@ -58,5 +80,8 @@ class MainViewModel(
         data class NavigateToWeb(val uriString: String) : ViewEvents()
         object ShowUI : ViewEvents()
         object ShowRecordAudioPermissionRequiredDialog : ViewEvents()
+        object ShowRationale : ViewEvents()
+        object ShowPermissionError : ViewEvents()
+        object ShowAppSettings : ViewEvents()
     }
 }

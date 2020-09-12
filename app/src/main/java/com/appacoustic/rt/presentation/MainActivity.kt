@@ -4,8 +4,8 @@ import android.content.Intent
 import android.net.Uri
 import com.appacoustic.rt.R
 import com.appacoustic.rt.framework.base.activity.BaseActivity
+import com.appacoustic.rt.framework.extension.debugToast
 import com.appacoustic.rt.framework.extension.exhaustive
-import com.appacoustic.rt.framework.extension.toast
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.scope.viewModel
 import org.koin.androidx.scope.lifecycleScope as koinScope
@@ -38,15 +38,17 @@ class MainActivity : BaseActivity<
     }
 
     private fun showLoading() {
-        toast("Loading...")
+        debugToast("Loading...")
     }
 
     private fun showError() {
-        toast("Error")
+        debugToast("Error")
     }
 
     private fun showContent(text: String) {
         btn.text = text
+
+        // TODO: Replace a fragment
     }
 
     override fun handleViewEvent(viewEvent: MainViewModel.ViewEvents) {
@@ -54,6 +56,9 @@ class MainActivity : BaseActivity<
             is MainViewModel.ViewEvents.NavigateToWeb -> navigateToWeb(viewEvent.uriString)
             MainViewModel.ViewEvents.ShowUI -> showUI()
             MainViewModel.ViewEvents.ShowRecordAudioPermissionRequiredDialog -> showRecordAudioPermissionRequiredDialog()
+            MainViewModel.ViewEvents.ShowPermissionError -> showPermissionError()
+            MainViewModel.ViewEvents.ShowRationale -> showRationale()
+            MainViewModel.ViewEvents.ShowAppSettings -> showAppSettings()
         }.exhaustive
     }
 
@@ -63,8 +68,22 @@ class MainActivity : BaseActivity<
     }
 
     private fun showUI() {
+        debugToast("showUI")
     }
 
     private fun showRecordAudioPermissionRequiredDialog() {
+        debugToast("showRecordAudioPermissionRequiredDialog")
+    }
+
+    private fun showPermissionError() {
+        debugToast("showPermissionError")
+    }
+
+    private fun showRationale() {
+        debugToast("showRationale")
+    }
+
+    private fun showAppSettings() {
+        debugToast("showAppSettings")
     }
 }
