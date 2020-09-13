@@ -3,18 +3,17 @@ package com.appacoustic.rt.presentation.permission
 import androidx.lifecycle.viewModelScope
 import com.appacoustic.rt.domain.PermissionRequester
 import com.appacoustic.rt.domain.RecordAudioPermissionChecker
-import com.appacoustic.rt.framework.base.viewmodel.BaseViewModel
+import com.appacoustic.rt.framework.base.viewmodel.StatelessBaseViewModel
 import com.appacoustic.rt.framework.extension.exhaustive
 import kotlinx.coroutines.launch
 
 class PermissionViewModel(
     private val recordAudioPermissionChecker: RecordAudioPermissionChecker
-) : BaseViewModel<
-    PermissionViewModel.ViewState,
-    PermissionViewModel.ViewEvents>() {
+) : StatelessBaseViewModel<
+    PermissionViewModel.ViewEvents
+    >() {
 
     init {
-        updateViewState(ViewState.Loading)
         checkRecordAudioPermission()
     }
 
@@ -35,7 +34,6 @@ class PermissionViewModel(
 
     private fun navigateToMeasure() {
         viewModelScope.launch {
-            updateViewState(ViewState.Content("Lore ipsum"))
             sendViewEvent(ViewEvents.NavigateToMeasure)
         }
     }
@@ -62,12 +60,6 @@ class PermissionViewModel(
         viewModelScope.launch {
             sendViewEvent(ViewEvents.ShowPermissionError)
         }
-    }
-
-    sealed class ViewState {
-        object Loading : ViewState()
-        object Error : ViewState()
-        data class Content(val text: String) : ViewState()
     }
 
     sealed class ViewEvents {

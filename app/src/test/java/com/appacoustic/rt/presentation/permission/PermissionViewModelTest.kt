@@ -42,7 +42,7 @@ class PermissionViewModelTest {
     }
 
     @Test
-    fun `if the audio record permission is granted, then show UI`() {
+    fun `if the audio record permission is granted, then navigate to measure`() {
         givenRecordAudioPermissionGranted()
 
         val viewModel = buildViewModel()
@@ -79,26 +79,6 @@ class PermissionViewModelTest {
 
         val event = viewModel.viewEvents.poll()
         assertTrue(event is PermissionViewModel.ViewEvents.ShowPermissionError)
-    }
-
-    @Test
-    fun `if the audio record permission is granted, then the content is shown`() {
-        givenRecordAudioPermissionGranted()
-
-        val viewModel = buildViewModel()
-
-        val state = viewModel.viewState.value!!
-        assertTrue(state is PermissionViewModel.ViewState.Content)
-    }
-
-    @Test
-    fun `if the audio record permission is denied, then the screen remains Loading`() {
-        givenRecordAudioPermissionDenied()
-
-        val viewModel = buildViewModel()
-
-        val state = viewModel.viewState.value!!
-        assertTrue(state is PermissionViewModel.ViewState.Loading)
     }
 
     private fun givenRecordAudioPermissionGranted() {
