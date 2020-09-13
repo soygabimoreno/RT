@@ -6,12 +6,14 @@
     <color name="primaryDark_darkened_1">#573F78</color>
     <color name="primaryDark_darkened_2">#3F2D57</color>
     <color name="primaryDark_darkened_3">#2A1F3B</color>
+    <color name="primaryDark_darkened_4">#251B33</color>
     <color name="background">#2A1F3B</color>
     <color name="sunglow">#ffca3a</color>
     <color name="sizzlingRed">#ff595e</color>
     <color name="grayLight">#CCCCCC</color>
     <color name="grayMedium">#888888</color>
     <color name="grayDark">#444444</color>
+    <color name="white">#FFFFFF</color>
     <color name="white_alpha_10">#1aFFFFFF</color>
 
     <color name="primary_alpha_90">#e61982c4</color>
