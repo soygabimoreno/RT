@@ -4,6 +4,7 @@ import com.appacoustic.rt.R
 import com.appacoustic.rt.framework.base.fragment.StatelessBaseFragment
 import com.appacoustic.rt.framework.extension.debugToast
 import com.appacoustic.rt.framework.extension.exhaustive
+import com.appacoustic.rt.framework.view.InfoAlertDialog
 import org.koin.androidx.viewmodel.scope.viewModel
 import org.koin.androidx.scope.lifecycleScope as koinScope
 
@@ -33,13 +34,21 @@ class PermissionFragment : StatelessBaseFragment<
             PermissionViewModel.ViewEvents.NavigateToMeasure -> navigateToMeasure()
             PermissionViewModel.ViewEvents.ShowRecordAudioPermissionRequiredDialog -> showRecordAudioPermissionRequiredDialog()
             PermissionViewModel.ViewEvents.ShowPermissionError -> showPermissionError()
-            PermissionViewModel.ViewEvents.ShowRationale -> showRationale()
+            PermissionViewModel.ViewEvents.ShowRationale -> showRecordAudioPermissionRequiredDialog()
             PermissionViewModel.ViewEvents.ShowAppSettings -> showAppSettings()
         }.exhaustive
     }
 
     private fun showRecordAudioPermissionRequiredDialog() {
-        debugToast("showRecordAudioPermissionRequiredDialog")
+        InfoAlertDialog.Builder(requireContext())
+            .drawable(R.drawable.ic_baseline_perm_camera_mic_24)
+            .title(R.string.dialog_info_title)
+            .description(R.string.dialog_info_description)
+            .btnText(R.string.dialog_info_btn_text)
+            .onButtonClicked {
+                viewModel.checkRecordAudioPermission()
+            }
+            .buildAndShow()
     }
 
     private fun showPermissionError() {

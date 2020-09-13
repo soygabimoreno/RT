@@ -4,10 +4,8 @@ import android.content.Intent
 import android.net.Uri
 import com.appacoustic.rt.R
 import com.appacoustic.rt.framework.base.activity.StatelessBaseActivity
-import com.appacoustic.rt.framework.extension.debugToast
 import com.appacoustic.rt.framework.extension.exhaustive
 import com.appacoustic.rt.framework.extension.navigateTo
-import com.appacoustic.rt.framework.view.InfoAlertDialog
 import com.appacoustic.rt.presentation.measure.MeasureFragment
 import com.appacoustic.rt.presentation.permission.PermissionFragment
 import org.koin.androidx.viewmodel.scope.viewModel
@@ -21,17 +19,7 @@ class MainActivity : StatelessBaseActivity<
     override val layoutResId = R.layout.activity_main
     override val viewModel: MainViewModel by koinScope.viewModel(this)
 
-    override fun initUI() {
-        InfoAlertDialog.Builder(this)
-            .drawable(R.drawable.ic_baseline_perm_camera_mic_24)
-            .title(R.string.dialog_info_title)
-            .description(R.string.dialog_info_description)
-            .btnText(R.string.dialog_info_btn_text)
-            .onButtonClicked {
-                debugToast("BTN CLICKED")
-            }
-            .buildAndShow()
-    }
+    override fun initUI() {}
 
     override fun handleViewEvent(viewEvent: MainViewModel.ViewEvents) {
         when (viewEvent) {

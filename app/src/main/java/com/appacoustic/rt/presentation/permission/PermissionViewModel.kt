@@ -17,7 +17,7 @@ class PermissionViewModel(
         checkRecordAudioPermission()
     }
 
-    private fun checkRecordAudioPermission() {
+    fun checkRecordAudioPermission() {
         viewModelScope.launch {
             recordAudioPermissionChecker().fold({
                 showPermissionError()

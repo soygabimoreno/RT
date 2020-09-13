@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">RT</string>
-    <string name="dialog_info_title">Record Audio Permission Required</string>
-    <string name="dialog_info_description">This apps uses the microphone just for measuring the Reverb Time.\n\nDon\'t care, we won\'t use the records for any other purpose. In fact, this is an open source project that you are able to see on:\n\nhttps://github.com/soygabimoreno/RT</string>
+    <string name="dialog_info_title">Microphone required</string>
+    <string name="dialog_info_description">This app records audio only for measuring the Reverb Time. It\'s open source:\n\nhttps://github.com/soygabimoreno/RT</string>
     <string name="dialog_info_btn_text">Request again</string>
 </resources>

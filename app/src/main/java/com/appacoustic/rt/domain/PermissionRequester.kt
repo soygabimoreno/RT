@@ -39,7 +39,12 @@ class PermissionRequester(private val context: Context) {
                     }
 
                     override fun onPermissionRationaleShouldBeShown(request: PermissionRequest?, token: PermissionToken?) {
-                        continuation.resume(PermissionState.SHOW_RATIONALE.right())
+                        token?.cancelPermissionRequest()
+                        try {
+                            continuation.resume(PermissionState.SHOW_RATIONALE.right())
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
 
                         // TODO: SHOW_APP_SETTINGS
 //                    onPermissionRequested(PermissionState.SHOW_APP_SETTINGS.right())
