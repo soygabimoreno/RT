@@ -15,7 +15,8 @@ class InfoAlertDialog private constructor(
     @StringRes private val titleResId: Int,
     @StringRes private val descriptionResId: Int,
     @StringRes private val btnTextResId: Int,
-    private val onButtonClicked: () -> Unit
+    private val onButtonClicked: () -> Unit,
+    private val cancelable: Boolean
 ) : AlertDialog(context) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +39,7 @@ class InfoAlertDialog private constructor(
             dismiss()
             onButtonClicked()
         }
+        setCancelable(cancelable)
     }
 
     class Builder(private val context: Context) {
@@ -47,6 +49,7 @@ class InfoAlertDialog private constructor(
         private var descriptionResId: Int = -1
         private var btnTextResId: Int = -1
         private var onButtonClicked: () -> Unit = {}
+        private var cancelable = true
 
         fun drawable(@DrawableRes drawableResId: Int) = apply {
             this.drawableResId = drawableResId
@@ -68,6 +71,10 @@ class InfoAlertDialog private constructor(
             this.onButtonClicked = onButtonClicked
         }
 
+        fun cancelable(cancelable: Boolean) = apply {
+            this.cancelable = cancelable
+        }
+
         fun buildAndShow() {
             InfoAlertDialog(
                 context = context,
@@ -75,7 +82,8 @@ class InfoAlertDialog private constructor(
                 titleResId = titleResId,
                 descriptionResId = descriptionResId,
                 btnTextResId = btnTextResId,
-                onButtonClicked = onButtonClicked
+                onButtonClicked = onButtonClicked,
+                cancelable = cancelable
             ).show()
         }
     }

@@ -3,4 +3,7 @@
     <string name="dialog_info_title">Microphone required</string>
     <string name="dialog_info_description">This app records audio only for measuring the Reverb Time. It\'s open source:\n\nhttps://github.com/soygabimoreno/RT</string>
     <string name="dialog_info_btn_text">Request again</string>
+    <string name="dialog_app_settings_title">Grant permissions</string>
+    <string name="dialog_app_settings_description">Please, add manually the required permissions.\n\nThey are required to use the app.</string>
+    <string name="dialog_app_settings_btn_text">OK</string>
 </resources>

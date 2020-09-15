@@ -24,35 +24,43 @@ class PermissionRequester(private val context: Context) {
 
     class PermissionRequestException : Exception("An exception happens requesting the permission.")
 
-    suspend operator fun invoke(permission: String) =
-        suspendCoroutine<Either<Throwable, PermissionState>> { continuation ->
-            Dexter
-                .withContext(context)
-                .withPermission(permission)
-                .withListener(object : BasePermissionListener() {
-                    override fun onPermissionGranted(response: PermissionGrantedResponse?) {
-                        continuation.resume(PermissionState.GRANTED.right())
-                    }
+    private var token: PermissionToken? = null
 
-                    override fun onPermissionDenied(response: PermissionDeniedResponse?) {
-                        continuation.resume(PermissionState.DENIED.right())
-                    }
-
-                    override fun onPermissionRationaleShouldBeShown(request: PermissionRequest?, token: PermissionToken?) {
-                        token?.cancelPermissionRequest()
-                        try {
-                            continuation.resume(PermissionState.SHOW_RATIONALE.right())
-                        } catch (e: Exception) {
-                            e.printStackTrace()
+    suspend operator fun invoke(permission: String): Either<Throwable, PermissionState> =
+        suspendCoroutine { continuation ->
+            if (token != null) {
+                token?.continuePermissionRequest()
+                token = null
+            } else {
+                Dexter
+                    .withContext(context)
+                    .withPermission(permission)
+                    .withListener(object : BasePermissionListener() {
+                        override fun onPermissionGranted(response: PermissionGrantedResponse?) {
+                            continuation.resume(PermissionState.GRANTED.right())
                         }
 
-                        // TODO: SHOW_APP_SETTINGS
-//                    onPermissionRequested(PermissionState.SHOW_APP_SETTINGS.right())
+                        override fun onPermissionDenied(response: PermissionDeniedResponse?) {
+                            if (response?.isPermanentlyDenied == true) {
+                                continuation.resume(PermissionState.SHOW_APP_SETTINGS.right())
+                            } else {
+                                continuation.resume(PermissionState.DENIED.right())
+                            }
+                        }
+
+                        override fun onPermissionRationaleShouldBeShown(request: PermissionRequest?, token: PermissionToken?) {
+                            if (this@PermissionRequester.token == null) {
+                                token?.continuePermissionRequest()
+                            } else {
+                                this@PermissionRequester.token = token
+                                continuation.resume(PermissionState.SHOW_RATIONALE.right())
+                            }
+                        }
+                    })
+                    .withErrorListener {
+                        continuation.resume(PermissionRequestException().left())
                     }
-                })
-                .withErrorListener {
-                    continuation.resume(PermissionRequestException().left())
-                }
-                .check()
+                    .check()
+            }
         }
 }

@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingStart="16dp"
+    android:elevation="20dp"
     android:paddingTop="32dp"
     android:paddingEnd="16dp"
     android:paddingBottom="32dp"
