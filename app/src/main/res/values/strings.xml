@@ -16,4 +16,7 @@
     <string name="f_1000">1000</string>
     <string name="f_2000">2000</string>
     <string name="f_4000">4000</string>
+    <string name="countdown_3">3</string>
+    <string name="countdown_2">2</string>
+    <string name="countdown_1">1</string>
 </resources>

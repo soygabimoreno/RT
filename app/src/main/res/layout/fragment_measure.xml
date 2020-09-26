@@ -13,7 +13,6 @@
         android:layout_height="256dp"
         android:layout_gravity="center"
         android:background="@drawable/bg_button_oval_ripple"
-        android:text="@string/start"
         android:textColor="@color/gray_medium"
         android:textSize="48sp"
         android:visibility="gone"
@@ -21,6 +20,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/start"
         tools:visibility="visible"/>
 
     <LinearLayout

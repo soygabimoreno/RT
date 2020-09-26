@@ -31,5 +31,9 @@ class MeasureViewModelTest {
         testCoroutineScope.cleanupTestCoroutines()
     }
 
-    private fun buildViewModel() = MeasureViewModel()
+    private fun buildViewModel() = MeasureViewModel(
+        params = buildFakeParams()
+    )
+
+    private fun buildFakeParams() = MeasureViewModel.Params(recordAudioPermissionGranted = true)
 }

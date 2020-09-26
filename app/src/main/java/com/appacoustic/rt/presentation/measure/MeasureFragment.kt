@@ -5,8 +5,10 @@ import com.appacoustic.rt.framework.base.fragment.BaseFragment
 import com.appacoustic.rt.framework.extension.debugToast
 import com.appacoustic.rt.framework.extension.exhaustive
 import com.appacoustic.rt.framework.extension.visible
+import com.appacoustic.rt.framework.extension.withArgs
 import kotlinx.android.synthetic.main.fragment_measure.*
 import org.koin.androidx.viewmodel.scope.viewModel
+import org.koin.core.parameter.parametersOf
 import org.koin.androidx.scope.lifecycleScope as koinScope
 
 class MeasureFragment : BaseFragment<
@@ -16,10 +18,15 @@ class MeasureFragment : BaseFragment<
     >() {
 
     companion object {
+        private const val ARG_RECORD_AUDIO_PERMISSION_GRANTED = "ARG_RECORD_AUDIO_PERMISSION_GRANTED"
+
         fun newInstance(
             navigateToPermission: () -> Unit,
+            recordAudioPermissionGranted: Boolean
         ): MeasureFragment =
-            MeasureFragment().apply {
+            MeasureFragment().withArgs {
+                putBoolean(ARG_RECORD_AUDIO_PERMISSION_GRANTED, recordAudioPermissionGranted)
+            }.apply {
                 this.navigateToPermission = navigateToPermission
             }
     }
@@ -27,7 +34,13 @@ class MeasureFragment : BaseFragment<
     private lateinit var navigateToPermission: () -> Unit
 
     override val layoutResId = R.layout.fragment_measure
-    override val viewModel: MeasureViewModel by koinScope.viewModel(this)
+    override val viewModel: MeasureViewModel by koinScope.viewModel(this) {
+        val recordAudioPermissionGranted = requireArguments().getBoolean(ARG_RECORD_AUDIO_PERMISSION_GRANTED)
+        val params = MeasureViewModel.Params(
+            recordAudioPermissionGranted = recordAudioPermissionGranted
+        )
+        parametersOf(params)
+    }
 
     override fun initUI() {
         initInfoButton()
@@ -35,7 +48,7 @@ class MeasureFragment : BaseFragment<
 
     private fun initInfoButton() {
         btn.setOnClickListener {
-            viewModel.handleStartMeasureClicked()
+            viewModel.handleStartClicked()
         }
     }
 
@@ -55,11 +68,11 @@ class MeasureFragment : BaseFragment<
         debugToast("Error")
     }
 
-    private fun showContent(viewState: MeasureViewModel.ViewState.Content) {
-//        btn.text = viewState.text // TODO
+    private fun showContent(content: MeasureViewModel.ViewState.Content) {
+        btn.setText(content.textResId)
         btn.visible()
 
-        val measures = viewState.measures
+        val measures = content.measures
         ftv125.setTime(measures[0].time.toString())
         ftv250.setTime(measures[1].time.toString())
         ftv500.setTime(measures[2].time.toString())
@@ -76,6 +89,6 @@ class MeasureFragment : BaseFragment<
     }
 
     private fun showUI() {
-        debugToast("showUI")
+        debugToast("Record Audio permission granted")
     }
 }

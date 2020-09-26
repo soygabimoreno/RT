@@ -1,21 +1,30 @@
 package com.appacoustic.rt.presentation.measure
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.viewModelScope
+import com.appacoustic.rt.R
 import com.appacoustic.rt.domain.Measure
 import com.appacoustic.rt.framework.base.viewmodel.BaseViewModel
 import kotlinx.coroutines.launch
 
 class MeasureViewModel(
+    val params: Params
 ) : BaseViewModel<
     MeasureViewModel.ViewState,
     MeasureViewModel.ViewEvents>() {
 
+    data class Params(
+        val recordAudioPermissionGranted: Boolean
+    )
+
+    private val recordAudioPermissionGranted = params.recordAudioPermissionGranted
+
     init {
         updateViewState(ViewState.Loading)
-        showUI()
+        initContent()
     }
 
-    private fun showUI() {
+    private fun initContent() {
         val measures = listOf(
             Measure(Measure.Frequency.FREQUENCY_125, 0f),
             Measure(Measure.Frequency.FREQUENCY_250, 0f),
@@ -24,20 +33,21 @@ class MeasureViewModel(
             Measure(Measure.Frequency.FREQUENCY_2000, 0f),
             Measure(Measure.Frequency.FREQUENCY_4000, 0f),
         )
-        viewModelScope.launch {
-            updateViewState(
-                ViewState.Content(
-                    text = "Lore ipsum",
-                    measures = measures
-                )
+        updateViewState(
+            ViewState.Content(
+                textResId = R.string.start,
+                measures = measures
             )
-            sendViewEvent(ViewEvents.ShowUI)
-        }
+        )
     }
 
-    fun handleStartMeasureClicked() {
+    fun handleStartClicked() {
         viewModelScope.launch {
-            sendViewEvent(ViewEvents.NavigateToPermission)
+            if (recordAudioPermissionGranted) {
+                sendViewEvent(ViewEvents.ShowUI)
+            } else {
+                sendViewEvent(ViewEvents.NavigateToPermission)
+            }
         }
     }
 
@@ -45,7 +55,7 @@ class MeasureViewModel(
         object Loading : ViewState()
         object Error : ViewState()
         data class Content(
-            val text: String,
+            @StringRes val textResId: Int,
             val measures: List<Measure>
         ) : ViewState()
     }
