@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/primaryDark_darkened_4">
+    <item>
+        <selector>
+            <item
+                android:id="@android:id/mask"
+                android:state_pressed="true">
+                <shape android:shape="oval">
+                    <solid android:color="@color/primaryDark_darkened_2"/>
+                </shape>
+            </item>
+            <item android:drawable="@drawable/bg_button_oval"/>
+        </selector>
+    </item>
+</ripple>

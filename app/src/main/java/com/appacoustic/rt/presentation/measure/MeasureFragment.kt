@@ -4,6 +4,7 @@ import com.appacoustic.rt.R
 import com.appacoustic.rt.framework.base.fragment.BaseFragment
 import com.appacoustic.rt.framework.extension.debugToast
 import com.appacoustic.rt.framework.extension.exhaustive
+import com.appacoustic.rt.framework.extension.visible
 import kotlinx.android.synthetic.main.fragment_measure.*
 import org.koin.androidx.viewmodel.scope.viewModel
 import org.koin.androidx.scope.lifecycleScope as koinScope
@@ -55,9 +56,7 @@ class MeasureFragment : BaseFragment<
     }
 
     private fun showContent(text: String) {
-        btn.text = text
-
-        // TODO: Replace a fragment
+        btn.visible()
     }
 
     override fun handleViewEvent(viewEvent: MeasureViewModel.ViewEvents) {

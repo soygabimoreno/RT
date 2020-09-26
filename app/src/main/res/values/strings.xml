@@ -7,4 +7,5 @@
     <string name="dialog_app_settings_description">Please, add manually the required permissions.\n\nThey are required to use the app.</string>
     <string name="dialog_app_settings_btn_text">OK</string>
     <string name="menu_info">Info</string>
+    <string name="start">start</string>
 </resources>
