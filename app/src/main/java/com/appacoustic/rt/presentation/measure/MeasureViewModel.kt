@@ -27,12 +27,6 @@ class MeasureViewModel(
         }
     }
 
-    fun handleInfoClicked() {
-        viewModelScope.launch {
-            sendViewEvent(ViewEvents.NavigateToWeb("http://appacoustic.com"))
-        }
-    }
-
     sealed class ViewState {
         object Loading : ViewState()
         object Error : ViewState()
@@ -42,6 +36,5 @@ class MeasureViewModel(
     sealed class ViewEvents {
         object ShowUI : ViewEvents()
         object NavigateToPermission : ViewEvents()
-        data class NavigateToWeb(val uriString: String) : ViewEvents()
     }
 }

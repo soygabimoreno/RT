@@ -41,5 +41,21 @@ class MainViewModelTest {
         }
     }
 
+    @Test
+    fun `when the user clicks on info, then navigate to the corresponding url`() {
+        testCoroutineScope.runBlockingTest {
+            val viewModel = buildViewModel()
+
+            viewModel.handleInfoClicked()
+
+            val viewEvents = viewModel.viewEvents
+            val firstEvent = viewEvents.poll()
+            val secondEvent = viewEvents.poll()
+
+            assertTrue(firstEvent is MainViewModel.ViewEvents.NavigateToMeasure)
+            assertTrue(secondEvent is MainViewModel.ViewEvents.NavigateToWeb)
+        }
+    }
+
     private fun buildViewModel() = MainViewModel()
 }

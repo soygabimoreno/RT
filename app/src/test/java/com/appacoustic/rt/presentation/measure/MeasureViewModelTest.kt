@@ -3,12 +3,13 @@ package com.appacoustic.rt.presentation.measure
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.*
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
 import org.junit.After
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
-import org.junit.Test
 
 @ExperimentalCoroutinesApi
 class MeasureViewModelTest {
@@ -28,22 +29,6 @@ class MeasureViewModelTest {
     fun cleanup() {
         Dispatchers.resetMain()
         testCoroutineScope.cleanupTestCoroutines()
-    }
-
-    @Test
-    fun `when the user clicks on info, then navigate to the corresponding url`() {
-        testCoroutineScope.runBlockingTest {
-            val viewModel = buildViewModel()
-
-            viewModel.handleInfoClicked()
-
-            val viewEvents = viewModel.viewEvents
-            val firstEvent = viewEvents.poll()
-            val secondEvent = viewEvents.poll()
-
-            assertTrue(firstEvent is MeasureViewModel.ViewEvents.ShowUI)
-            assertTrue(secondEvent is MeasureViewModel.ViewEvents.NavigateToWeb)
-        }
     }
 
     private fun buildViewModel() = MeasureViewModel()

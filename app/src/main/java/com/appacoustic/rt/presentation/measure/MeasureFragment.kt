@@ -1,7 +1,5 @@
 package com.appacoustic.rt.presentation.measure
 
-import android.content.Intent
-import android.net.Uri
 import com.appacoustic.rt.R
 import com.appacoustic.rt.framework.base.fragment.BaseFragment
 import com.appacoustic.rt.framework.extension.debugToast
@@ -18,7 +16,7 @@ class MeasureFragment : BaseFragment<
 
     companion object {
         fun newInstance(
-            navigateToPermission: () -> Unit
+            navigateToPermission: () -> Unit,
         ): MeasureFragment =
             MeasureFragment().apply {
                 this.navigateToPermission = navigateToPermission
@@ -66,13 +64,7 @@ class MeasureFragment : BaseFragment<
         when (viewEvent) {
             MeasureViewModel.ViewEvents.ShowUI -> showUI()
             MeasureViewModel.ViewEvents.NavigateToPermission -> navigateToPermission()
-            is MeasureViewModel.ViewEvents.NavigateToWeb -> navigateToWeb(viewEvent.uriString)
         }.exhaustive
-    }
-
-    private fun navigateToWeb(uriString: String) {
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(uriString))
-        startActivity(browserIntent)
     }
 
     private fun showUI() {
