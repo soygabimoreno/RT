@@ -9,17 +9,94 @@
 
     <Button
         android:id="@+id/btn"
-        android:textSize="48sp"
-        android:background="@drawable/bg_button_oval_ripple"
         android:layout_width="256dp"
         android:layout_height="256dp"
         android:layout_gravity="center"
+        android:background="@drawable/bg_button_oval_ripple"
         android:text="@string/start"
         android:textColor="@color/gray_medium"
+        android:textSize="48sp"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/llParent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible"/>
+
+    <LinearLayout
+        android:id="@+id/llParent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="@string/frequency_hz"
+                android:textColor="@color/gray_medium"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text="@string/time_s"
+                android:textColor="@color/gray_medium"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <com.appacoustic.rt.framework.customview.FrequencyTimeView
+            android:id="@+id/ftv125"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:custom_text="@string/f_125"/>
+
+        <com.appacoustic.rt.framework.customview.FrequencyTimeView
+            android:id="@+id/ftv250"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:custom_text="@string/f_250"/>
+
+        <com.appacoustic.rt.framework.customview.FrequencyTimeView
+            android:id="@+id/ftv500"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:custom_text="@string/f_500"/>
+
+        <com.appacoustic.rt.framework.customview.FrequencyTimeView
+            android:id="@+id/ftv1000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:custom_text="@string/f_1000"/>
+
+        <com.appacoustic.rt.framework.customview.FrequencyTimeView
+            android:id="@+id/ftv2000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:custom_text="@string/f_2000"/>
+
+        <com.appacoustic.rt.framework.customview.FrequencyTimeView
+            android:id="@+id/ftv4000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:custom_text="@string/f_4000"/>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

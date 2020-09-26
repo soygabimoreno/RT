@@ -43,7 +43,7 @@ class MeasureFragment : BaseFragment<
         when (viewState) {
             MeasureViewModel.ViewState.Loading -> showLoading()
             MeasureViewModel.ViewState.Error -> showError()
-            is MeasureViewModel.ViewState.Content -> showContent(viewState.text)
+            is MeasureViewModel.ViewState.Content -> showContent(viewState)
         }.exhaustive
     }
 
@@ -55,8 +55,17 @@ class MeasureFragment : BaseFragment<
         debugToast("Error")
     }
 
-    private fun showContent(text: String) {
+    private fun showContent(viewState: MeasureViewModel.ViewState.Content) {
+//        btn.text = viewState.text // TODO
         btn.visible()
+
+        val measures = viewState.measures
+        ftv125.setTime(measures[0].time.toString())
+        ftv250.setTime(measures[1].time.toString())
+        ftv500.setTime(measures[2].time.toString())
+        ftv1000.setTime(measures[3].time.toString())
+        ftv2000.setTime(measures[4].time.toString())
+        ftv4000.setTime(measures[5].time.toString())
     }
 
     override fun handleViewEvent(viewEvent: MeasureViewModel.ViewEvents) {

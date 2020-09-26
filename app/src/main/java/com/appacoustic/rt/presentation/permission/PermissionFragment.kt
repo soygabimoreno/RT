@@ -5,9 +5,9 @@ import android.net.Uri
 import android.provider.Settings
 import com.appacoustic.rt.R
 import com.appacoustic.rt.framework.base.fragment.StatelessBaseFragment
+import com.appacoustic.rt.framework.customview.InfoAlertDialog
 import com.appacoustic.rt.framework.extension.debugToast
 import com.appacoustic.rt.framework.extension.exhaustive
-import com.appacoustic.rt.framework.view.InfoAlertDialog
 import org.koin.androidx.viewmodel.scope.viewModel
 import org.koin.androidx.scope.lifecycleScope as koinScope
 

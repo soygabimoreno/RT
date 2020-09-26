@@ -8,4 +8,12 @@
     <string name="dialog_app_settings_btn_text">OK</string>
     <string name="menu_info">Info</string>
     <string name="start">start</string>
+    <string name="frequency_hz">Freq (Hz)</string>
+    <string name="time_s">Time (s)</string>
+    <string name="f_125">125</string>
+    <string name="f_250">250</string>
+    <string name="f_500">500</string>
+    <string name="f_1000">1000</string>
+    <string name="f_2000">2000</string>
+    <string name="f_4000">4000</string>
 </resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="custom_text" format="reference"/>
+    <declare-styleable name="FrequencyTimeView">
+        <attr name="custom_text"/>
+    </declare-styleable>
+</resources>

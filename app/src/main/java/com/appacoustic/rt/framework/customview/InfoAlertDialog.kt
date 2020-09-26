@@ -1,4 +1,4 @@
-package com.appacoustic.rt.framework.view
+package com.appacoustic.rt.framework.customview
 
 import android.app.AlertDialog
 import android.content.Context

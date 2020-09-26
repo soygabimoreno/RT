@@ -1,0 +1,29 @@
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:layout_height="wrap_content"
+    tools:layout_width="match_parent"
+    tools:parentTag="android.widget.LinearLayout"
+    tools:showIn="@layout/fragment_measure">
+
+    <TextView
+        android:id="@+id/tvFrequency"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="end"
+        android:textColor="@color/gray_medium"
+        android:textSize="20sp"
+        tools:text="125"/>
+
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_weight="1"
+        android:gravity="start"
+        android:textColor="@color/gray_medium"
+        android:textSize="20sp"
+        tools:text="0.30"/>
+</merge>
