@@ -8,15 +8,15 @@ class MainViewModel(
 ) : StatelessBaseViewModel<
     MainViewModel.ViewEvents>() {
 
-    fun handleInfoClicked() {
-        viewModelScope.launch {
-            sendViewEvent(ViewEvents.NavigateToWeb("http://appacoustic.com"))
-        }
-    }
-
     init {
         viewModelScope.launch {
             sendViewEvent(ViewEvents.NavigateToMeasure)
+        }
+    }
+
+    fun handleInfoClicked() {
+        viewModelScope.launch {
+            sendViewEvent(ViewEvents.NavigateToWeb("http://appacoustic.com"))
         }
     }
 

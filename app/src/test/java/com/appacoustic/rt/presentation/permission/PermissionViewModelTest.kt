@@ -5,7 +5,9 @@ import arrow.core.left
 import arrow.core.right
 import com.appacoustic.rt.domain.PermissionRequester
 import com.appacoustic.rt.domain.RecordAudioPermissionChecker
+import com.appacoustic.rt.domain.UserSession
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -29,6 +31,7 @@ class PermissionViewModelTest {
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private val recordAudioPermissionChecker = mockk<RecordAudioPermissionChecker>()
+    private val userSession = mockk<UserSession>(relaxed = true)
 
     @Before
     fun setUp() {
@@ -82,22 +85,27 @@ class PermissionViewModelTest {
     }
 
     private fun givenRecordAudioPermissionGranted() {
+        every { userSession.isRecordAudioPermissionGranted() } returns true
         coEvery { recordAudioPermissionChecker() } returns PermissionRequester.PermissionState.GRANTED.right()
     }
 
     private fun givenRecordAudioPermissionDenied() {
+        every { userSession.isRecordAudioPermissionGranted() } returns false
         coEvery { recordAudioPermissionChecker() } returns PermissionRequester.PermissionState.DENIED.right()
     }
 
     private fun givenRecordAudioPermissionShowRationale() {
+        every { userSession.isRecordAudioPermissionGranted() } returns false
         coEvery { recordAudioPermissionChecker() } returns PermissionRequester.PermissionState.SHOW_RATIONALE.right()
     }
 
     private fun givenRecordAudioPermissionError() {
+        every { userSession.isRecordAudioPermissionGranted() } returns false
         coEvery { recordAudioPermissionChecker() } returns PermissionRequester.PermissionRequestException().left()
     }
 
     private fun buildViewModel() = PermissionViewModel(
-        recordAudioPermissionChecker
+        recordAudioPermissionChecker = recordAudioPermissionChecker,
+        userSession = userSession
     )
 }

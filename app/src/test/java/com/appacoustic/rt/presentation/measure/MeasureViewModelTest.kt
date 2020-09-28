@@ -1,6 +1,9 @@
 package com.appacoustic.rt.presentation.measure
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.appacoustic.rt.domain.UserSession
+import io.mockk.every
+import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -17,6 +20,8 @@ class MeasureViewModelTest {
     private val testDispatcher = TestCoroutineDispatcher()
     private val testCoroutineScope = TestCoroutineScope(testDispatcher)
 
+    private val userSession = mockk<UserSession>(relaxed = true)
+
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
@@ -31,9 +36,13 @@ class MeasureViewModelTest {
         testCoroutineScope.cleanupTestCoroutines()
     }
 
-    private fun buildViewModel() = MeasureViewModel(
-        params = buildFakeParams()
-    )
+    private fun buildViewModel() = MeasureViewModel(userSession)
 
-    private fun buildFakeParams() = MeasureViewModel.Params(recordAudioPermissionGranted = true)
+    private fun givenRecordAudioPermissionGranted() {
+        every { userSession.isRecordAudioPermissionGranted() } returns true
+    }
+
+    private fun givenRecordAudioPermissionNotGranted() {
+        every { userSession.isRecordAudioPermissionGranted() } returns false
+    }
 }
