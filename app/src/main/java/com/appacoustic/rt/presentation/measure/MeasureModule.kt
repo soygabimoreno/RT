@@ -6,9 +6,9 @@ import org.koin.dsl.module
 
 val measureModule = module {
     scope(named<MeasureFragment>()) {
-        viewModel { (params: MeasureViewModel.Params) ->
+        viewModel {
             MeasureViewModel(
-                params = params
+                userSession = get()
             )
         }
     }

@@ -7,31 +7,15 @@
     android:layout_height="match_parent"
     tools:context=".presentation.main.MainActivity">
 
-    <Button
-        android:id="@+id/btn"
-        android:layout_width="256dp"
-        android:layout_height="256dp"
-        android:layout_gravity="center"
-        android:background="@drawable/bg_button_oval_ripple"
-        android:textColor="@color/gray_medium"
-        android:textSize="48sp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/llParent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/start"
-        tools:visibility="visible"/>
-
     <LinearLayout
         android:id="@+id/llParent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,18 +26,19 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end"
+                android:layout_marginEnd="8dp"
                 android:text="@string/frequency_hz"
-                android:textColor="@color/gray_medium"
+                android:textColor="@color/gray_light"
                 android:textSize="16sp"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:gravity="start"
                 android:text="@string/time_s"
-                android:textColor="@color/gray_medium"
+                android:textColor="@color/gray_light"
                 android:textSize="16sp"/>
         </LinearLayout>
 
@@ -99,4 +84,20 @@
             android:layout_marginTop="8dp"
             app:custom_text="@string/f_4000"/>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="256dp"
+        android:layout_height="256dp"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_button_oval_ripple"
+        android:textColor="@color/gray_medium"
+        android:textSize="48sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llParent"
+        tools:text="@string/start"
+        tools:visibility="visible"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

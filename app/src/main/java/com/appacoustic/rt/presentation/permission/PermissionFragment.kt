@@ -18,14 +18,14 @@ class PermissionFragment : StatelessBaseFragment<
 
     companion object {
         fun newInstance(
-            navigateToMeasure: (recordAudioPermissionGranted: Boolean) -> Unit
+            navigateToMeasure: () -> Unit
         ): PermissionFragment =
             PermissionFragment().apply {
                 this.navigateToMeasure = navigateToMeasure
             }
     }
 
-    private lateinit var navigateToMeasure: (recordAudioPermissionGranted: Boolean) -> Unit
+    private lateinit var navigateToMeasure: () -> Unit
 
     override val layoutResId = R.layout.fragment_permission
     override val viewModel: PermissionViewModel by koinScope.viewModel(this)
@@ -34,7 +34,7 @@ class PermissionFragment : StatelessBaseFragment<
 
     override fun handleViewEvent(viewEvent: PermissionViewModel.ViewEvents) {
         when (viewEvent) {
-            PermissionViewModel.ViewEvents.NavigateToMeasure -> navigateToMeasure(true)
+            PermissionViewModel.ViewEvents.NavigateToMeasure -> navigateToMeasure()
             PermissionViewModel.ViewEvents.ShowRecordAudioPermissionRequiredDialog -> showRecordAudioPermissionRequiredDialog()
             PermissionViewModel.ViewEvents.ShowPermissionError -> showPermissionError()
             PermissionViewModel.ViewEvents.ShowRationale -> showRecordAudioPermissionRequiredDialog()

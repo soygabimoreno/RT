@@ -14,7 +14,8 @@ val permissionModule = module {
             PermissionViewModel(
                 RecordAudioPermissionChecker(
                     permissionRequester = get()
-                )
+                ),
+                userSession = get()
             )
         }
     }

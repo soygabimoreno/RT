@@ -16,12 +16,12 @@ class MainViewModel(
 
     init {
         viewModelScope.launch {
-            sendViewEvent(ViewEvents.NavigateToMeasure(recordAudioPermissionGranted = false))
+            sendViewEvent(ViewEvents.NavigateToMeasure)
         }
     }
 
     sealed class ViewEvents {
-        data class NavigateToMeasure(val recordAudioPermissionGranted: Boolean) : ViewEvents()
+        object NavigateToMeasure : ViewEvents()
         data class NavigateToWeb(val uriString: String) : ViewEvents()
     }
 }

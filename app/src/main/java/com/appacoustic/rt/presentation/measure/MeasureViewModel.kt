@@ -4,20 +4,15 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.viewModelScope
 import com.appacoustic.rt.R
 import com.appacoustic.rt.domain.Measure
+import com.appacoustic.rt.domain.UserSession
 import com.appacoustic.rt.framework.base.viewmodel.BaseViewModel
 import kotlinx.coroutines.launch
 
 class MeasureViewModel(
-    val params: Params
+    private val userSession: UserSession
 ) : BaseViewModel<
     MeasureViewModel.ViewState,
     MeasureViewModel.ViewEvents>() {
-
-    data class Params(
-        val recordAudioPermissionGranted: Boolean
-    )
-
-    private val recordAudioPermissionGranted = params.recordAudioPermissionGranted
 
     init {
         updateViewState(ViewState.Loading)
@@ -43,7 +38,7 @@ class MeasureViewModel(
 
     fun handleStartClicked() {
         viewModelScope.launch {
-            if (recordAudioPermissionGranted) {
+            if (userSession.isRecordAudioPermissionGranted()) {
                 sendViewEvent(ViewEvents.ShowUI)
             } else {
                 sendViewEvent(ViewEvents.NavigateToPermission)

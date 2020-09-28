@@ -42,16 +42,15 @@ class MainActivity : StatelessBaseActivity<
 
     override fun handleViewEvent(viewEvent: MainViewModel.ViewEvents) {
         when (viewEvent) {
-            is MainViewModel.ViewEvents.NavigateToMeasure -> navigateToMeasure(viewEvent.recordAudioPermissionGranted)
+            is MainViewModel.ViewEvents.NavigateToMeasure -> navigateToMeasure()
             is MainViewModel.ViewEvents.NavigateToWeb -> navigateToWeb(viewEvent.uriString)
         }.exhaustive
     }
 
-    private fun navigateToMeasure(recordAudioPermissionGranted: Boolean) {
+    private fun navigateToMeasure() {
         navigateTo(
             R.id.flContainer, MeasureFragment.newInstance(
-                navigateToPermission = ::navigateToPermission,
-                recordAudioPermissionGranted = recordAudioPermissionGranted
+                navigateToPermission = ::navigateToPermission
             )
         )
     }
