@@ -8,6 +8,7 @@ val measureModule = module {
     scope(named<MeasureFragment>()) {
         viewModel {
             MeasureViewModel(
+                recordAudioPermissionChecker = get(),
                 userSession = get()
             )
         }

@@ -4,11 +4,14 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.viewModelScope
 import com.appacoustic.rt.R
 import com.appacoustic.rt.domain.Measure
+import com.appacoustic.rt.domain.RecordAudioPermissionChecker
 import com.appacoustic.rt.domain.UserSession
+import com.appacoustic.rt.domainRecordAudioPermissionChecker.PermissionRequester
 import com.appacoustic.rt.framework.base.viewmodel.BaseViewModel
 import kotlinx.coroutines.launch
 
 class MeasureViewModel(
+    private val recordAudioPermissionChecker: RecordAudioPermissionChecker,
     private val userSession: UserSession
 ) : BaseViewModel<
     MeasureViewModel.ViewState,
@@ -20,6 +23,14 @@ class MeasureViewModel(
     }
 
     private fun initContent() {
+        viewModelScope.launch {
+            recordAudioPermissionChecker().fold({
+                userSession.setRecordAudioPermissionGranted(false)
+            }, { onPermissionRequested ->
+                val recordAudioPermissionGranted = onPermissionRequested == PermissionRequester.PermissionState.GRANTED
+                userSession.setRecordAudioPermissionGranted(recordAudioPermissionGranted)
+            })
+        }
         val measures = listOf(
             Measure(Measure.Frequency.FREQUENCY_125, 0f),
             Measure(Measure.Frequency.FREQUENCY_250, 0f),

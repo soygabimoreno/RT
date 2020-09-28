@@ -1,4 +1,4 @@
-package com.appacoustic.rt.domain
+package com.appacoustic.rt.domainRecordAudioPermissionChecker
 
 import android.content.Context
 import arrow.core.Either
