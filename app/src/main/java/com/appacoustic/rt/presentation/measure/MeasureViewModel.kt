@@ -4,11 +4,13 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.viewModelScope
 import com.appacoustic.rt.R
 import com.appacoustic.rt.domain.*
+import com.appacoustic.rt.framework.audio.recorder.Recorder
 import com.appacoustic.rt.framework.base.viewmodel.BaseViewModel
 import kotlinx.coroutines.launch
 
 class MeasureViewModel(
     private val recordAudioPermissionChecker: RecordAudioPermissionChecker,
+    private val recorder: Recorder,
     private val userSession: UserSession
 ) : BaseViewModel<
     MeasureViewModel.ViewState,
@@ -55,6 +57,12 @@ class MeasureViewModel(
                                 textResId = textResId
                             )
                         )
+
+                        when (textResId) {
+                            R.string.measuring -> {
+                                recorder.foo()
+                            }
+                        }
                     }
 
                     override fun onFinish(textResId: Int) {

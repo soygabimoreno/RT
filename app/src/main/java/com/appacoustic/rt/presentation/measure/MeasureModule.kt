@@ -9,6 +9,7 @@ val measureModule = module {
         viewModel {
             MeasureViewModel(
                 recordAudioPermissionChecker = get(),
+                recorder = get(),
                 userSession = get()
             )
         }

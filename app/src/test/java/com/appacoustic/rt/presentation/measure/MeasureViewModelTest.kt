@@ -3,6 +3,7 @@ package com.appacoustic.rt.presentation.measure
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.appacoustic.rt.domain.RecordAudioPermissionChecker
 import com.appacoustic.rt.domain.UserSession
+import com.appacoustic.rt.framework.audio.recorder.Recorder
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -22,6 +23,7 @@ class MeasureViewModelTest {
     private val testCoroutineScope = TestCoroutineScope(testDispatcher)
 
     private val recordAudioPermissionChecker = mockk<RecordAudioPermissionChecker>(relaxed = true)
+    private val recorder = mockk<Recorder>(relaxed = true)
     private val userSession = mockk<UserSession>(relaxed = true)
 
     @get:Rule
@@ -40,6 +42,7 @@ class MeasureViewModelTest {
 
     private fun buildViewModel() = MeasureViewModel(
         recordAudioPermissionChecker = recordAudioPermissionChecker,
+        recorder = recorder,
         userSession = userSession
     )
 
