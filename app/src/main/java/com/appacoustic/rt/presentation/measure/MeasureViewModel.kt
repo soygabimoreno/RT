@@ -6,6 +6,7 @@ import com.appacoustic.rt.R
 import com.appacoustic.rt.domain.*
 import com.appacoustic.rt.framework.audio.recorder.Recorder
 import com.appacoustic.rt.framework.base.viewmodel.BaseViewModel
+import com.appacoustic.rt.framework.mapper.toStringResId
 import kotlinx.coroutines.launch
 
 class MeasureViewModel(
@@ -51,26 +52,26 @@ class MeasureViewModel(
             if (userSession.isRecordAudioPermissionGranted()) {
                 sendViewEvent(ViewEvents.DisableButton)
                 ButtonStateHandler(object : ButtonStateHandler.Listener {
-                    override fun onTick(textResId: Int) {
+                    override fun onTick(state: ButtonStateHandler.State) {
                         updateViewState(
                             (getViewState() as ViewState.Content).copy(
-                                textResId = textResId
+                                textResId = state.toStringResId()
                             )
                         )
 
-                        when (textResId) {
-                            R.string.measuring -> {
+                        when (state) {
+                            ButtonStateHandler.State.MEASURING -> {
                                 recorder.foo()
                             }
                         }
                     }
 
-                    override fun onFinish(textResId: Int) {
+                    override fun onFinish(state: ButtonStateHandler.State) {
                         viewModelScope.launch {
                             sendViewEvent(ViewEvents.EnableButton)
                             updateViewState(
                                 (getViewState() as ViewState.Content).copy(
-                                    textResId = textResId
+                                    textResId = state.toStringResId()
                                 )
                             )
                         }
