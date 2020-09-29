@@ -1,10 +1,12 @@
 package com.appacoustic.rt.presentation.measure
 
+import android.util.TypedValue
 import com.appacoustic.rt.R
 import com.appacoustic.rt.framework.base.fragment.BaseFragment
 import com.appacoustic.rt.framework.extension.debugToast
+import com.appacoustic.rt.framework.extension.disable
+import com.appacoustic.rt.framework.extension.enable
 import com.appacoustic.rt.framework.extension.exhaustive
-import com.appacoustic.rt.framework.extension.visible
 import kotlinx.android.synthetic.main.fragment_measure.*
 import org.koin.androidx.viewmodel.scope.viewModel
 import org.koin.androidx.scope.lifecycleScope as koinScope
@@ -57,7 +59,6 @@ class MeasureFragment : BaseFragment<
 
     private fun showContent(content: MeasureViewModel.ViewState.Content) {
         btn.setText(content.textResId)
-        btn.visible()
 
         val measures = content.measures
         ftv125.setTime(measures[0].time.toString())
@@ -70,12 +71,19 @@ class MeasureFragment : BaseFragment<
 
     override fun handleViewEvent(viewEvent: MeasureViewModel.ViewEvents) {
         when (viewEvent) {
-            MeasureViewModel.ViewEvents.ShowUI -> showUI()
+            MeasureViewModel.ViewEvents.EnableButton -> btn.enable()
+            MeasureViewModel.ViewEvents.DisableButton -> btn.disable()
+            MeasureViewModel.ViewEvents.ReduceButtonTextSize -> reduceButtonTextSize()
+            MeasureViewModel.ViewEvents.AmplifyButtonTextSize -> amplifyButtonTextSize()
             MeasureViewModel.ViewEvents.NavigateToPermission -> navigateToPermission()
         }.exhaustive
     }
 
-    private fun showUI() {
-        debugToast("Record Audio permission granted")
+    private fun reduceButtonTextSize() {
+        btn.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.textSizeSmall))
+    }
+
+    private fun amplifyButtonTextSize() {
+        btn.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.textSizeBig))
     }
 }

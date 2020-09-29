@@ -3,10 +3,7 @@ package com.appacoustic.rt.presentation.measure
 import androidx.annotation.StringRes
 import androidx.lifecycle.viewModelScope
 import com.appacoustic.rt.R
-import com.appacoustic.rt.domain.Measure
-import com.appacoustic.rt.domain.RecordAudioPermissionChecker
-import com.appacoustic.rt.domain.UserSession
-import com.appacoustic.rt.domainRecordAudioPermissionChecker.PermissionRequester
+import com.appacoustic.rt.domain.*
 import com.appacoustic.rt.framework.base.viewmodel.BaseViewModel
 import kotlinx.coroutines.launch
 
@@ -50,7 +47,39 @@ class MeasureViewModel(
     fun handleStartClicked() {
         viewModelScope.launch {
             if (userSession.isRecordAudioPermissionGranted()) {
-                sendViewEvent(ViewEvents.ShowUI)
+                sendViewEvent(ViewEvents.DisableButton)
+                ButtonStateHandler(object : ButtonStateHandler.Listener {
+                    override fun onTick(textResId: Int) {
+                        updateViewState(
+                            (getViewState() as ViewState.Content).copy(
+                                textResId = textResId
+                            )
+                        )
+                    }
+
+                    override fun onFinish(textResId: Int) {
+                        viewModelScope.launch {
+                            sendViewEvent(ViewEvents.EnableButton)
+                            updateViewState(
+                                (getViewState() as ViewState.Content).copy(
+                                    textResId = textResId
+                                )
+                            )
+                        }
+                    }
+
+                    override fun onReduceButtonTextSize() {
+                        viewModelScope.launch {
+                            sendViewEvent(ViewEvents.ReduceButtonTextSize)
+                        }
+                    }
+
+                    override fun onAmplifyButtonTextSize() {
+                        viewModelScope.launch {
+                            sendViewEvent(ViewEvents.AmplifyButtonTextSize)
+                        }
+                    }
+                }).start()
             } else {
                 sendViewEvent(ViewEvents.NavigateToPermission)
             }
@@ -67,7 +96,10 @@ class MeasureViewModel(
     }
 
     sealed class ViewEvents {
-        object ShowUI : ViewEvents()
+        object EnableButton : ViewEvents()
+        object DisableButton : ViewEvents()
+        object ReduceButtonTextSize : ViewEvents()
+        object AmplifyButtonTextSize : ViewEvents()
         object NavigateToPermission : ViewEvents()
     }
 }

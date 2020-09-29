@@ -7,7 +7,7 @@
     <string name="dialog_app_settings_description">Please, add manually the required permissions.\n\nThey are required to use the app.</string>
     <string name="dialog_app_settings_btn_text">OK</string>
     <string name="menu_info">Info</string>
-    <string name="start">start</string>
+    <string name="start">START</string>
     <string name="frequency_hz">Freq (Hz)</string>
     <string name="time_s">Time (s)</string>
     <string name="f_125">125</string>
@@ -19,4 +19,7 @@
     <string name="countdown_3">3</string>
     <string name="countdown_2">2</string>
     <string name="countdown_1">1</string>
+    <string name="measuring">Measuring…</string>
+    <string name="calculating">Calculating…</string>
+    <string name="undefined">…</string>
 </resources>

@@ -1,9 +1,9 @@
 package com.appacoustic.rt.presentation.permission
 
 import androidx.lifecycle.viewModelScope
+import com.appacoustic.rt.domain.PermissionRequester
 import com.appacoustic.rt.domain.RecordAudioPermissionChecker
 import com.appacoustic.rt.domain.UserSession
-import com.appacoustic.rt.domainRecordAudioPermissionChecker.PermissionRequester
 import com.appacoustic.rt.framework.base.viewmodel.StatelessBaseViewModel
 import com.appacoustic.rt.framework.extension.exhaustive
 import kotlinx.coroutines.launch

@@ -3,9 +3,9 @@ package com.appacoustic.rt.presentation.permission
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import arrow.core.left
 import arrow.core.right
+import com.appacoustic.rt.domain.PermissionRequester
 import com.appacoustic.rt.domain.RecordAudioPermissionChecker
 import com.appacoustic.rt.domain.UserSession
-import com.appacoustic.rt.domainRecordAudioPermissionChecker.PermissionRequester
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
