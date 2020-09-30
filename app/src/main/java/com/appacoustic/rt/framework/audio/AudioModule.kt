@@ -2,6 +2,7 @@ package com.appacoustic.rt.framework.audio
 
 import android.media.AudioRecord
 import com.appacoustic.rt.framework.audio.recorder.Recorder
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val audioModule = module {
@@ -18,5 +19,10 @@ val audioModule = module {
             )
         )
     }
-    single { Recorder(audioRecord = get()) }
+    single {
+        Recorder(
+            context = androidContext(),
+            audioRecord = get()
+        )
+    }
 }

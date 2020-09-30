@@ -36,18 +36,24 @@ class ButtonStateHandler(
     fun start() {
         object : CountDownTimer(MILLIS_IN_FUTURE, COUNTDOWN_INTERVAL) {
             override fun onTick(millisUntilFinished: Long) {
-                val state = when (millisUntilFinished) {
-                    in step1 -> State.COUNTDOWN_3
-                    in step2 -> State.COUNTDOWN_2
-                    in step3 -> State.COUNTDOWN_1
-                    in step4 -> {
-                        listener.onReduceButtonTextSize()
-                        State.MEASURING
-                    }
-                    in step5 -> State.CALCULATING
-                    else -> State.IDLE
+//                val state = when (millisUntilFinished) {
+//                    in step1 -> State.COUNTDOWN_3
+//                    in step2 -> State.COUNTDOWN_2
+//                    in step3 -> State.COUNTDOWN_1
+//                    in step4 -> {
+//                        listener.onReduceButtonTextSize()
+//                        State.MEASURING
+//                    }
+//                    in step5 -> State.CALCULATING
+//                    else -> State.IDLE
+//                }
+//                listener.onTick(state)
+
+                // ERASE: Just for going fast
+                if (millisUntilFinished in step1) {
+                    listener.onReduceButtonTextSize()
+                    listener.onTick(State.MEASURING)
                 }
-                listener.onTick(state)
             }
 
             override fun onFinish() {
