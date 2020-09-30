@@ -3,13 +3,12 @@ package com.appacoustic.rt.framework.audio.recorder
 import android.content.Context
 import android.media.AudioFormat
 import android.media.AudioRecord
-import android.media.MediaPlayer
 import android.media.MediaRecorder
-import android.net.Uri
 import com.appacoustic.rt.framework.KLog
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -74,6 +73,8 @@ class Recorder(
 
         GlobalScope.launch {
             writeWavFile()
+            buildByteArrayFromTempFile()
+            deleteTempFile()
         }
     }
 
@@ -144,8 +145,35 @@ class Recorder(
             fis.close()
             fos.close()
 
-            val mediaPlayer = MediaPlayer.create(context, Uri.parse(path))
-            mediaPlayer.start()
+//            val mediaPlayer = MediaPlayer.create(context, Uri.parse(path))
+//            mediaPlayer.start()
+        }
+    }
+
+    private suspend fun buildByteArrayFromTempFile() = coroutineScope {
+        launch {
+            val fis = FileInputStream(tempPath)
+            val baos = ByteArrayOutputStream()
+            val data = ByteArray(bufferSize)
+
+            while (fis.read(data) != -1) {
+                baos.write(data)
+            }
+
+            xBytes = ByteArray(baos.size())
+            xBytes = baos.toByteArray()
+
+            fis.close()
+            baos.close()
+        }
+    }
+
+    private fun deleteTempFile() {
+        val file = File(tempPath)
+        if (file.delete()) {
+            KLog.d("File $tempPath has been deleted successfully.")
+        } else {
+            KLog.d("Failure trying to delete the file $tempPath.")
         }
     }
 }
