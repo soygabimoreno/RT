@@ -7,7 +7,7 @@ class ButtonStateHandler(
 ) {
 
     companion object {
-        const val MILLIS_IN_FUTURE = 7000L
+        const val MILLIS_IN_FUTURE = 1000L // TODO: Change by 7 or whatever
         const val COUNTDOWN_INTERVAL = 1000L
         val step1 = (MILLIS_IN_FUTURE - 0 * COUNTDOWN_INTERVAL) downTo (MILLIS_IN_FUTURE - 1 * COUNTDOWN_INTERVAL + 1)
         val step2 = (MILLIS_IN_FUTURE - 1 * COUNTDOWN_INTERVAL) downTo (MILLIS_IN_FUTURE - 2 * COUNTDOWN_INTERVAL + 1)

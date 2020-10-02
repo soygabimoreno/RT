@@ -14,8 +14,7 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 
 class Recorder(
-    private val context: Context,
-    private val wavHeaderWriter: WavHeaderWriter
+    private val context: Context
 ) {
 
     companion object {
@@ -74,7 +73,8 @@ class Recorder(
         GlobalScope.launch {
             writeWavFile()
             buildByteArrayFromTempFile()
-            deleteTempFile()
+            deleteFile(tempPath)
+            calculateReverbTime()
         }
     }
 
@@ -130,7 +130,7 @@ class Recorder(
             val data = ByteArray(bufferSize)
             totalAudioLength = fis.channel.size()
             val totalDataLength = totalAudioLength + 36
-            wavHeaderWriter(
+            writeWavHeader(
                 fos = fos,
                 totalAudioLength = totalAudioLength,
                 totalDataLength = totalDataLength,
@@ -168,12 +168,17 @@ class Recorder(
         }
     }
 
-    private fun deleteTempFile() {
-        val file = File(tempPath)
+    private fun deleteFile(path: String) {
+        val file = File(path)
         if (file.delete()) {
-            KLog.d("File $tempPath has been deleted successfully.")
+            KLog.d("File '$path' has been deleted successfully.")
         } else {
-            KLog.d("Failure trying to delete the file $tempPath.")
+            KLog.d("Failure trying to delete the file '$path'.")
         }
+    }
+
+    private fun calculateReverbTime() {
+        xBytes = muteStartAndEnd(xBytes, 0.25, SAMPLE_RATE)
+        val x = xBytes.toDoubleSamples()
     }
 }
