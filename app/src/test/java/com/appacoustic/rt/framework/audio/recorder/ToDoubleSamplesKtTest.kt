@@ -7,8 +7,7 @@ class ToDoubleSamplesKtTest {
 
     @Test
     fun `check typical values`() {
-        val bufferSize = 8
-        val bytes = ByteArray(bufferSize)
+        val bytes = ByteArray(8)
         bytes[0] = 1
         bytes[1] = 0
 
@@ -20,7 +19,9 @@ class ToDoubleSamplesKtTest {
 
         bytes[6] = 1
         bytes[7] = 1
+
         val doubles = bytes.toDoubleSamples()
+
         assertTrue(1.0 == doubles[0])
         assertTrue(256.0 == doubles[1])
         assertTrue(512.0 == doubles[2])

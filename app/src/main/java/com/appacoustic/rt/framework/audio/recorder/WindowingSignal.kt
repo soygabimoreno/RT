@@ -25,9 +25,9 @@ fun DoubleArray.windowingSignal(
         }
     }
 
-    val length = end - start + 1
-    val out = DoubleArray(length)
-    for (index in 0 until length) {
+    val size = end - start + 1
+    val out = DoubleArray(size)
+    for (index in 0 until size) {
         out[index] = this[index + start]
     }
 

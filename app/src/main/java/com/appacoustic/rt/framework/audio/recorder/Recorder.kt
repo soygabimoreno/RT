@@ -183,5 +183,6 @@ class Recorder(
 
         var x = xBytes.toDoubleSamples()
         x = x.windowingSignal(300, 100)
+        x = x.toDivisibleBy32()
     }
 }

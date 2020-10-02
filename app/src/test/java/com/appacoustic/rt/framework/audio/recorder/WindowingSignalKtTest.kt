@@ -7,8 +7,7 @@ class WindowingSignalKtTest {
 
     @Test
     fun `check the transformed signal only has the useful values`() {
-        val bufferSize = 8
-        val doubles = DoubleArray(bufferSize)
+        val doubles = DoubleArray(8)
         doubles[0] = 0.0
         doubles[1] = 200.0
 
@@ -20,7 +19,9 @@ class WindowingSignalKtTest {
 
         doubles[6] = 200.0
         doubles[7] = 0.0
+
         val windowedSignal = doubles.windowingSignal(300, 100)
+
         assertTrue(windowedSignal.size == 5)
     }
 }
