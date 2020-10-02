@@ -1,24 +1,21 @@
 package com.appacoustic.rt.framework.audio.recorder
 
-import com.appacoustic.rt.framework.KLog
 import kotlin.math.roundToInt
 
-fun muteStartAndEnd(
-    bytes: ByteArray,
+fun ByteArray.muteStartAndEnd(
     seconds: Double,
     sampleRate: Int
 ): ByteArray {
     val positions = (seconds * sampleRate * 2).roundToInt()
 
     for (i in 0 until positions) {
-        bytes[i] = 0
+        this[i] = 0
     }
 
-    val size = bytes.size
+    val size = size
     for (i in (size - positions) until size) {
-        bytes[i] = 0
+        this[i] = 0
     }
 
-    KLog.d("bytes: $bytes")
-    return bytes
+    return this
 }

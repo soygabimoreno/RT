@@ -178,7 +178,10 @@ class Recorder(
     }
 
     private fun calculateReverbTime() {
-        xBytes = muteStartAndEnd(xBytes, 0.25, SAMPLE_RATE)
-        val x = xBytes.toDoubleSamples()
+        // ERASE: Not required anymore if we don't start to measure after click (and finish before pressing stop button)
+//        xBytes = xBytes.muteStartAndEnd(0.25, SAMPLE_RATE)
+
+        var x = xBytes.toDoubleSamples()
+        x = x.windowingSignal(300, 100)
     }
 }
