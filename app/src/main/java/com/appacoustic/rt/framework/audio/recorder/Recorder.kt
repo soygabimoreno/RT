@@ -4,6 +4,7 @@ import android.content.Context
 import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
+import com.appacoustic.rt.data.filter.butterworth.ButterworthCoefficientsOrder2
 import com.appacoustic.rt.framework.KLog
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.coroutineScope
@@ -185,5 +186,7 @@ class Recorder(
         x = x.windowingSignal(300, 100)
         x = x.toDivisibleBy32()
         x = x.normalize()
+
+        var y125 = x.filterIIR(ButterworthCoefficientsOrder2.FREQUENCY_125)
     }
 }
