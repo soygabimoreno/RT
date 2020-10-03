@@ -1,4 +1,4 @@
-package com.appacoustic.rt.framework.audio.recorder
+package com.appacoustic.rt.framework.audio.calculator.processing
 
 import org.junit.Assert.assertTrue
 import org.junit.Test

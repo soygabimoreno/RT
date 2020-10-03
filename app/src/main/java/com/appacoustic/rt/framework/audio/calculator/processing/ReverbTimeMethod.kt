@@ -1,4 +1,4 @@
-package com.appacoustic.rt.framework.audio.recorder
+package com.appacoustic.rt.framework.audio.calculator.processing
 
 enum class ReverbTimeMethod(
     val dBStart: Int,

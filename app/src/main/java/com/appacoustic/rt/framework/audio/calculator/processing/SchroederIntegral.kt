@@ -1,4 +1,4 @@
-package com.appacoustic.rt.framework.audio.recorder
+package com.appacoustic.rt.framework.audio.calculator.processing
 
 fun DoubleArray.schroederIntegral(): DoubleArray {
     val out = DoubleArray(size)

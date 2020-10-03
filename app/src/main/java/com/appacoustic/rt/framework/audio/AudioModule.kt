@@ -1,5 +1,6 @@
 package com.appacoustic.rt.framework.audio
 
+import com.appacoustic.rt.framework.audio.calculator.ReverbTimeCalculator
 import com.appacoustic.rt.framework.audio.recorder.Recorder
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
@@ -7,7 +8,8 @@ import org.koin.dsl.module
 val audioModule = module {
     single {
         Recorder(
-            context = androidContext()
+            context = androidContext(),
+            reverbTimeCalculator = ReverbTimeCalculator()
         )
     }
 }

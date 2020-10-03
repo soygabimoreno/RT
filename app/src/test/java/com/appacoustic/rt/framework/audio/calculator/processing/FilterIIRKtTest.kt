@@ -1,4 +1,4 @@
-package com.appacoustic.rt.framework.audio.recorder
+package com.appacoustic.rt.framework.audio.calculator.processing
 
 import com.appacoustic.rt.data.filter.butterworth.ButterworthCoefficientsOrder2
 import org.junit.Assert.assertTrue
