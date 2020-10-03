@@ -3,9 +3,6 @@ package com.appacoustic.rt.framework.audio.recorder
 import kotlin.math.abs
 
 fun DoubleArray.findPositionByAmplitude(amplitudeInDb: Int): Int {
-
-    // FIXME: This is surely bad calculated
-
     val aux = DoubleArray(size)
 
     for (index in indices) {

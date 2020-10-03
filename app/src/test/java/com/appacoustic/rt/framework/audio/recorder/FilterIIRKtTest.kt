@@ -19,9 +19,9 @@ class FilterIIRKtTest {
 
         assertTrue(5 == filteredArray.size)
         assertTrue(3.929676515700289E-5 == filteredArray[0])
-        assertTrue(3.929676515700289E-5 == filteredArray[1])
-        assertTrue(3.857211157465676E-5 == filteredArray[2])
-        assertTrue(-1.157475523929264E-4 == filteredArray[3])
-        assertTrue(-4.501842332108917E-5 == filteredArray[4])
+        assertTrue(2.350559373596712E-4 == filteredArray[1])
+        assertTrue(6.23657812770271E-4 == filteredArray[2])
+        assertTrue(0.0012406872923808388 == filteredArray[3])
+        assertTrue(0.0018851381466816546 == filteredArray[4])
     }
 }
