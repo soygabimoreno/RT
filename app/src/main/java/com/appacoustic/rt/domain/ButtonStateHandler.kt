@@ -7,7 +7,9 @@ class ButtonStateHandler(
 ) {
 
     companion object {
-        const val MILLIS_IN_FUTURE = 1000L // TODO: Change by 7 or whatever
+        const val MILLIS_IN_FUTURE = 7000L
+
+        //        const val MILLIS_IN_FUTURE = 1000L
         const val COUNTDOWN_INTERVAL = 1000L
         val step1 = (MILLIS_IN_FUTURE - 0 * COUNTDOWN_INTERVAL) downTo (MILLIS_IN_FUTURE - 1 * COUNTDOWN_INTERVAL + 1)
         val step2 = (MILLIS_IN_FUTURE - 1 * COUNTDOWN_INTERVAL) downTo (MILLIS_IN_FUTURE - 2 * COUNTDOWN_INTERVAL + 1)
@@ -36,24 +38,24 @@ class ButtonStateHandler(
     fun start() {
         object : CountDownTimer(MILLIS_IN_FUTURE, COUNTDOWN_INTERVAL) {
             override fun onTick(millisUntilFinished: Long) {
-//                val state = when (millisUntilFinished) {
-//                    in step1 -> State.COUNTDOWN_3
-//                    in step2 -> State.COUNTDOWN_2
-//                    in step3 -> State.COUNTDOWN_1
-//                    in step4 -> {
-//                        listener.onReduceButtonTextSize()
-//                        State.MEASURING
-//                    }
-//                    in step5 -> State.CALCULATING
-//                    else -> State.IDLE
-//                }
-//                listener.onTick(state)
-
-                // ERASE: Just for going fast
-                if (millisUntilFinished in step1) {
-                    listener.onReduceButtonTextSize()
-                    listener.onTick(State.MEASURING)
+                val state = when (millisUntilFinished) {
+                    in step1 -> State.COUNTDOWN_3
+                    in step2 -> State.COUNTDOWN_2
+                    in step3 -> State.COUNTDOWN_1
+                    in step4 -> {
+                        listener.onReduceButtonTextSize()
+                        State.MEASURING
+                    }
+                    in step5 -> State.CALCULATING
+                    else -> State.IDLE
                 }
+                listener.onTick(state)
+
+//                // ERASE: Just for going fast
+//                if (millisUntilFinished in step1) {
+//                    listener.onReduceButtonTextSize()
+//                    listener.onTick(State.MEASURING)
+//                }
             }
 
             override fun onFinish() {

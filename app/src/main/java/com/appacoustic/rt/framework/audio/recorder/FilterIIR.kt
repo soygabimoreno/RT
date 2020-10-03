@@ -21,7 +21,7 @@ fun DoubleArray.filterIIR(
         }
 
         for (i in 0 until bufferSize - 1) {
-            buffer[i + 1] += -buffer[0] * butterworthCoefficients.numeratorDenominator.a[i]
+            buffer[i + 1] += -buffer[0] * butterworthCoefficients.numeratorDenominator.a[i + 1]
         }
         out[n] = buffer[0]
     }

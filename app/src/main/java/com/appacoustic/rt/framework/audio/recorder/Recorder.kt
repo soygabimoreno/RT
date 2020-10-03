@@ -5,6 +5,8 @@ import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
 import com.appacoustic.rt.data.filter.butterworth.ButterworthCoefficientsOrder2
+import com.appacoustic.rt.data.filter.butterworth.ButterworthCoefficientsOrder4
+import com.appacoustic.rt.data.filter.butterworth.ButterworthCoefficientsOrder8
 import com.appacoustic.rt.framework.KLog
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.coroutineScope
@@ -188,11 +190,11 @@ class Recorder(
         x = x.normalize()
 
         var y125 = x.filterIIR(ButterworthCoefficientsOrder2.FREQUENCY_125)
-        var y250 = x.filterIIR(ButterworthCoefficientsOrder2.FREQUENCY_250)
-        var y500 = x.filterIIR(ButterworthCoefficientsOrder2.FREQUENCY_500)
-        var y1000 = x.filterIIR(ButterworthCoefficientsOrder2.FREQUENCY_1000)
-        var y2000 = x.filterIIR(ButterworthCoefficientsOrder2.FREQUENCY_2000)
-        var y4000 = x.filterIIR(ButterworthCoefficientsOrder2.FREQUENCY_4000)
+        var y250 = x.filterIIR(ButterworthCoefficientsOrder4.FREQUENCY_250)
+        var y500 = x.filterIIR(ButterworthCoefficientsOrder4.FREQUENCY_500)
+        var y1000 = x.filterIIR(ButterworthCoefficientsOrder4.FREQUENCY_1000)
+        var y2000 = x.filterIIR(ButterworthCoefficientsOrder8.FREQUENCY_2000)
+        var y4000 = x.filterIIR(ButterworthCoefficientsOrder8.FREQUENCY_4000)
 
         y125 = y125.schroederIntegral()
         y250 = y250.schroederIntegral()
