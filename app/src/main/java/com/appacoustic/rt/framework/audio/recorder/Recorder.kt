@@ -4,6 +4,7 @@ import android.content.Context
 import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
+import arrow.core.Either
 import com.appacoustic.rt.domain.Measure
 import com.appacoustic.rt.framework.KLog
 import com.appacoustic.rt.framework.audio.calculator.ReverbTimeCalculator
@@ -68,7 +69,7 @@ class Recorder(
         )
     )
 
-    suspend fun stop(onReverbTimeCalculated: (List<Measure>) -> Unit) {
+    suspend fun stop(onReverbTimeCalculated: (Either<Throwable, List<Measure>>) -> Unit) {
         recording = false
         audioRecord.stop()
         audioRecord.release()
@@ -76,8 +77,8 @@ class Recorder(
         writeWavFile()
         buildByteArrayFromTempFile()
         deleteFile(tempPath)
-        val measures = reverbTimeCalculator(xBytes, SAMPLE_RATE)
-        onReverbTimeCalculated(measures)
+        val either = reverbTimeCalculator(xBytes, SAMPLE_RATE)
+        onReverbTimeCalculated(either)
     }
 
     private suspend fun writeRawTempFile() = coroutineScope {

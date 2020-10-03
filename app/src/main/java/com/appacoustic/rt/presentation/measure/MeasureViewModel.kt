@@ -73,14 +73,20 @@ class MeasureViewModel(
                     override fun onFinish(state: ButtonStateHandler.State) {
                         viewModelScope.launch {
                             sendViewEvent(ViewEvents.EnableButton)
-                            recorder.stop { measures ->
-                                updateViewState(
-                                    (getViewState() as ViewState.Content).copy(
-                                        textResId = state.toStringResId(),
-                                        measures = measures,
-                                        averageReverbTime = calculateAverageReverbTime(measures)
+                            recorder.stop {
+                                it.fold({
+                                    viewModelScope.launch {
+                                        sendViewEvent(ViewEvents.EmptySignalError)
+                                    }
+                                }, { measures ->
+                                    updateViewState(
+                                        (getViewState() as ViewState.Content).copy(
+                                            textResId = state.toStringResId(),
+                                            measures = measures,
+                                            averageReverbTime = calculateAverageReverbTime(measures)
+                                        )
                                     )
-                                )
+                                })
                             }
                         }
                     }
@@ -114,6 +120,7 @@ class MeasureViewModel(
     }
 
     sealed class ViewEvents {
+        object EmptySignalError : ViewEvents()
         object EnableButton : ViewEvents()
         object DisableButton : ViewEvents()
         object ReduceButtonTextSize : ViewEvents()

@@ -104,8 +104,8 @@
 
     <Button
         android:id="@+id/btn"
-        android:layout_width="256dp"
-        android:layout_height="256dp"
+        android:layout_width="224dp"
+        android:layout_height="224dp"
         android:layout_gravity="center"
         android:background="@drawable/selector_bg_btn"
         android:textAllCaps="false"

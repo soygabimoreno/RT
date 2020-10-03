@@ -75,6 +75,7 @@ class MeasureFragment : BaseFragment<
 
     override fun handleViewEvent(viewEvent: MeasureViewModel.ViewEvents) {
         when (viewEvent) {
+            MeasureViewModel.ViewEvents.EmptySignalError -> toast(R.string.error_empty_signal)
             MeasureViewModel.ViewEvents.EnableButton -> btn.enable()
             MeasureViewModel.ViewEvents.DisableButton -> btn.disable()
             MeasureViewModel.ViewEvents.ReduceButtonTextSize -> reduceButtonTextSize()

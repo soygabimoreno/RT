@@ -23,4 +23,5 @@
     <string name="measuring">Measuring…</string>
     <string name="calculating">Calculating…</string>
     <string name="undefined">…</string>
+    <string name="error_empty_signal">The signal is empty.\n Please try again</string>
 </resources>
