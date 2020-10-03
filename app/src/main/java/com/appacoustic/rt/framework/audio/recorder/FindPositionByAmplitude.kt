@@ -6,7 +6,7 @@ fun DoubleArray.findPositionByAmplitude(amplitudeInDb: Int): Int {
     val aux = DoubleArray(size)
 
     for (index in indices) {
-        aux[index] = abs(this[index]) - amplitudeInDb
+        aux[index] = abs(this[index] - amplitudeInDb)
     }
 
     var place = aux[0]

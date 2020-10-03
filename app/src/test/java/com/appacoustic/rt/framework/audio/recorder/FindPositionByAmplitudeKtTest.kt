@@ -17,8 +17,8 @@ class FindPositionByAmplitudeKtTest {
         doubles[6] = 111.0
         doubles[7] = 4.0
 
-        val position = doubles.findPositionByAmplitude(-5)
+        val position = doubles.findPositionByAmplitude(100)
 
-        assertTrue(3 == position)
+        assertTrue(7 == position)
     }
 }
