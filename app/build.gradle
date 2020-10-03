@@ -25,7 +25,7 @@ android {
         applicationId "com.appacoustic.rt"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 8
+        versionCode 9
         versionName "3.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
