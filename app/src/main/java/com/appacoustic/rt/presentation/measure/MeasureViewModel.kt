@@ -42,10 +42,14 @@ class MeasureViewModel(
         updateViewState(
             ViewState.Content(
                 textResId = R.string.start,
-                measures = measures
+                measures = measures,
+                averageReverbTime = 0f
             )
         )
     }
+
+    private fun calculateAverageReverbTime(measures: List<Measure>): Float =
+        (measures[4].time + measures[5].time) / 2
 
     fun handleStartClicked() {
         viewModelScope.launch {
@@ -73,7 +77,8 @@ class MeasureViewModel(
                                 updateViewState(
                                     (getViewState() as ViewState.Content).copy(
                                         textResId = state.toStringResId(),
-                                        measures = measures
+                                        measures = measures,
+                                        averageReverbTime = calculateAverageReverbTime(measures)
                                     )
                                 )
                             }
@@ -103,7 +108,8 @@ class MeasureViewModel(
         object Error : ViewState()
         data class Content(
             @StringRes val textResId: Int,
-            val measures: List<Measure>
+            val measures: List<Measure>,
+            val averageReverbTime: Float
         ) : ViewState()
     }
 

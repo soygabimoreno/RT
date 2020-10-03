@@ -14,7 +14,7 @@
         android:gravity="end"
         android:layout_marginEnd="8dp"
         android:textColor="@color/gray_medium"
-        android:textSize="20sp"
+        android:textSize="@dimen/textSizeXXS"
         tools:text="125"/>
 
     <TextView
@@ -25,6 +25,6 @@
         android:layout_weight="1"
         android:gravity="start"
         android:textColor="@color/gray_medium"
-        android:textSize="20sp"
+        android:textSize="@dimen/textSizeXXS"
         tools:text="0.30"/>
 </merge>

@@ -29,7 +29,7 @@
                 android:gravity="end"
                 android:text="@string/frequency_hz"
                 android:textColor="@color/gray_light"
-                android:textSize="16sp"/>
+                android:textSize="@dimen/textSizeXXXS"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -39,7 +39,7 @@
                 android:gravity="start"
                 android:text="@string/time_s"
                 android:textColor="@color/gray_light"
-                android:textSize="16sp"/>
+                android:textSize="@dimen/textSizeXXXS"/>
         </LinearLayout>
 
         <com.appacoustic.rt.framework.customview.FrequencyTimeView
@@ -83,17 +83,26 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             app:custom_text="@string/f_4000"/>
+
+        <TextView
+            android:id="@+id/tvAverage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:textSize="@dimen/textSizeS"
+            tools:text="Average: 0.0s"/>
     </LinearLayout>
 
     <Button
         android:id="@+id/btn"
-        android:layout_width="256dp"
-        android:layout_height="256dp"
+        android:layout_width="192dp"
+        android:layout_height="192dp"
         android:layout_gravity="center"
         android:background="@drawable/selector_bg_btn"
         android:textAllCaps="false"
         android:textColor="@color/gray_medium"
-        android:textSize="@dimen/textSizeBig"
+        android:textSize="@dimen/textSizeL"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

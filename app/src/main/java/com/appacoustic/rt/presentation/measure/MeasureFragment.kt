@@ -65,8 +65,11 @@ class MeasureFragment : BaseFragment<
         if (textResId == R.string.start) {
             val measures = content.measures
             ftvs.setTime(measures)
+            val averageReverbTime = content.averageReverbTime
+            tvAverage.text = getString(R.string.average_x_s, averageReverbTime.formatTo2Decimals())
         } else {
             ftvs.setUndefinedTime()
+            tvAverage.text = "?"
         }
     }
 
@@ -81,11 +84,11 @@ class MeasureFragment : BaseFragment<
     }
 
     private fun reduceButtonTextSize() {
-        btn.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.textSizeSmall))
+        btn.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.textSizeXXS))
     }
 
     private fun amplifyButtonTextSize() {
-        btn.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.textSizeBig))
+        btn.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.textSizeL))
     }
 
     private fun List<FrequencyTimeView>.setTime(measures: List<Measure>) =
