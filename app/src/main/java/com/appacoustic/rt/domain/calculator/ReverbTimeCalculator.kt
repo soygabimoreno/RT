@@ -1,4 +1,4 @@
-package com.appacoustic.rt.framework.audio.calculator
+package com.appacoustic.rt.domain.calculator
 
 import arrow.core.Either
 import arrow.core.left
@@ -8,7 +8,7 @@ import com.appacoustic.rt.data.filter.butterworth.ButterworthCoefficientsOrder2
 import com.appacoustic.rt.data.filter.butterworth.ButterworthCoefficientsOrder4
 import com.appacoustic.rt.data.filter.butterworth.ButterworthCoefficientsOrder8
 import com.appacoustic.rt.domain.Measure
-import com.appacoustic.rt.framework.audio.calculator.processing.*
+import com.appacoustic.rt.domain.calculator.processing.*
 
 class ReverbTimeCalculator {
 

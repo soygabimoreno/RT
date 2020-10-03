@@ -6,8 +6,8 @@ import android.media.AudioRecord
 import android.media.MediaRecorder
 import arrow.core.Either
 import com.appacoustic.rt.domain.Measure
+import com.appacoustic.rt.domain.calculator.ReverbTimeCalculator
 import com.appacoustic.rt.framework.KLog
-import com.appacoustic.rt.framework.audio.calculator.ReverbTimeCalculator
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -32,7 +32,6 @@ class Recorder(
 
         private const val EXTENSION_WAV = ".wav"
         private const val FOLDER_RECORDINGS = "RECORDINGS"
-        private const val FOLDER_CSV = "CSV"
     }
 
     private var tempPath = getTempPath()

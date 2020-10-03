@@ -1,4 +1,4 @@
-package com.appacoustic.rt.framework.audio.calculator.processing
+package com.appacoustic.rt.domain.calculator.processing
 
 fun ByteArray.toDoubleSamples(): DoubleArray = mapPairsToDoubles { a, b ->
     (a.toInt() and 0xFF or (b.toInt() shl 8)).toDouble()
