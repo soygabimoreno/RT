@@ -68,13 +68,15 @@ class MeasureViewModel(
 
                     override fun onFinish(state: ButtonStateHandler.State) {
                         viewModelScope.launch {
-                            recorder.stop()
                             sendViewEvent(ViewEvents.EnableButton)
-                            updateViewState(
-                                (getViewState() as ViewState.Content).copy(
-                                    textResId = state.toStringResId()
+                            recorder.stop { measures ->
+                                updateViewState(
+                                    (getViewState() as ViewState.Content).copy(
+                                        textResId = state.toStringResId(),
+                                        measures = measures
+                                    )
                                 )
-                            )
+                            }
                         }
                     }
 

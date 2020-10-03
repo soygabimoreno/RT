@@ -7,6 +7,7 @@ import android.media.MediaRecorder
 import com.appacoustic.rt.data.filter.butterworth.ButterworthCoefficientsOrder2
 import com.appacoustic.rt.data.filter.butterworth.ButterworthCoefficientsOrder4
 import com.appacoustic.rt.data.filter.butterworth.ButterworthCoefficientsOrder8
+import com.appacoustic.rt.domain.Measure
 import com.appacoustic.rt.framework.KLog
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.coroutineScope
@@ -15,6 +16,7 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import kotlin.math.round
 
 class Recorder(
     private val context: Context
@@ -68,17 +70,16 @@ class Recorder(
         )
     )
 
-    fun stop() {
+    suspend fun stop(onReverbTimeCalculated: (List<Measure>) -> Unit) {
         recording = false
         audioRecord.stop()
         audioRecord.release()
 
-        GlobalScope.launch {
-            writeWavFile()
-            buildByteArrayFromTempFile()
-            deleteFile(tempPath)
-            calculateReverbTime()
-        }
+        writeWavFile()
+        buildByteArrayFromTempFile()
+        deleteFile(tempPath)
+        val measures = calculateReverbTime()
+        onReverbTimeCalculated(measures)
     }
 
     private suspend fun writeRawTempFile() = coroutineScope {
@@ -180,7 +181,7 @@ class Recorder(
         }
     }
 
-    private fun calculateReverbTime() {
+    private fun calculateReverbTime(): List<Measure> {
         // ERASE: Not required anymore if we don't start to measure after click (and finish before pressing stop button)
 //        xBytes = xBytes.muteStartAndEnd(0.25, SAMPLE_RATE)
 
@@ -231,5 +232,14 @@ class Recorder(
         val reverbTime1000 = 60 / (-dBEnd + dBStart).toDouble() * (positionDbEnd1000 - positionDbStart1000).toDouble() / SAMPLE_RATE
         val reverbTime2000 = 60 / (-dBEnd + dBStart).toDouble() * (positionDbEnd2000 - positionDbStart2000).toDouble() / SAMPLE_RATE
         val reverbTime4000 = 60 / (-dBEnd + dBStart).toDouble() * (positionDbEnd4000 - positionDbStart4000).toDouble() / SAMPLE_RATE
+
+        return listOf(
+            Measure(Measure.Frequency.FREQUENCY_125, (round(reverbTime125 * 10) / 10).toFloat()),
+            Measure(Measure.Frequency.FREQUENCY_250, (round(reverbTime250 * 10) / 10).toFloat()),
+            Measure(Measure.Frequency.FREQUENCY_500, (round(reverbTime500 * 10) / 10).toFloat()),
+            Measure(Measure.Frequency.FREQUENCY_1000, (round(reverbTime1000 * 10) / 10).toFloat()),
+            Measure(Measure.Frequency.FREQUENCY_2000, (round(reverbTime2000 * 10) / 10).toFloat()),
+            Measure(Measure.Frequency.FREQUENCY_4000, (round(reverbTime4000 * 10) / 10).toFloat()),
+        )
     }
 }
