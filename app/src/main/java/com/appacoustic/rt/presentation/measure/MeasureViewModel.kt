@@ -77,6 +77,11 @@ class MeasureViewModel(
                                 it.fold({
                                     viewModelScope.launch {
                                         sendViewEvent(ViewEvents.EmptySignalError)
+                                        updateViewState(
+                                            (getViewState() as ViewState.Content).copy(
+                                                textResId = state.toStringResId()
+                                            )
+                                        )
                                     }
                                 }, { measures ->
                                     updateViewState(
