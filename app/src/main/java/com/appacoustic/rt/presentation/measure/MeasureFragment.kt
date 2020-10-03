@@ -69,7 +69,7 @@ class MeasureFragment : BaseFragment<
             tvAverage.text = getString(R.string.average_x_s, averageReverbTime.formatTo2Decimals())
         } else {
             ftvs.setUndefinedTime()
-            tvAverage.text = "?"
+            tvAverage.text = getString(R.string.average_x_s, "?")
         }
     }
 

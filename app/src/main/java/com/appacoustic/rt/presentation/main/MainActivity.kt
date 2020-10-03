@@ -1,5 +1,6 @@
 package com.appacoustic.rt.presentation.main
 
+import android.content.Intent
 import android.net.Uri
 import android.view.Menu
 import android.view.MenuInflater
@@ -30,6 +31,14 @@ class MainActivity : StatelessBaseActivity<
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.menuShare -> {
+                viewModel.handleShareClicked()
+                true
+            }
+            R.id.menuEmail -> {
+                viewModel.handleEmailClicked()
+                true
+            }
             R.id.menuInfo -> {
                 viewModel.handleInfoClicked()
                 true
@@ -43,6 +52,8 @@ class MainActivity : StatelessBaseActivity<
     override fun handleViewEvent(viewEvent: MainViewModel.ViewEvents) {
         when (viewEvent) {
             is MainViewModel.ViewEvents.NavigateToMeasure -> navigateToMeasure()
+            MainViewModel.ViewEvents.Share -> share()
+            MainViewModel.ViewEvents.SendEmail -> sendEmail()
             is MainViewModel.ViewEvents.NavigateToWeb -> navigateToWeb(viewEvent.uriString)
         }.exhaustive
     }
@@ -53,6 +64,25 @@ class MainActivity : StatelessBaseActivity<
                 navigateToPermission = ::navigateToPermission
             )
         )
+    }
+
+    private fun share() {
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text))
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, getString(R.string.share_title))
+        startActivity(shareIntent)
+    }
+
+    private fun sendEmail() {
+        val intent = Intent(Intent.ACTION_SENDTO)
+        intent.data = Uri.parse("mailto:")
+        intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.email_to)))
+        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject))
+        startActivity(Intent.createChooser(intent, getString(R.string.email_title)))
     }
 
     private fun navigateToPermission() {

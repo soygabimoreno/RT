@@ -63,9 +63,9 @@ class ReverbTimeCalculator {
     private fun DoubleArray.calculatePosition(
         butterworthCoefficients: ButterworthCoefficients,
         amplitudeInDb: Int
-    ) =
-        this.filterIIR(butterworthCoefficients)
-            .schroederIntegral()
-            .normalizeAndLinearToLogarithmic()
-            .findPositionByAmplitude(amplitudeInDb)
+    ) = this
+        .filterIIR(butterworthCoefficients)
+        .schroederIntegral()
+        .normalizeAndLinearToLogarithmic()
+        .findPositionByAmplitude(amplitudeInDb)
 }
