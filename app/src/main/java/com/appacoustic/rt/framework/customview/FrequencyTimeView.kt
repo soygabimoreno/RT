@@ -14,6 +14,7 @@ class FrequencyTimeView @JvmOverloads constructor(
 ) : LinearLayout(context, attrs) {
 
     init {
+        background = null
         LayoutInflater.from(context).inflate(R.layout.custom_frequency_time, this, true)
         attrs?.let {
             val typedArray = context.obtainStyledAttributes(it, R.styleable.FrequencyTimeView)

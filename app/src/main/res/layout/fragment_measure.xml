@@ -11,7 +11,11 @@
         android:id="@+id/llParent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_rounded"
         android:orientation="vertical"
+        android:padding="16dp"
         app:layout_constraintBottom_toTopOf="@+id/btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,13 +23,15 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@null">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
+                android:background="@null"
                 android:gravity="end"
                 android:text="@string/frequency_hz"
                 android:textColor="@color/gray_light"
@@ -36,6 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
+                android:background="@null"
                 android:gravity="start"
                 android:text="@string/time_s"
                 android:textColor="@color/gray_light"
@@ -88,7 +95,8 @@
             android:id="@+id/tvAverage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
+            android:background="@null"
             android:gravity="center"
             android:textSize="@dimen/textSizeS"
             tools:text="Average: 0.0s"/>
@@ -96,8 +104,8 @@
 
     <Button
         android:id="@+id/btn"
-        android:layout_width="192dp"
-        android:layout_height="192dp"
+        android:layout_width="256dp"
+        android:layout_height="256dp"
         android:layout_gravity="center"
         android:background="@drawable/selector_bg_btn"
         android:textAllCaps="false"
