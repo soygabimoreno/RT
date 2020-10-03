@@ -3,6 +3,7 @@ package com.appacoustic.rt.framework.audio.calculator
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
+import com.appacoustic.rt.data.filter.butterworth.ButterworthCoefficients
 import com.appacoustic.rt.data.filter.butterworth.ButterworthCoefficientsOrder2
 import com.appacoustic.rt.data.filter.butterworth.ButterworthCoefficientsOrder4
 import com.appacoustic.rt.data.filter.butterworth.ButterworthCoefficientsOrder8
@@ -17,49 +18,29 @@ class ReverbTimeCalculator {
         // ERASE: Not required anymore if we don't start to measure after click (and finish before pressing stop button)
 //        xBytes = xBytes.muteStartAndEnd(0.25, sampleRate)
 
-        var x = xBytes.toDoubleSamples()
-        x = x.windowingSignal(300, 100)
-        x = x.toDivisibleBy32()
-        x = x.normalize()
+        val x = xBytes
+            .toDoubleSamples()
+            .windowingSignal(300, 100)
+            .toDivisibleBy32()
+            .normalize()
 
-        var y125 = x.filterIIR(ButterworthCoefficientsOrder2.FREQUENCY_125)
-        var y250 = x.filterIIR(ButterworthCoefficientsOrder4.FREQUENCY_250)
-        var y500 = x.filterIIR(ButterworthCoefficientsOrder4.FREQUENCY_500)
-        var y1000 = x.filterIIR(ButterworthCoefficientsOrder4.FREQUENCY_1000)
-        var y2000 = x.filterIIR(ButterworthCoefficientsOrder8.FREQUENCY_2000)
-        var y4000 = x.filterIIR(ButterworthCoefficientsOrder8.FREQUENCY_4000)
-
-        return if (y125.isEmpty()) {
+        return if (x.isEmpty()) {
             EmptySignalException().left()
         } else {
-            y125 = y125.schroederIntegral()
-            y250 = y250.schroederIntegral()
-            y500 = y500.schroederIntegral()
-            y1000 = y1000.schroederIntegral()
-            y2000 = y2000.schroederIntegral()
-            y4000 = y4000.schroederIntegral()
-
-            y125 = y125.normalizeAndLinearToLogarithmic()
-            y250 = y250.normalizeAndLinearToLogarithmic()
-            y500 = y500.normalizeAndLinearToLogarithmic()
-            y1000 = y1000.normalizeAndLinearToLogarithmic()
-            y2000 = y2000.normalizeAndLinearToLogarithmic()
-            y4000 = y4000.normalizeAndLinearToLogarithmic()
-
             val dBStart = ReverbTimeMethod.EDT.dBStart
             val dBEnd = ReverbTimeMethod.EDT.dBEnd
-            val positionDbStart125 = y125.findPositionByAmplitude(dBStart)
-            val positionDbEnd125 = y125.findPositionByAmplitude(dBEnd)
-            val positionDbStart250 = y250.findPositionByAmplitude(dBStart)
-            val positionDbEnd250 = y250.findPositionByAmplitude(dBEnd)
-            val positionDbStart500 = y500.findPositionByAmplitude(dBStart)
-            val positionDbEnd500 = y500.findPositionByAmplitude(dBEnd)
-            val positionDbStart1000 = y1000.findPositionByAmplitude(dBStart)
-            val positionDbEnd1000 = y1000.findPositionByAmplitude(dBEnd)
-            val positionDbStart2000 = y2000.findPositionByAmplitude(dBStart)
-            val positionDbEnd2000 = y2000.findPositionByAmplitude(dBEnd)
-            val positionDbStart4000 = y4000.findPositionByAmplitude(dBStart)
-            val positionDbEnd4000 = y4000.findPositionByAmplitude(dBEnd)
+            val positionDbStart125 = x.calculatePosition(ButterworthCoefficientsOrder2.FREQUENCY_125, dBStart)
+            val positionDbEnd125 = x.calculatePosition(ButterworthCoefficientsOrder2.FREQUENCY_125, dBEnd)
+            val positionDbStart250 = x.calculatePosition(ButterworthCoefficientsOrder4.FREQUENCY_250, dBStart)
+            val positionDbEnd250 = x.calculatePosition(ButterworthCoefficientsOrder4.FREQUENCY_250, dBEnd)
+            val positionDbStart500 = x.calculatePosition(ButterworthCoefficientsOrder4.FREQUENCY_500, dBStart)
+            val positionDbEnd500 = x.calculatePosition(ButterworthCoefficientsOrder4.FREQUENCY_500, dBEnd)
+            val positionDbStart1000 = x.calculatePosition(ButterworthCoefficientsOrder4.FREQUENCY_1000, dBStart)
+            val positionDbEnd1000 = x.calculatePosition(ButterworthCoefficientsOrder4.FREQUENCY_1000, dBEnd)
+            val positionDbStart2000 = x.calculatePosition(ButterworthCoefficientsOrder8.FREQUENCY_2000, dBStart)
+            val positionDbEnd2000 = x.calculatePosition(ButterworthCoefficientsOrder8.FREQUENCY_2000, dBEnd)
+            val positionDbStart4000 = x.calculatePosition(ButterworthCoefficientsOrder8.FREQUENCY_4000, dBStart)
+            val positionDbEnd4000 = x.calculatePosition(ButterworthCoefficientsOrder8.FREQUENCY_4000, dBEnd)
 
             val reverbTime125 = 60 / (-dBEnd + dBStart).toDouble() * (positionDbEnd125 - positionDbStart125).toDouble() / sampleRate
             val reverbTime250 = 60 / (-dBEnd + dBStart).toDouble() * (positionDbEnd250 - positionDbStart250).toDouble() / sampleRate
@@ -78,4 +59,13 @@ class ReverbTimeCalculator {
             ).right()
         }
     }
+
+    private fun DoubleArray.calculatePosition(
+        butterworthCoefficients: ButterworthCoefficients,
+        amplitudeInDb: Int
+    ) =
+        this.filterIIR(butterworthCoefficients)
+            .schroederIntegral()
+            .normalizeAndLinearToLogarithmic()
+            .findPositionByAmplitude(amplitudeInDb)
 }
