@@ -7,12 +7,13 @@
     <string name="dialog_app_settings_description">Please, add manually the required permissions.\n\nThey are required to use the app.</string>
     <string name="dialog_app_settings_btn_text">OK</string>
 
-    <string name="menu_share">Share</string>
+    <string name="menu_share">Share the app</string>
     <string name="menu_email">Send an email</string>
+    <string name="menu_rate">Rate the app</string>
     <string name="menu_info">Info</string>
 
     <string name="share_title">Share the app</string>
-    <string name="share_text">Check this app for measuring the Reverb Time. It is awesome! :-)\nhttps://play.google.com/store/apps/details?id=com.appacoustic.rt</string>
+    <string name="share_text">Check this app for measuring the Reverb Time. It is awesome!🙂\nhttps://play.google.com/store/apps/details?id=com.appacoustic.rt</string>
 
     <string name="email_title">Select email</string>
     <string name="email_to">contact@appacoustic.com</string>
@@ -28,7 +29,7 @@
     <string name="f_1000">1000</string>
     <string name="f_2000">2000</string>
     <string name="f_4000">4000</string>
-    <string name="average_x_s">Average: %ss</string>
+    <string name="average_x_s">Average: %s</string>
     <string name="countdown_3">3</string>
     <string name="countdown_2">2</string>
     <string name="countdown_1">1</string>

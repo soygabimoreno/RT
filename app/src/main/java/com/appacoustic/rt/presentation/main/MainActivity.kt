@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.browser.customtabs.CustomTabsIntent
+import com.appacoustic.rt.BuildConfig
 import com.appacoustic.rt.R
 import com.appacoustic.rt.framework.base.activity.StatelessBaseActivity
 import com.appacoustic.rt.framework.extension.exhaustive
@@ -39,6 +40,10 @@ class MainActivity : StatelessBaseActivity<
                 viewModel.handleEmailClicked()
                 true
             }
+            R.id.menuRate -> {
+                viewModel.handleRateClicked()
+                true
+            }
             R.id.menuInfo -> {
                 viewModel.handleInfoClicked()
                 true
@@ -54,6 +59,7 @@ class MainActivity : StatelessBaseActivity<
             is MainViewModel.ViewEvents.NavigateToMeasure -> navigateToMeasure()
             MainViewModel.ViewEvents.Share -> share()
             MainViewModel.ViewEvents.SendEmail -> sendEmail()
+            MainViewModel.ViewEvents.Rate -> rate()
             is MainViewModel.ViewEvents.NavigateToWeb -> navigateToWeb(viewEvent.uriString)
         }.exhaustive
     }
@@ -83,6 +89,15 @@ class MainActivity : StatelessBaseActivity<
         intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.email_to)))
         intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject))
         startActivity(Intent.createChooser(intent, getString(R.string.email_title)))
+    }
+
+    private fun rate() {
+        val appPackageName = if (BuildConfig.DEBUG) "com.appacoustic.rt" else packageName
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName")))
+        } catch (exception: Exception) {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")))
+        }
     }
 
     private fun navigateToPermission() {

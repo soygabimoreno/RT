@@ -26,6 +26,12 @@ class MainViewModel(
         }
     }
 
+    fun handleRateClicked() {
+        viewModelScope.launch {
+            sendViewEvent(ViewEvents.Rate)
+        }
+    }
+
     fun handleInfoClicked() {
         viewModelScope.launch {
             sendViewEvent(ViewEvents.NavigateToWeb("http://appacoustic.com"))
@@ -36,6 +42,7 @@ class MainViewModel(
         object NavigateToMeasure : ViewEvents()
         object Share : ViewEvents()
         object SendEmail : ViewEvents()
+        object Rate : ViewEvents()
         data class NavigateToWeb(val uriString: String) : ViewEvents()
     }
 }
