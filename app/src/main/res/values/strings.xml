@@ -13,7 +13,7 @@
     <string name="menu_info">Info</string>
 
     <string name="share_title">Share the app</string>
-    <string name="share_text">Check this app for measuring the Reverb Time. It is awesome!🙂\nhttps://play.google.com/store/apps/details?id=com.appacoustic.rt</string>
+    <string name="share_text">Check this app for measuring the Reverb Time. It is awesome! 🙂\nhttps://play.google.com/store/apps/details?id=com.appacoustic.rt</string>
 
     <string name="email_title">Select email</string>
     <string name="email_to">contact@appacoustic.com</string>
