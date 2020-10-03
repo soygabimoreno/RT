@@ -2,11 +2,10 @@ package com.appacoustic.rt.presentation.measure
 
 import android.util.TypedValue
 import com.appacoustic.rt.R
+import com.appacoustic.rt.domain.Measure
 import com.appacoustic.rt.framework.base.fragment.BaseFragment
-import com.appacoustic.rt.framework.extension.debugToast
-import com.appacoustic.rt.framework.extension.disable
-import com.appacoustic.rt.framework.extension.enable
-import com.appacoustic.rt.framework.extension.exhaustive
+import com.appacoustic.rt.framework.customview.FrequencyTimeView
+import com.appacoustic.rt.framework.extension.*
 import kotlinx.android.synthetic.main.fragment_measure.*
 import org.koin.androidx.viewmodel.scope.viewModel
 import org.koin.androidx.scope.lifecycleScope as koinScope
@@ -30,6 +29,8 @@ class MeasureFragment : BaseFragment<
 
     override val layoutResId = R.layout.fragment_measure
     override val viewModel: MeasureViewModel by koinScope.viewModel(this)
+
+    private val ftvs by lazy { listOf(ftv125, ftv250, ftv500, ftv1000, ftv2000, ftv4000) }
 
     override fun initUI() {
         initInfoButton()
@@ -58,15 +59,15 @@ class MeasureFragment : BaseFragment<
     }
 
     private fun showContent(content: MeasureViewModel.ViewState.Content) {
-        btn.setText(content.textResId)
+        val textResId = content.textResId
+        btn.setText(textResId)
 
-        val measures = content.measures
-        ftv125.setTime(measures[0].time.toString())
-        ftv250.setTime(measures[1].time.toString())
-        ftv500.setTime(measures[2].time.toString())
-        ftv1000.setTime(measures[3].time.toString())
-        ftv2000.setTime(measures[4].time.toString())
-        ftv4000.setTime(measures[5].time.toString())
+        if (textResId == R.string.start) {
+            val measures = content.measures
+            ftvs.setTime(measures)
+        } else {
+            ftvs.setUndefinedTime()
+        }
     }
 
     override fun handleViewEvent(viewEvent: MeasureViewModel.ViewEvents) {
@@ -86,4 +87,12 @@ class MeasureFragment : BaseFragment<
     private fun amplifyButtonTextSize() {
         btn.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.textSizeBig))
     }
+
+    private fun List<FrequencyTimeView>.setTime(measures: List<Measure>) =
+        forEachIndexed { index, ftv ->
+            ftv.setTime(measures[index].time.formatTo2Decimals())
+        }
+
+    private fun List<FrequencyTimeView>.setUndefinedTime() =
+        forEach { it.setTime("?") }
 }

@@ -5,7 +5,6 @@ import com.appacoustic.rt.data.filter.butterworth.ButterworthCoefficientsOrder4
 import com.appacoustic.rt.data.filter.butterworth.ButterworthCoefficientsOrder8
 import com.appacoustic.rt.domain.Measure
 import com.appacoustic.rt.framework.audio.calculator.processing.*
-import kotlin.math.round
 
 class ReverbTimeCalculator {
 
@@ -62,12 +61,12 @@ class ReverbTimeCalculator {
         val reverbTime4000 = 60 / (-dBEnd + dBStart).toDouble() * (positionDbEnd4000 - positionDbStart4000).toDouble() / sampleRate
 
         return listOf(
-            Measure(Measure.Frequency.FREQUENCY_125, (round(reverbTime125 * 10) / 10).toFloat()),
-            Measure(Measure.Frequency.FREQUENCY_250, (round(reverbTime250 * 10) / 10).toFloat()),
-            Measure(Measure.Frequency.FREQUENCY_500, (round(reverbTime500 * 10) / 10).toFloat()),
-            Measure(Measure.Frequency.FREQUENCY_1000, (round(reverbTime1000 * 10) / 10).toFloat()),
-            Measure(Measure.Frequency.FREQUENCY_2000, (round(reverbTime2000 * 10) / 10).toFloat()),
-            Measure(Measure.Frequency.FREQUENCY_4000, (round(reverbTime4000 * 10) / 10).toFloat()),
+            Measure(Measure.Frequency.FREQUENCY_125, reverbTime125.toFloat()),
+            Measure(Measure.Frequency.FREQUENCY_250, reverbTime250.toFloat()),
+            Measure(Measure.Frequency.FREQUENCY_500, reverbTime500.toFloat()),
+            Measure(Measure.Frequency.FREQUENCY_1000, reverbTime1000.toFloat()),
+            Measure(Measure.Frequency.FREQUENCY_2000, reverbTime2000.toFloat()),
+            Measure(Measure.Frequency.FREQUENCY_4000, reverbTime4000.toFloat())
         )
     }
 }

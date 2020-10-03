@@ -7,9 +7,7 @@ class ButtonStateHandler(
 ) {
 
     companion object {
-        const val MILLIS_IN_FUTURE = 7000L
-
-        //        const val MILLIS_IN_FUTURE = 1000L
+        const val MILLIS_IN_FUTURE = 5000L
         const val COUNTDOWN_INTERVAL = 1000L
         val step1 = (MILLIS_IN_FUTURE - 0 * COUNTDOWN_INTERVAL) downTo (MILLIS_IN_FUTURE - 1 * COUNTDOWN_INTERVAL + 1)
         val step2 = (MILLIS_IN_FUTURE - 1 * COUNTDOWN_INTERVAL) downTo (MILLIS_IN_FUTURE - 2 * COUNTDOWN_INTERVAL + 1)
@@ -50,12 +48,6 @@ class ButtonStateHandler(
                     else -> State.IDLE
                 }
                 listener.onTick(state)
-
-//                // ERASE: Just for going fast
-//                if (millisUntilFinished in step1) {
-//                    listener.onReduceButtonTextSize()
-//                    listener.onTick(State.MEASURING)
-//                }
             }
 
             override fun onFinish() {

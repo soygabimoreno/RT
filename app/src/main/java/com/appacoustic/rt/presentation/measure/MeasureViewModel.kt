@@ -34,7 +34,7 @@ class MeasureViewModel(
         val measures = listOf(
             Measure(Measure.Frequency.FREQUENCY_125, 0f),
             Measure(Measure.Frequency.FREQUENCY_250, 0f),
-            Measure(Measure.Frequency.FREQUENCY_500, 0.4f),
+            Measure(Measure.Frequency.FREQUENCY_500, 0f),
             Measure(Measure.Frequency.FREQUENCY_1000, 0f),
             Measure(Measure.Frequency.FREQUENCY_2000, 0f),
             Measure(Measure.Frequency.FREQUENCY_4000, 0f),
