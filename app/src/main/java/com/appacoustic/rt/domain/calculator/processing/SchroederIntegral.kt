@@ -7,7 +7,7 @@ fun DoubleArray.schroederIntegral(): DoubleArray {
     }
 
     var aux = out[0]
-    for (index in 0 until size - 1) {
+    for (index in 1 until size) {
         aux += out[index]
         out[index] = aux
     }
