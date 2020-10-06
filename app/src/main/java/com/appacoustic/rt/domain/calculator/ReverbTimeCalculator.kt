@@ -9,6 +9,7 @@ import com.appacoustic.rt.data.filter.butterworth.ButterworthCoefficientsOrder4
 import com.appacoustic.rt.data.filter.butterworth.ButterworthCoefficientsOrder8
 import com.appacoustic.rt.domain.Measure
 import com.appacoustic.rt.domain.calculator.processing.*
+import com.appacoustic.rt.framework.audio.recorder.Recorder
 
 class ReverbTimeCalculator {
 
@@ -74,6 +75,7 @@ class ReverbTimeCalculator {
         amplitudeInDb: Int
     ) = this
         .filterIIR(butterworthCoefficients)
+        .muteStart(0.05, Recorder.SAMPLE_RATE)
         .schroederIntegral()
         .normalizeAndLinearToLogarithmic()
         .findPositionByAmplitude(amplitudeInDb)
