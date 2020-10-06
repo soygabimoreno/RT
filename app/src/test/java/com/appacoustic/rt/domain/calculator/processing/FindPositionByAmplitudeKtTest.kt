@@ -7,18 +7,16 @@ class FindPositionByAmplitudeKtTest {
 
     @Test
     fun `check expected values`() {
-        val doubles = DoubleArray(8)
+        val doubles = DoubleArray(4)
         doubles[0] = 1.0
-        doubles[1] = 14.0
+        doubles[1] = -2.0
         doubles[2] = 0.0
-        doubles[3] = 0.0
-        doubles[4] = -12.0
-        doubles[5] = 2.0
-        doubles[6] = 111.0
-        doubles[7] = 4.0
+        doubles[3] = 4.0
 
-        val position = doubles.findPositionByAmplitude(100)
+        val startPosition = doubles.findPositionByAmplitude(-5)
+        val endPosition = doubles.findPositionByAmplitude(-15)
 
-        assertTrue(7 == position)
+        assertTrue(2 == startPosition)
+        assertTrue(2 == endPosition)
     }
 }

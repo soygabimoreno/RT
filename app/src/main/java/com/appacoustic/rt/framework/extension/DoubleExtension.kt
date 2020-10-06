@@ -9,6 +9,11 @@ fun Double.roundTo9Decimals(): Double {
     return roundToDecimals(decimals)
 }
 
+fun Double.roundTo5Decimals(): Double {
+    val decimals = 5
+    return roundToDecimals(decimals)
+}
+
 fun Double.roundTo10Decimals(): Double {
     val decimals = 10
     return roundToDecimals(decimals)
