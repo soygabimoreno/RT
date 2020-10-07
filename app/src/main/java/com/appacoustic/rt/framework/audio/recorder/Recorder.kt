@@ -42,7 +42,7 @@ class Recorder(
     private var bufferSize = 0
     private var totalAudioLength = 0L
 
-    private var xBytes: ByteArray = ByteArray(0)
+    private var xBytes: ByteArray = byteArrayOf()
 
     private var recording = false
 
@@ -77,6 +77,10 @@ class Recorder(
         writeWavFile()
         buildByteArrayFromTempFile()
         deleteFile(tempPath)
+        calculateReverbTime(onReverbTimeCalculated)
+    }
+
+    fun calculateReverbTime(onReverbTimeCalculated: (Either<Throwable, List<Measure>>) -> Unit) {
         val either = reverbTimeCalculator(xBytes, SAMPLE_RATE)
         onReverbTimeCalculated(either)
     }

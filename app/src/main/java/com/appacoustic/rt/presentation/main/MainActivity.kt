@@ -71,7 +71,8 @@ class MainActivity : StatelessBaseActivity<
 
     private fun navigateToMeasure() {
         navigateTo(
-            R.id.flContainer, MeasureFragment.newInstance(
+            R.id.flContainer,
+            MeasureFragment.newInstance(
                 navigateToPermission = ::navigateToPermission
             )
         )
@@ -79,7 +80,8 @@ class MainActivity : StatelessBaseActivity<
 
     private fun navigateToSignal() {
         navigateTo(
-            R.id.flContainer, SignalFragment.newInstance()
+            R.id.flContainer,
+            SignalFragment.newInstance()
         )
     }
 

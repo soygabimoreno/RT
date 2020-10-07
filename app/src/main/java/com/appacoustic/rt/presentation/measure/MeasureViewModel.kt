@@ -48,8 +48,20 @@ class MeasureViewModel(
         )
     }
 
-    private fun calculateAverageReverbTime(measures: List<Measure>): Float =
-        (measures[4].time + measures[5].time) / 2
+    fun updateContent() {
+        recorder.calculateReverbTime {
+            it.fold({
+                // Do nothing
+            }, { measures ->
+                updateViewState(
+                    (getViewState() as ViewState.Content).copy(
+                        measures = measures,
+                        averageReverbTime = calculateAverageReverbTime(measures)
+                    )
+                )
+            })
+        }
+    }
 
     fun handleStartClicked() {
         viewModelScope.launch {
@@ -113,6 +125,9 @@ class MeasureViewModel(
             }
         }
     }
+
+    private fun calculateAverageReverbTime(measures: List<Measure>): Float =
+        (measures[4].time + measures[5].time) / 2
 
     sealed class ViewState {
         object Loading : ViewState()

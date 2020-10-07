@@ -11,7 +11,7 @@ class SignalViewModel(
 
     init {
         ViewState.Content(
-            xBytes = ByteArray(0)
+            xBytes = byteArrayOf()
         )
     }
 

@@ -34,6 +34,7 @@ class MeasureFragment : BaseFragment<
 
     override fun initUI() {
         initButton()
+        viewModel.updateContent()
     }
 
     private fun initButton() {
