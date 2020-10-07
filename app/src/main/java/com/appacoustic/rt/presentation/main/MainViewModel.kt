@@ -38,8 +38,21 @@ class MainViewModel(
         }
     }
 
+    fun handleBottomNavigationMenuMeasureClicked() {
+        viewModelScope.launch {
+            sendViewEvent(ViewEvents.NavigateToMeasure)
+        }
+    }
+
+    fun handleBottomNavigationMenuSignalClicked() {
+        viewModelScope.launch {
+            sendViewEvent(ViewEvents.NavigateToSignal)
+        }
+    }
+
     sealed class ViewEvents {
         object NavigateToMeasure : ViewEvents()
+        object NavigateToSignal : ViewEvents()
         object Share : ViewEvents()
         object SendEmail : ViewEvents()
         object Rate : ViewEvents()

@@ -78,8 +78,7 @@ dependencies {
     kapt "io.arrow-kt:arrow-meta:0.10.5"
 
     implementation 'com.karumi:dexter:6.2.1'
-
-//    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
     testImplementation "junit:junit:4.13"
     testImplementation "io.mockk:mockk:1.10.0"

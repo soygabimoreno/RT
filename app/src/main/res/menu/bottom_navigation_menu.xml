@@ -3,10 +3,10 @@
         android:id="@+id/bnmMeasures"
         android:enabled="true"
         android:icon="@drawable/selector_bottom_navigation_measures"
-        android:title="@string/bottom_navigation_menu_measures"/>
+        android:title="@string/bottom_navigation_menu_measure"/>
     <item
         android:id="@+id/bnmSignals"
         android:enabled="true"
         android:icon="@drawable/selector_bottom_navigation_signals"
-        android:title="@string/bottom_navigation_menu_signals"/>
+        android:title="@string/bottom_navigation_menu_signal"/>
 </menu>

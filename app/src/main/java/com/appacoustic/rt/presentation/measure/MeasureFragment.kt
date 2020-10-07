@@ -33,10 +33,10 @@ class MeasureFragment : BaseFragment<
     private val ftvs by lazy { listOf(ftv125, ftv250, ftv500, ftv1000, ftv2000, ftv4000) }
 
     override fun initUI() {
-        initInfoButton()
+        initButton()
     }
 
-    private fun initInfoButton() {
+    private fun initButton() {
         btn.setOnClickListener {
             viewModel.handleStartClicked()
         }
@@ -67,28 +67,6 @@ class MeasureFragment : BaseFragment<
             ftvs.setTime(measures)
             val averageReverbTime = content.averageReverbTime
             tvAverage.text = getString(R.string.average_x_s, averageReverbTime.formatTo2Decimals())
-
-            // ERASE
-//            val xBytes = content.xBytes
-//            if (xBytes.isNotEmpty()) {
-//            val x = xBytes
-//                .toDoubleSamples()
-//                .windowingSignal(300, 100)
-//                .toDivisibleBy32()
-//                .normalize()
-//                .filterIIR(ButterworthCoefficientsOrder2.FREQUENCY_125)
-//                .muteStart(0.1, Recorder.SAMPLE_RATE)
-//
-//                val entries = mutableListOf<Entry>()
-//                x.forEachIndexed { index, sample ->
-//                    entries.add(Entry(index.toFloat(), sample.toFloat()))
-//                }
-//
-//                val dataSet = LineDataSet(entries, "Foo")
-//                val lineData = LineData(dataSet)
-//                chart.data = lineData
-//                chart.invalidate()
-//            }
         } else {
             ftvs.setUndefinedTime()
             tvAverage.text = getString(R.string.average_x_s, "?")

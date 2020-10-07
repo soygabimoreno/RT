@@ -13,6 +13,8 @@ import com.appacoustic.rt.framework.extension.exhaustive
 import com.appacoustic.rt.framework.extension.navigateTo
 import com.appacoustic.rt.presentation.measure.MeasureFragment
 import com.appacoustic.rt.presentation.permission.PermissionFragment
+import com.appacoustic.rt.presentation.signals.SignalFragment
+import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.scope.viewModel
 import org.koin.androidx.scope.lifecycleScope as koinScope
 
@@ -52,11 +54,14 @@ class MainActivity : StatelessBaseActivity<
         }
     }
 
-    override fun initUI() {}
+    override fun initUI() {
+        initBottomNavigation()
+    }
 
     override fun handleViewEvent(viewEvent: MainViewModel.ViewEvents) {
         when (viewEvent) {
             is MainViewModel.ViewEvents.NavigateToMeasure -> navigateToMeasure()
+            MainViewModel.ViewEvents.NavigateToSignal -> navigateToSignal()
             MainViewModel.ViewEvents.Share -> share()
             MainViewModel.ViewEvents.SendEmail -> sendEmail()
             MainViewModel.ViewEvents.Rate -> rate()
@@ -69,6 +74,12 @@ class MainActivity : StatelessBaseActivity<
             R.id.flContainer, MeasureFragment.newInstance(
                 navigateToPermission = ::navigateToPermission
             )
+        )
+    }
+
+    private fun navigateToSignal() {
+        navigateTo(
+            R.id.flContainer, SignalFragment.newInstance()
         )
     }
 
@@ -125,5 +136,22 @@ class MainActivity : StatelessBaseActivity<
                 this,
                 Uri.parse(uriString)
             )
+    }
+
+    private fun initBottomNavigation() {
+        bnv.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.bnmMeasures -> {
+                    viewModel.handleBottomNavigationMenuMeasureClicked()
+                    true
+                }
+                R.id.bnmSignals -> {
+                    viewModel.handleBottomNavigationMenuSignalClicked()
+                    true
+                }
+                else -> false
+            }
+        }
+        bnv.setOnNavigationItemReselectedListener { }
     }
 }

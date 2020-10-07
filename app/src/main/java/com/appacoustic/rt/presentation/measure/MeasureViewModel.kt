@@ -93,12 +93,6 @@ class MeasureViewModel(
                                     )
                                 })
                             }
-                            val xBytes = recorder.getXBytes()
-                            updateViewState(
-                                (getViewState() as ViewState.Content).copy(
-                                    xBytes = xBytes
-                                )
-                            )
                         }
                     }
 
@@ -126,8 +120,7 @@ class MeasureViewModel(
         data class Content(
             @StringRes val textResId: Int,
             val measures: List<Measure>,
-            val averageReverbTime: Float,
-            val xBytes: ByteArray = ByteArray(0)
+            val averageReverbTime: Float
         ) : ViewState()
     }
 
