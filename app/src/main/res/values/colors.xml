@@ -12,6 +12,7 @@
     <color name="sizzlingRed">#ff595e</color>
     <color name="gray_light">#CCCCCC</color>
     <color name="gray_medium">#888888</color>
+    <color name="gray_medium_primary_alpha_50">#80888888</color>
     <color name="gray_dark">#444444</color>
     <color name="white">#FFFFFF</color>
     <color name="white_alpha_10">#1aFFFFFF</color>

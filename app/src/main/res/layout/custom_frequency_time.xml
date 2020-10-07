@@ -15,7 +15,7 @@
         android:background="@null"
         android:gravity="end"
         android:textColor="@color/gray_medium"
-        android:textSize="@dimen/textSizeXXS"
+        android:textSize="@dimen/textSizeXXXS"
         tools:text="125"/>
 
     <TextView
@@ -27,6 +27,6 @@
         android:background="@null"
         android:gravity="start"
         android:textColor="@color/gray_medium"
-        android:textSize="@dimen/textSizeXXS"
+        android:textSize="@dimen/textSizeXXXS"
         tools:text="0.30"/>
 </merge>

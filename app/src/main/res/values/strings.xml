@@ -20,6 +20,9 @@
     <string name="email_subject">EMAIL FROM RT APP</string>
     <string name="email_text">Feel free to send feedback, asking or suggesting anything.\nWe really appreciate it! ☺️\n---\n</string>
 
+    <string name="bottom_navigation_menu_measures">Measures</string>
+    <string name="bottom_navigation_menu_signals">Signals</string>
+
     <string name="start">START</string>
     <string name="frequency_hz">Freq (Hz)</string>
     <string name="time_s">Time (s)</string>

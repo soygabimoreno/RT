@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".presentation.main.MainActivity">
 
     <!--    <com.github.mikephil.charting.charts.LineChart-->
@@ -44,7 +45,7 @@
                 android:gravity="end"
                 android:text="@string/frequency_hz"
                 android:textColor="@color/gray_light"
-                android:textSize="@dimen/textSizeXXS"/>
+                android:textSize="@dimen/textSizeXXXS"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -55,7 +56,7 @@
                 android:gravity="start"
                 android:text="@string/time_s"
                 android:textColor="@color/gray_light"
-                android:textSize="@dimen/textSizeXXS"/>
+                android:textSize="@dimen/textSizeXXXS"/>
         </LinearLayout>
 
         <com.appacoustic.rt.framework.customview.FrequencyTimeView
@@ -114,7 +115,7 @@
             android:layout_marginTop="16dp"
             android:background="@null"
             android:gravity="center"
-            android:textSize="@dimen/textSizeS"
+            android:textSize="@dimen/textSizeXS"
             tools:text="Average: 0.0s"/>
     </LinearLayout>
 
