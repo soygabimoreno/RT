@@ -18,6 +18,7 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bnv"
+        android:background="@color/primaryDark_darkened_2"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottomNavigationHeight"
         android:theme="@style/Widget.BottomNavigationView"

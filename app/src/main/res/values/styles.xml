@@ -7,6 +7,7 @@
         <item name="android:textColor">@color/accent</item>
         <item name="actionBarStyle">@style/ActionBar</item>
         <item name="android:tint">@color/gray_medium</item>
+        <item name="android:statusBarColor">@color/primaryDark_darkened_3</item>
     </style>
 
     <style name="AppTheme.Light">
@@ -15,7 +16,7 @@
     </style>
 
     <style name="ActionBar" parent="@style/Widget.AppCompat.ActionBar.Solid">
-        <item name="background">@color/background</item>
+        <item name="background">@color/primaryDark_darkened_2</item>
         <item name="titleTextStyle">@style/TitleText</item>
     </style>
 
