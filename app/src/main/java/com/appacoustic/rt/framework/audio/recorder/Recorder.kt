@@ -5,7 +5,6 @@ import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
 import arrow.core.Either
-import com.appacoustic.rt.R
 import com.appacoustic.rt.domain.Measure
 import com.appacoustic.rt.domain.calculator.ReverbTimeCalculator
 import com.appacoustic.rt.framework.KLog
@@ -42,8 +41,8 @@ class Recorder(
     private var bufferSize = 0
     private var totalAudioLength = 0L
 
-//    private var xBytes: ByteArray = byteArrayOf() // TODO
-private var xBytes = context.resources.openRawResource(R.raw.clap).readBytes() // ERASE
+    private var xBytes: ByteArray = byteArrayOf()
+//private var xBytes = context.resources.openRawResource(R.raw.clap).readBytes() // COMMENT: For checks
 
     private var recording = false
 
@@ -170,11 +169,8 @@ private var xBytes = context.resources.openRawResource(R.raw.clap).readBytes() /
                 baos.write(data)
             }
 
-//            xBytes = ByteArray(baos.size())
-//            xBytes = baos.toByteArray()
-
-            val inputStream = context.resources.openRawResource(R.raw.clap)
-            xBytes = inputStream.readBytes()
+            xBytes = ByteArray(baos.size())
+            xBytes = baos.toByteArray()
 
             fis.close()
             baos.close()

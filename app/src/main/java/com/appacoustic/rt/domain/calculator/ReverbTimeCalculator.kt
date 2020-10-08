@@ -17,9 +17,6 @@ class ReverbTimeCalculator {
     class EmptyDoubleArraySignalException : Exception("The DoubleArray signal is empty.")
 
     operator fun invoke(xBytes: ByteArray, sampleRate: Int): Either<Throwable, List<Measure>> {
-        // ERASE: Not required anymore if we don't start to measure after click (and finish before pressing stop button)
-//        xBytes = xBytes.muteStartAndEnd(0.25, sampleRate)
-
         return if (xBytes.isEmpty()) {
             EmptyByteArraySignalException().left()
         } else {

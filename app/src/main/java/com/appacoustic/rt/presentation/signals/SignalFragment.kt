@@ -8,6 +8,7 @@ import com.appacoustic.rt.domain.calculator.processing.*
 import com.appacoustic.rt.framework.audio.recorder.Recorder
 import com.appacoustic.rt.framework.base.fragment.BaseFragment
 import com.appacoustic.rt.framework.extension.*
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
@@ -28,6 +29,9 @@ class SignalFragment : BaseFragment<
     override val layoutResId = R.layout.fragment_signal
     override val viewModel: SignalViewModel by koinScope.viewModel(this)
 
+    private val accentColor by lazy { resources.getColor(R.color.accent, null) }
+    private val grayLightColor by lazy { resources.getColor(R.color.gray_light, null) }
+
     override fun initUI() {
         initLineChart()
         initSwitchFilter()
@@ -37,7 +41,21 @@ class SignalFragment : BaseFragment<
     }
 
     private fun initLineChart() {
-        // TODO
+        lineChart.setNoDataText(getString(R.string.take_a_measure_to_see_its_signal))
+        lineChart.legend.isEnabled = false
+        lineChart.description.isEnabled = false
+
+        val xAxis = lineChart.xAxis
+        xAxis.textColor = grayLightColor
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+
+        val yAxis = lineChart.axisLeft
+        yAxis.textColor = grayLightColor
+        yAxis.axisMinimum = -1f
+        yAxis.axisMaximum = 1f
+
+        val axisRight = lineChart.axisRight
+        axisRight.textColor = grayLightColor
     }
 
     private fun initSwitchFilter() {
@@ -102,7 +120,7 @@ class SignalFragment : BaseFragment<
                     .toDivisibleBy32()
                     .normalize()
                     .filterIIR(butterworthCoefficients)
-                    .muteStart(0.1, Recorder.SAMPLE_RATE)
+                    .muteStart(0.05, Recorder.SAMPLE_RATE)
             } else {
                 xBytes
                     .toDoubleSamples()
@@ -120,6 +138,8 @@ class SignalFragment : BaseFragment<
                 entries,
                 getString(R.string.signal)
             )
+            dataSet.color = accentColor
+            dataSet.setCircleColor(accentColor)
             dataSet.circleRadius = 1f
             val lineData = LineData(dataSet)
             lineChart.data = lineData

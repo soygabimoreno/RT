@@ -60,7 +60,7 @@ class MainActivity : StatelessBaseActivity<
 
     override fun handleViewEvent(viewEvent: MainViewModel.ViewEvents) {
         when (viewEvent) {
-            is MainViewModel.ViewEvents.NavigateToMeasure -> navigateToSignal() // TODO: Change to navigateToMeasure
+            is MainViewModel.ViewEvents.NavigateToMeasure -> navigateToMeasure()
             MainViewModel.ViewEvents.NavigateToSignal -> navigateToSignal()
             MainViewModel.ViewEvents.Share -> share()
             MainViewModel.ViewEvents.SendEmail -> sendEmail()
