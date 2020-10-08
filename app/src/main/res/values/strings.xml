@@ -23,6 +23,17 @@
     <string name="bottom_navigation_menu_measure">Measure</string>
     <string name="bottom_navigation_menu_signal">Signal</string>
 
+    <string name="spinner_frequency_125">125 Hz</string>
+    <string name="spinner_frequency_250">250 Hz</string>
+    <string name="spinner_frequency_500">500 Hz</string>
+    <string name="spinner_frequency_1000">1000 Hz</string>
+    <string name="spinner_frequency_2000">2000 Hz</string>
+    <string name="spinner_frequency_4000">4000 Hz</string>
+    <string name="spinner_order_1">Order 1</string>
+    <string name="spinner_order_2">Order 2</string>
+    <string name="spinner_order_4">Order 4</string>
+    <string name="spinner_order_8">Order 8</string>
+
     <string name="start">START</string>
     <string name="frequency_hz">Freq (Hz)</string>
     <string name="time_s">Time (s)</string>
@@ -40,4 +51,5 @@
     <string name="calculating">Calculating…</string>
     <string name="undefined">…</string>
     <string name="error_empty_signal">The signal is empty.\n Please try again</string>
+    <string name="signal">Signal</string>
 </resources>

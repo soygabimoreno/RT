@@ -1,5 +1,9 @@
 package com.appacoustic.rt.presentation.signals
 
+import com.appacoustic.rt.data.filter.butterworth.ButterworthCoefficients
+import com.appacoustic.rt.data.filter.butterworth.ButterworthCoefficientsOrder2
+import com.appacoustic.rt.data.filter.butterworth.ButterworthFrequency
+import com.appacoustic.rt.data.filter.butterworth.ButterworthOrder
 import com.appacoustic.rt.framework.audio.recorder.Recorder
 import com.appacoustic.rt.framework.base.viewmodel.BaseViewModel
 
@@ -24,9 +28,43 @@ class SignalViewModel(
         )
     }
 
+    fun handleSpinnerFrequencyChanged(butterworthFrequency: ButterworthFrequency) {
+        updateViewState(
+            (getViewState() as ViewState.Content).copy(
+                butterworthFrequency = butterworthFrequency
+            )
+        )
+        updateCoefficients()
+    }
+
+    fun handleSpinnerOrderChanged(butterworthOrder: ButterworthOrder) {
+        updateViewState(
+            (getViewState() as ViewState.Content).copy(
+                butterworthOrder = butterworthOrder
+            )
+        )
+        updateCoefficients()
+    }
+
+    private fun updateCoefficients() {
+        val butterworthFrequency = (getViewState() as ViewState.Content).butterworthFrequency
+        val butterworthOrder = (getViewState() as ViewState.Content).butterworthOrder
+        updateViewState(
+            (getViewState() as ViewState.Content).copy(
+                butterworthCoefficients = getButterworthCoefficients(
+                    butterworthFrequency,
+                    butterworthOrder
+                )
+            )
+        )
+    }
+
     sealed class ViewState {
         data class Content(
-            val xBytes: ByteArray
+            val xBytes: ByteArray,
+            val butterworthFrequency: ButterworthFrequency = ButterworthFrequency.FREQUENCY_125,
+            val butterworthOrder: ButterworthOrder = ButterworthOrder.N_2,
+            val butterworthCoefficients: ButterworthCoefficients = ButterworthCoefficientsOrder2.FREQUENCY_125
         ) : ViewState()
     }
 

@@ -42,7 +42,8 @@ class Recorder(
     private var bufferSize = 0
     private var totalAudioLength = 0L
 
-    private var xBytes: ByteArray = byteArrayOf()
+//    private var xBytes: ByteArray = byteArrayOf() // TODO
+private var xBytes = context.resources.openRawResource(R.raw.clap).readBytes() // ERASE
 
     private var recording = false
 

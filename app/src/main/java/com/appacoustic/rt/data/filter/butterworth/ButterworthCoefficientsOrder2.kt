@@ -4,7 +4,7 @@ import com.appacoustic.rt.data.filter.NumeratorDenominator
 
 enum class ButterworthCoefficientsOrder2(
     override val numeratorDenominator: NumeratorDenominator,
-    override val nOrder: Int = 2
+    override val nOrder: Int = ButterworthOrder.N_2.nOrder
 ) : ButterworthCoefficients {
     FREQUENCY_125(
         NumeratorDenominator(

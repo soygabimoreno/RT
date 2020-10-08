@@ -8,12 +8,33 @@
     android:background="@color/background"
     tools:context=".presentation.main.MainActivity">
 
+    <Spinner
+        android:id="@+id/spFrequency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@android:layout/simple_list_item_1"/>
+
+    <Spinner
+        android:id="@+id/spOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/spFrequency"
+        app:layout_constraintStart_toEndOf="@id/spFrequency"
+        app:layout_constraintTop_toTopOf="@id/spFrequency"
+        tools:listitem="@android:layout/simple_list_item_1"/>
+
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/lineChart"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_margin="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/spFrequency"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
