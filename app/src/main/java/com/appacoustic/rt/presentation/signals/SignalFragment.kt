@@ -7,9 +7,7 @@ import com.appacoustic.rt.data.filter.butterworth.ButterworthOrder
 import com.appacoustic.rt.domain.calculator.processing.*
 import com.appacoustic.rt.framework.audio.recorder.Recorder
 import com.appacoustic.rt.framework.base.fragment.BaseFragment
-import com.appacoustic.rt.framework.extension.debugToast
-import com.appacoustic.rt.framework.extension.exhaustive
-import com.appacoustic.rt.framework.extension.setOnItemSelected
+import com.appacoustic.rt.framework.extension.*
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
@@ -32,6 +30,7 @@ class SignalFragment : BaseFragment<
 
     override fun initUI() {
         initLineChart()
+        initSwitchFiltered()
         initSpinnerFrequency()
         initSpinnerOrder()
         viewModel.updateContent()
@@ -41,13 +40,26 @@ class SignalFragment : BaseFragment<
         // TODO
     }
 
+    private fun initSwitchFiltered() {
+        switchFiltered.setOnCheckedChangeListener { _, checked ->
+            if (checked) {
+                spFrequency.enable()
+                spOrder.enable()
+            } else {
+                spFrequency.disable()
+                spOrder.disable()
+            }
+        }
+    }
+
     private fun initSpinnerFrequency() {
         val adapter = ArrayAdapter(
             requireContext(),
-            android.R.layout.simple_spinner_dropdown_item,
+            R.layout.item_spinner,
             ButterworthFrequency.values().map { getString(it.stringResId) }
         )
 
+        spFrequency.disable()
         spFrequency.adapter = adapter
         spFrequency.setOnItemSelected { position ->
             viewModel.handleSpinnerFrequencyChanged(ButterworthFrequency.values()[position])
@@ -57,10 +69,11 @@ class SignalFragment : BaseFragment<
     private fun initSpinnerOrder() {
         val adapter = ArrayAdapter(
             requireContext(),
-            android.R.layout.simple_spinner_dropdown_item,
+            R.layout.item_spinner,
             ButterworthOrder.values().map { getString(it.stringResId) }
         )
 
+        spOrder.disable()
         spOrder.adapter = adapter
         spOrder.setSelection(1)
         spOrder.setOnItemSelected { position ->
