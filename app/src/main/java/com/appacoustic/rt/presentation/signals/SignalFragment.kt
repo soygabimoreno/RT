@@ -30,7 +30,7 @@ class SignalFragment : BaseFragment<
 
     override fun initUI() {
         initLineChart()
-        initSwitchFiltered()
+        initSwitchFilter()
         initSpinnerFrequency()
         initSpinnerOrder()
         viewModel.updateContent()
@@ -40,15 +40,18 @@ class SignalFragment : BaseFragment<
         // TODO
     }
 
-    private fun initSwitchFiltered() {
-        switchFiltered.setOnCheckedChangeListener { _, checked ->
-            if (checked) {
+    private fun initSwitchFilter() {
+        switchFilter.setOnCheckedChangeListener { _, filterEnabled ->
+            if (filterEnabled) {
+                switchFilter.setText(R.string.filter_enabled)
                 spFrequency.enable()
                 spOrder.enable()
             } else {
+                switchFilter.setText(R.string.filter_disabled)
                 spFrequency.disable()
                 spOrder.disable()
             }
+            viewModel.handleSwitchFilterChanged(filterEnabled)
         }
     }
 
@@ -91,13 +94,22 @@ class SignalFragment : BaseFragment<
         val xBytes = content.xBytes
         val butterworthCoefficients = content.butterworthCoefficients
         if (xBytes.isNotEmpty()) {
-            val x = xBytes
-                .toDoubleSamples()
-                .windowingSignal(300, 100)
-                .toDivisibleBy32()
-                .normalize()
-                .filterIIR(butterworthCoefficients)
-                .muteStart(0.1, Recorder.SAMPLE_RATE)
+            val filterEnabled = content.filterEnabled
+            val x = if (filterEnabled) {
+                xBytes
+                    .toDoubleSamples()
+                    .windowingSignal(300, 100)
+                    .toDivisibleBy32()
+                    .normalize()
+                    .filterIIR(butterworthCoefficients)
+                    .muteStart(0.1, Recorder.SAMPLE_RATE)
+            } else {
+                xBytes
+                    .toDoubleSamples()
+                    .windowingSignal(300, 100)
+                    .toDivisibleBy32()
+                    .normalize()
+            }
 
             val entries = mutableListOf<Entry>()
             x.forEachIndexed { index, sample ->

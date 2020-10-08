@@ -9,12 +9,12 @@
     tools:context=".presentation.main.MainActivity">
 
     <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/switchFiltered"
-        android:layout_width="wrap_content"
+        android:id="@+id/switchFilter"
+        android:layout_width="128dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:text="@string/filtered"
+        android:text="@string/filter_disabled"
         android:textColor="@color/accent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -25,9 +25,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="@id/switchFiltered"
-        app:layout_constraintStart_toEndOf="@id/switchFiltered"
-        app:layout_constraintTop_toTopOf="@id/switchFiltered"
+        app:layout_constraintBottom_toBottomOf="@id/switchFilter"
+        app:layout_constraintStart_toEndOf="@id/switchFilter"
+        app:layout_constraintTop_toTopOf="@id/switchFilter"
         tools:listitem="@android:layout/simple_list_item_1"/>
 
     <Spinner

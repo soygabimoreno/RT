@@ -52,5 +52,6 @@
     <string name="undefined">…</string>
     <string name="error_empty_signal">The signal is empty.\n Please try again</string>
     <string name="signal">Signal</string>
-    <string name="filtered">Filtered</string>
+    <string name="filter_enabled">Filter enabled</string>
+    <string name="filter_disabled">Filter disabled</string>
 </resources>

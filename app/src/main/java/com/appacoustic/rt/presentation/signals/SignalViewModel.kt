@@ -28,6 +28,14 @@ class SignalViewModel(
         )
     }
 
+    fun handleSwitchFilterChanged(filterEnabled: Boolean) {
+        updateViewState(
+            (getViewState() as ViewState.Content).copy(
+                filterEnabled = filterEnabled
+            )
+        )
+    }
+
     fun handleSpinnerFrequencyChanged(butterworthFrequency: ButterworthFrequency) {
         updateViewState(
             (getViewState() as ViewState.Content).copy(
@@ -63,6 +71,7 @@ class SignalViewModel(
         data class Content(
             val xBytes: ByteArray,
             val butterworthFrequency: ButterworthFrequency = ButterworthFrequency.FREQUENCY_125,
+            val filterEnabled: Boolean = false,
             val butterworthOrder: ButterworthOrder = ButterworthOrder.N_2,
             val butterworthCoefficients: ButterworthCoefficients = ButterworthCoefficientsOrder2.FREQUENCY_125
         ) : ViewState()
