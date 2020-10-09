@@ -2,8 +2,6 @@ package com.appacoustic.rt
 
 import android.app.Application
 import com.amplitude.api.AmplitudeClient
-import com.appacoustic.rt.data.analytics.AnalyticsEvent
-import com.appacoustic.rt.data.analytics.AnalyticsTrackerComponent
 import com.appacoustic.rt.data.analytics.error.ErrorTrackerComponent
 import com.appacoustic.rt.data.remoteconfig.RemoteConfig
 import com.appacoustic.rt.framework.KLog
@@ -42,27 +40,13 @@ class App : Application() {
         val remoteConfig: RemoteConfig by inject()
         val errorTrackerComponent: ErrorTrackerComponent by inject()
         val amplitudeClient: AmplitudeClient by inject()
-        val analyticsTrackerComponent: AnalyticsTrackerComponent by inject()
         GlobalScope.launch {
             remoteConfig.getAmplitudeApiKey()
                 .fold({
                     errorTrackerComponent.trackError(it)
                 }, { amplitudeApiKey ->
                     amplitudeClient.initialize(this@App, amplitudeApiKey)
-                    analyticsTrackerComponent.trackEvent(
-                        FooEvent(
-                            "foo 1",
-                            mapOf(
-                                "key1" to "value1"
-                            )
-                        )
-                    )
                 })
         }
     }
-
-    data class FooEvent(
-        override val name: String,
-        override val parameters: Map<String, Any> = emptyMap()
-    ) : AnalyticsEvent
 }
