@@ -3,6 +3,8 @@ package com.appacoustic.rt.presentation.measure
 import androidx.annotation.StringRes
 import androidx.lifecycle.viewModelScope
 import com.appacoustic.rt.R
+import com.appacoustic.rt.data.analytics.ErrorTrackerComponent
+import com.appacoustic.rt.data.analytics.NonStandardErrorEvent
 import com.appacoustic.rt.domain.*
 import com.appacoustic.rt.framework.audio.recorder.Recorder
 import com.appacoustic.rt.framework.base.viewmodel.BaseViewModel
@@ -12,7 +14,8 @@ import kotlinx.coroutines.launch
 class MeasureViewModel(
     private val recordAudioPermissionChecker: RecordAudioPermissionChecker,
     private val recorder: Recorder,
-    private val userSession: UserSession
+    private val userSession: UserSession,
+    private val errorTracker: ErrorTrackerComponent
 ) : BaseViewModel<
     MeasureViewModel.ViewState,
     MeasureViewModel.ViewEvents>() {
@@ -50,8 +53,8 @@ class MeasureViewModel(
 
     fun updateContent() {
         recorder.calculateReverbTime {
-            it.fold({
-                // Do nothing
+            it.fold({ exception ->
+                errorTracker.trackError(exception)
             }, { measures ->
                 updateViewState(
                     (getViewState() as ViewState.Content).copy(
@@ -86,7 +89,13 @@ class MeasureViewModel(
                         viewModelScope.launch {
                             sendViewEvent(ViewEvents.EnableButton)
                             recorder.stop {
-                                it.fold({
+                                it.fold({ exception ->
+                                    errorTracker.trackError(
+                                        NonStandardErrorEvent(
+                                            "EMPTY_SIGNAL_ERROR",
+                                            mapOf("exception" to exception)
+                                        )
+                                    )
                                     viewModelScope.launch {
                                         sendViewEvent(ViewEvents.EmptySignalError)
                                         updateViewState(

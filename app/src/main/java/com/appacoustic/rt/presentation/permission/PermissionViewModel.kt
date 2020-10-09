@@ -1,6 +1,8 @@
 package com.appacoustic.rt.presentation.permission
 
 import androidx.lifecycle.viewModelScope
+import com.appacoustic.rt.data.analytics.ErrorTrackerComponent
+import com.appacoustic.rt.data.analytics.NonStandardErrorEvent
 import com.appacoustic.rt.domain.PermissionRequester
 import com.appacoustic.rt.domain.RecordAudioPermissionChecker
 import com.appacoustic.rt.domain.UserSession
@@ -10,7 +12,8 @@ import kotlinx.coroutines.launch
 
 class PermissionViewModel(
     private val recordAudioPermissionChecker: RecordAudioPermissionChecker,
-    private val userSession: UserSession
+    private val userSession: UserSession,
+    private val errorTracker: ErrorTrackerComponent
 ) : StatelessBaseViewModel<
     PermissionViewModel.ViewEvents
     >() {
@@ -21,16 +24,18 @@ class PermissionViewModel(
 
     fun checkRecordAudioPermission() {
         viewModelScope.launch {
-            recordAudioPermissionChecker().fold({
-                showPermissionError()
-            }, { onPermissionRequested ->
-                when (onPermissionRequested) {
-                    PermissionRequester.PermissionState.GRANTED -> navigateToMeasure()
-                    PermissionRequester.PermissionState.DENIED -> showRecordAudioPermissionRequiredDialog()
-                    PermissionRequester.PermissionState.SHOW_RATIONALE -> showRationale()
-                    PermissionRequester.PermissionState.SHOW_APP_SETTINGS -> showAppSettings()
-                }.exhaustive
-            })
+            recordAudioPermissionChecker()
+                .fold({
+                    errorTracker.trackError(NonStandardErrorEvent("PERMISSION_ERROR"))
+                    showPermissionError()
+                }, { onPermissionRequested ->
+                    when (onPermissionRequested) {
+                        PermissionRequester.PermissionState.GRANTED -> navigateToMeasure()
+                        PermissionRequester.PermissionState.DENIED -> showRecordAudioPermissionRequiredDialog()
+                        PermissionRequester.PermissionState.SHOW_RATIONALE -> showRationale()
+                        PermissionRequester.PermissionState.SHOW_APP_SETTINGS -> showAppSettings()
+                    }.exhaustive
+                })
         }
     }
 
