@@ -19,6 +19,7 @@ val permissionModule = module {
             PermissionViewModel(
                 recordAudioPermissionChecker = get(),
                 userSession = get(),
+                analyticsTrackerComponent = get(),
                 errorTrackerComponent = get()
             )
         }
