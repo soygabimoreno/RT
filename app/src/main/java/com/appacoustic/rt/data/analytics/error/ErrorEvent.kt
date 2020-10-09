@@ -1,4 +1,4 @@
-package com.appacoustic.rt.data.analytics
+package com.appacoustic.rt.data.analytics.error
 
 interface ErrorEvent {
     val parameters: Map<String, Any>

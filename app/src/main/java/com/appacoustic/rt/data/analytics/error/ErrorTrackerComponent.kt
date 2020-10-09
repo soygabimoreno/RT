@@ -1,4 +1,4 @@
-package com.appacoustic.rt.data.analytics
+package com.appacoustic.rt.data.analytics.error
 
 interface ErrorTrackerComponent {
     fun <E : ErrorEvent> trackError(event: E)

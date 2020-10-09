@@ -3,8 +3,8 @@ package com.appacoustic.rt.presentation.measure
 import androidx.annotation.StringRes
 import androidx.lifecycle.viewModelScope
 import com.appacoustic.rt.R
-import com.appacoustic.rt.data.analytics.ErrorTrackerComponent
-import com.appacoustic.rt.data.analytics.NonStandardErrorEvent
+import com.appacoustic.rt.data.analytics.error.ErrorTrackerComponent
+import com.appacoustic.rt.data.analytics.error.NonStandardErrorEvent
 import com.appacoustic.rt.domain.*
 import com.appacoustic.rt.framework.audio.recorder.Recorder
 import com.appacoustic.rt.framework.base.viewmodel.BaseViewModel

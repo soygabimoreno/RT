@@ -1,8 +1,8 @@
 package com.appacoustic.rt.presentation.permission
 
 import androidx.lifecycle.viewModelScope
-import com.appacoustic.rt.data.analytics.ErrorTrackerComponent
-import com.appacoustic.rt.data.analytics.NonStandardErrorEvent
+import com.appacoustic.rt.data.analytics.error.ErrorTrackerComponent
+import com.appacoustic.rt.data.analytics.error.NonStandardErrorEvent
 import com.appacoustic.rt.domain.PermissionRequester
 import com.appacoustic.rt.domain.RecordAudioPermissionChecker
 import com.appacoustic.rt.domain.UserSession

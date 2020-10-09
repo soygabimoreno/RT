@@ -1,4 +1,4 @@
-package com.appacoustic.rt.data.analytics
+package com.appacoustic.rt.data.analytics.error
 
 class ErrorTracker(
     private val components: List<ErrorTrackerComponent>

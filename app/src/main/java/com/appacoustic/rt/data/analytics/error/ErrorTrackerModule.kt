@@ -1,4 +1,4 @@
-package com.appacoustic.rt.data.analytics
+package com.appacoustic.rt.data.analytics.error
 
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import org.koin.dsl.module

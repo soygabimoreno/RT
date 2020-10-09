@@ -1,4 +1,4 @@
-package com.appacoustic.rt.data.analytics
+package com.appacoustic.rt.data.analytics.error
 
 import com.appacoustic.rt.domain.UserSession
 import com.google.firebase.crashlytics.FirebaseCrashlytics
