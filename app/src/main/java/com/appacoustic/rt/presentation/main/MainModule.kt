@@ -10,7 +10,9 @@ val mainModule = module {
     single<UserSession> { DefaultUserSession() }
     scope(named<MainActivity>()) {
         viewModel {
-            MainViewModel()
+            MainViewModel(
+                analyticsTrackerComponent = get()
+            )
         }
     }
 }

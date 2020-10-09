@@ -3,24 +3,28 @@ package com.appacoustic.rt.presentation.measure
 import androidx.annotation.StringRes
 import androidx.lifecycle.viewModelScope
 import com.appacoustic.rt.R
+import com.appacoustic.rt.data.analytics.AnalyticsTrackerComponent
 import com.appacoustic.rt.data.analytics.error.ErrorTrackerComponent
 import com.appacoustic.rt.data.analytics.error.NonStandardErrorEvent
 import com.appacoustic.rt.domain.*
 import com.appacoustic.rt.framework.audio.recorder.Recorder
 import com.appacoustic.rt.framework.base.viewmodel.BaseViewModel
 import com.appacoustic.rt.framework.mapper.toStringResId
+import com.appacoustic.rt.presentation.measure.analytics.MeasureEvents
 import kotlinx.coroutines.launch
 
 class MeasureViewModel(
     private val recordAudioPermissionChecker: RecordAudioPermissionChecker,
     private val recorder: Recorder,
     private val userSession: UserSession,
-    private val errorTracker: ErrorTrackerComponent
+    private val analyticsTrackerComponent: AnalyticsTrackerComponent,
+    private val errorTrackerComponent: ErrorTrackerComponent
 ) : BaseViewModel<
     MeasureViewModel.ViewState,
     MeasureViewModel.ViewEvents>() {
 
     init {
+        analyticsTrackerComponent.trackEvent(MeasureEvents.ScreenMeasure)
         updateViewState(ViewState.Loading)
         initContent()
     }
@@ -54,7 +58,7 @@ class MeasureViewModel(
     fun updateContent() {
         recorder.calculateReverbTime {
             it.fold({ exception ->
-                errorTracker.trackError(exception)
+                errorTrackerComponent.trackError(exception)
             }, { measures ->
                 updateViewState(
                     (getViewState() as ViewState.Content).copy(
@@ -68,6 +72,7 @@ class MeasureViewModel(
 
     fun handleStartClicked() {
         viewModelScope.launch {
+            analyticsTrackerComponent.trackEvent(MeasureEvents.ClickStart)
             if (userSession.isRecordAudioPermissionGranted()) {
                 sendViewEvent(ViewEvents.DisableButton)
                 ButtonStateHandler(object : ButtonStateHandler.Listener {
@@ -90,7 +95,7 @@ class MeasureViewModel(
                             sendViewEvent(ViewEvents.EnableButton)
                             recorder.stop {
                                 it.fold({ exception ->
-                                    errorTracker.trackError(
+                                    errorTrackerComponent.trackError(
                                         NonStandardErrorEvent(
                                             "EMPTY_SIGNAL_ERROR",
                                             mapOf("exception" to exception)

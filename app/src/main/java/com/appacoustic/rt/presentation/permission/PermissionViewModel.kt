@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class PermissionViewModel(
     private val recordAudioPermissionChecker: RecordAudioPermissionChecker,
     private val userSession: UserSession,
-    private val errorTracker: ErrorTrackerComponent
+    private val errorTrackerComponent: ErrorTrackerComponent
 ) : StatelessBaseViewModel<
     PermissionViewModel.ViewEvents
     >() {
@@ -26,7 +26,7 @@ class PermissionViewModel(
         viewModelScope.launch {
             recordAudioPermissionChecker()
                 .fold({
-                    errorTracker.trackError(NonStandardErrorEvent("PERMISSION_ERROR"))
+                    errorTrackerComponent.trackError(NonStandardErrorEvent("PERMISSION_ERROR"))
                     showPermissionError()
                 }, { onPermissionRequested ->
                     when (onPermissionRequested) {
