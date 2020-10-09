@@ -55,7 +55,7 @@ class SignalFragment : BaseFragment<
         yAxis.axisMaximum = 1f
 
         val axisRight = lineChart.axisRight
-        axisRight.textColor = grayLightColor
+        axisRight.isEnabled = false
     }
 
     private fun initSwitchFilter() {
@@ -116,7 +116,6 @@ class SignalFragment : BaseFragment<
             val x = if (filterEnabled) {
                 xBytes
                     .toDoubleSamples()
-                    .windowingSignal(300, 100)
                     .toDivisibleBy32()
                     .normalize()
                     .filterIIR(butterworthCoefficients)
@@ -124,7 +123,6 @@ class SignalFragment : BaseFragment<
             } else {
                 xBytes
                     .toDoubleSamples()
-                    .windowingSignal(300, 100)
                     .toDivisibleBy32()
                     .normalize()
             }
@@ -141,6 +139,7 @@ class SignalFragment : BaseFragment<
             dataSet.color = accentColor
             dataSet.setCircleColor(accentColor)
             dataSet.circleRadius = 1f
+
             val lineData = LineData(dataSet)
             lineChart.data = lineData
             lineChart.invalidate()

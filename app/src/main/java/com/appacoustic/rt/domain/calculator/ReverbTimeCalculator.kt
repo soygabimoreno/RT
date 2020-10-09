@@ -23,7 +23,6 @@ class ReverbTimeCalculator {
             try {
                 val x = xBytes
                     .toDoubleSamples()
-                    .windowingSignal(300, 100)
                     .toDivisibleBy32()
                     .normalize()
 

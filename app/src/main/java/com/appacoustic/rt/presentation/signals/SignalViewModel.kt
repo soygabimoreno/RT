@@ -37,26 +37,25 @@ class SignalViewModel(
     }
 
     fun handleSpinnerFrequencyChanged(butterworthFrequency: ButterworthFrequency) {
-        updateViewState(
-            (getViewState() as ViewState.Content).copy(
-                butterworthFrequency = butterworthFrequency
-            )
+        val butterworthOrder = (getViewState() as ViewState.Content).butterworthOrder
+        updateCoefficients(
+            butterworthFrequency,
+            butterworthOrder
         )
-        updateCoefficients()
     }
 
     fun handleSpinnerOrderChanged(butterworthOrder: ButterworthOrder) {
-        updateViewState(
-            (getViewState() as ViewState.Content).copy(
-                butterworthOrder = butterworthOrder
-            )
+        val butterworthFrequency = (getViewState() as ViewState.Content).butterworthFrequency
+        updateCoefficients(
+            butterworthFrequency,
+            butterworthOrder
         )
-        updateCoefficients()
     }
 
-    private fun updateCoefficients() {
-        val butterworthFrequency = (getViewState() as ViewState.Content).butterworthFrequency
-        val butterworthOrder = (getViewState() as ViewState.Content).butterworthOrder
+    private fun updateCoefficients(
+        butterworthFrequency: ButterworthFrequency,
+        butterworthOrder: ButterworthOrder
+    ) {
         updateViewState(
             (getViewState() as ViewState.Content).copy(
                 butterworthCoefficients = getButterworthCoefficients(
