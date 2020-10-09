@@ -1,6 +1,8 @@
 package com.appacoustic.rt.presentation.measure
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.appacoustic.rt.data.analytics.AnalyticsTrackerComponent
+import com.appacoustic.rt.data.analytics.error.ErrorTrackerComponent
 import com.appacoustic.rt.domain.RecordAudioPermissionChecker
 import com.appacoustic.rt.domain.UserSession
 import com.appacoustic.rt.framework.audio.recorder.Recorder
@@ -29,6 +31,9 @@ class MeasureViewModelTest {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
+    private val analyticsTrackerComponent = mockk<AnalyticsTrackerComponent>(relaxed = true)
+    private val errorTrackerComponent = mockk<ErrorTrackerComponent>(relaxed = true)
+
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
@@ -43,7 +48,9 @@ class MeasureViewModelTest {
     private fun buildViewModel() = MeasureViewModel(
         recordAudioPermissionChecker = recordAudioPermissionChecker,
         recorder = recorder,
-        userSession = userSession
+        userSession = userSession,
+        analyticsTrackerComponent = analyticsTrackerComponent,
+        errorTrackerComponent = errorTrackerComponent
     )
 
     private fun givenRecordAudioPermissionGranted() {

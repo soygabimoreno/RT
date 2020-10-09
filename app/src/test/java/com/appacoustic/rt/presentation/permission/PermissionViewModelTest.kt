@@ -3,6 +3,8 @@ package com.appacoustic.rt.presentation.permission
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import arrow.core.left
 import arrow.core.right
+import com.appacoustic.rt.data.analytics.AnalyticsTrackerComponent
+import com.appacoustic.rt.data.analytics.error.ErrorTrackerComponent
 import com.appacoustic.rt.domain.PermissionRequester
 import com.appacoustic.rt.domain.RecordAudioPermissionChecker
 import com.appacoustic.rt.domain.UserSession
@@ -32,6 +34,8 @@ class PermissionViewModelTest {
 
     private val recordAudioPermissionChecker = mockk<RecordAudioPermissionChecker>()
     private val userSession = mockk<UserSession>(relaxed = true)
+    private val analyticsTrackerComponent = mockk<AnalyticsTrackerComponent>(relaxed = true)
+    private val errorTrackerComponent = mockk<ErrorTrackerComponent>(relaxed = true)
 
     @Before
     fun setUp() {
@@ -106,6 +110,8 @@ class PermissionViewModelTest {
 
     private fun buildViewModel() = PermissionViewModel(
         recordAudioPermissionChecker = recordAudioPermissionChecker,
-        userSession = userSession
+        userSession = userSession,
+        analyticsTrackerComponent = analyticsTrackerComponent,
+        errorTrackerComponent = errorTrackerComponent
     )
 }

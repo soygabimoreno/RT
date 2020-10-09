@@ -77,6 +77,7 @@ class MeasureViewModel(
                 sendViewEvent(ViewEvents.DisableButton)
                 ButtonStateHandler(object : ButtonStateHandler.Listener {
                     override fun onTick(state: ButtonStateHandler.State) {
+                        analyticsTrackerComponent.trackEvent(MeasureEvents.ButtonState(state.name))
                         updateViewState(
                             (getViewState() as ViewState.Content).copy(
                                 textResId = state.toStringResId()
@@ -92,6 +93,7 @@ class MeasureViewModel(
 
                     override fun onFinish(state: ButtonStateHandler.State) {
                         viewModelScope.launch {
+                            analyticsTrackerComponent.trackEvent(MeasureEvents.ButtonState(state.name))
                             sendViewEvent(ViewEvents.EnableButton)
                             recorder.stop {
                                 it.fold({ exception ->

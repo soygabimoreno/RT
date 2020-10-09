@@ -1,6 +1,10 @@
 package com.appacoustic.rt.presentation.main
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.appacoustic.rt.data.analytics.AnalyticsTrackerComponent
+import com.appacoustic.rt.presentation.main.analytics.MainEvents
+import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.*
@@ -18,6 +22,8 @@ class MainViewModelTest {
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
+
+    private val analyticsTrackerComponent = mockk<AnalyticsTrackerComponent>(relaxed = true)
 
     @Before
     fun setUp() {
@@ -57,5 +63,13 @@ class MainViewModelTest {
         }
     }
 
-    private fun buildViewModel() = MainViewModel()
+    @Test
+    fun `when the screen starts, then its screen analytics event is triggered`() {
+        buildViewModel()
+        verify(exactly = 1) { analyticsTrackerComponent.trackEvent(MainEvents.ScreenMain) }
+    }
+
+    private fun buildViewModel() = MainViewModel(
+        analyticsTrackerComponent = analyticsTrackerComponent
+    )
 }
