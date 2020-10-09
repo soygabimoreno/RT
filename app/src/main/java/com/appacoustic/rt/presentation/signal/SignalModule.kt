@@ -1,4 +1,4 @@
-package com.appacoustic.rt.presentation.signals
+package com.appacoustic.rt.presentation.signal
 
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
@@ -8,7 +8,8 @@ val signalModule = module {
     scope(named<SignalFragment>()) {
         viewModel {
             SignalViewModel(
-                recorder = get()
+                recorder = get(),
+                analyticsTrackerComponent = get()
             )
         }
     }

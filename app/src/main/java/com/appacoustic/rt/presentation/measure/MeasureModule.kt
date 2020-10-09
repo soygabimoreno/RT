@@ -11,6 +11,7 @@ val measureModule = module {
                 recordAudioPermissionChecker = get(),
                 recorder = get(),
                 userSession = get(),
+                analyticsTrackerComponent = get(),
                 errorTrackerComponent = get()
             )
         }

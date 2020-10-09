@@ -1,4 +1,4 @@
-package com.appacoustic.rt.presentation.signals
+package com.appacoustic.rt.presentation.signal
 
 import com.appacoustic.rt.data.filter.butterworth.*
 

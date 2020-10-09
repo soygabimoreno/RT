@@ -1,4 +1,4 @@
-package com.appacoustic.rt.presentation.signals
+package com.appacoustic.rt.presentation.signal
 
 import android.widget.ArrayAdapter
 import com.appacoustic.rt.R

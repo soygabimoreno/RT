@@ -13,7 +13,7 @@ import com.appacoustic.rt.framework.extension.exhaustive
 import com.appacoustic.rt.framework.extension.navigateTo
 import com.appacoustic.rt.presentation.measure.MeasureFragment
 import com.appacoustic.rt.presentation.permission.PermissionFragment
-import com.appacoustic.rt.presentation.signals.SignalFragment
+import com.appacoustic.rt.presentation.signal.SignalFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.scope.viewModel
 import org.koin.androidx.scope.lifecycleScope as koinScope
