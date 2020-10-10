@@ -25,16 +25,15 @@ class CrashlyticsErrorTrackerComponent(
 
     private fun <E : ErrorEvent> addCommonAttributes(event: E): ErrorEvent {
         val isRecordAudioPermissionGranted = userSession.isRecordAudioPermissionGranted()
-
-        val commonAttributes = mapOf(
+        val commonParameters = mapOf(
             "isRecordAudioPermissionGranted" to isRecordAudioPermissionGranted
         )
-
+        val parameters = event.parameters + commonParameters
         return when (event) {
-            is NonStandardErrorEvent -> event.copy(parameters = event.parameters + commonAttributes)
-            is ThrowableErrorEvent -> event.copy(parameters = event.parameters + commonAttributes)
+            is NonStandardErrorEvent -> event.copy(parameters = parameters)
+            is ThrowableErrorEvent -> event.copy(parameters = parameters)
             else -> object : ErrorEvent {
-                override val parameters: Map<String, Any> = event.parameters + commonAttributes
+                override val parameters: Map<String, Any> = parameters
             }
         }
     }

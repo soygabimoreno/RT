@@ -1,6 +1,6 @@
 package com.appacoustic.rt
 
-import com.appacoustic.rt.data.analytics.error.analyticsTrackerModule
+import com.appacoustic.rt.data.analytics.analyticsTrackerModule
 import com.appacoustic.rt.data.analytics.error.errorTrackerModule
 import com.appacoustic.rt.data.remoteconfig.remoteConfigModule
 import com.appacoustic.rt.framework.audio.audioModule
