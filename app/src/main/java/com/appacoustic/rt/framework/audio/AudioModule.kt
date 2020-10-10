@@ -9,7 +9,8 @@ val audioModule = module {
     single {
         Recorder(
             context = androidContext(),
-            reverbTimeCalculator = ReverbTimeCalculator()
+            reverbTimeCalculator = ReverbTimeCalculator(),
+            errorTrackerComponent = get()
         )
     }
 }

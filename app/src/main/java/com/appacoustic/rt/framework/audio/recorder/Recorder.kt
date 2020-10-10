@@ -5,6 +5,7 @@ import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
 import arrow.core.Either
+import com.appacoustic.rt.data.analytics.error.ErrorTrackerComponent
 import com.appacoustic.rt.domain.Measure
 import com.appacoustic.rt.domain.calculator.ReverbTimeCalculator
 import com.appacoustic.rt.framework.KLog
@@ -18,7 +19,8 @@ import java.io.FileOutputStream
 
 class Recorder(
     private val context: Context,
-    private val reverbTimeCalculator: ReverbTimeCalculator
+    private val reverbTimeCalculator: ReverbTimeCalculator,
+    private val errorTrackerComponent: ErrorTrackerComponent
 ) {
 
     companion object {
@@ -70,14 +72,18 @@ class Recorder(
     )
 
     suspend fun stop(onReverbTimeCalculated: (Either<Throwable, List<Measure>>) -> Unit) {
-        recording = false
-        audioRecord.stop()
-        audioRecord.release()
+        try {
+            recording = false
+            audioRecord.stop()
+            audioRecord.release()
 
-        writeWavFile()
-        buildByteArrayFromTempFile()
-        deleteFile(tempPath)
-        calculateReverbTime(onReverbTimeCalculated)
+            writeWavFile()
+            buildByteArrayFromTempFile()
+            deleteFile(tempPath)
+            calculateReverbTime(onReverbTimeCalculated)
+        } catch (e: Exception) {
+            errorTrackerComponent.trackError(e)
+        }
     }
 
     fun calculateReverbTime(onReverbTimeCalculated: (Either<Throwable, List<Measure>>) -> Unit) {
