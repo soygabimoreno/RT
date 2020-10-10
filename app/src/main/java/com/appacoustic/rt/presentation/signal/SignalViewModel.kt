@@ -1,13 +1,18 @@
 package com.appacoustic.rt.presentation.signal
 
+import androidx.lifecycle.viewModelScope
 import com.appacoustic.rt.data.analytics.AnalyticsTrackerComponent
 import com.appacoustic.rt.data.filter.butterworth.ButterworthCoefficients
 import com.appacoustic.rt.data.filter.butterworth.ButterworthCoefficientsOrder2
 import com.appacoustic.rt.data.filter.butterworth.ButterworthFrequency
 import com.appacoustic.rt.data.filter.butterworth.ButterworthOrder
+import com.appacoustic.rt.domain.calculator.processing.*
 import com.appacoustic.rt.framework.audio.recorder.Recorder
 import com.appacoustic.rt.framework.base.viewmodel.BaseViewModel
 import com.appacoustic.rt.presentation.signal.analytics.SignalEvents
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SignalViewModel(
     private val recorder: Recorder,
@@ -18,16 +23,9 @@ class SignalViewModel(
 
     init {
         analyticsTrackerComponent.trackEvent(SignalEvents.ScreenSignal)
-        ViewState.Content(
-            xBytes = byteArrayOf()
-        )
-    }
-
-    fun updateContent() {
-        val xBytes = recorder.getXBytes()
         updateViewState(
             ViewState.Content(
-                xBytes = xBytes
+                x = doubleArrayOf()
             )
         )
     }
@@ -38,11 +36,15 @@ class SignalViewModel(
         } else {
             analyticsTrackerComponent.trackEvent(SignalEvents.ClickDisableFilter)
         }
-        updateViewState(
-            (getViewState() as ViewState.Content).copy(
-                filterEnabled = filterEnabled
+        viewModelScope.launch {
+            val butterworthFrequency = (getViewState() as ViewState.Content).butterworthFrequency
+            val butterworthOrder = (getViewState() as ViewState.Content).butterworthOrder
+            updateContent(
+                filterEnabled,
+                butterworthFrequency,
+                butterworthOrder
             )
-        )
+        }
     }
 
     fun handleSpinnerFrequencyChanged(butterworthFrequency: ButterworthFrequency) {
@@ -67,27 +69,80 @@ class SignalViewModel(
         butterworthFrequency: ButterworthFrequency,
         butterworthOrder: ButterworthOrder
     ) {
+        viewModelScope.launch {
+            val filterEnabled = (getViewState() as ViewState.Content).filterEnabled
+            updateContent(
+                filterEnabled,
+                butterworthFrequency,
+                butterworthOrder
+            )
+        }
+    }
+
+    private suspend fun updateContent(
+        filterEnabled: Boolean,
+        butterworthFrequency: ButterworthFrequency,
+        butterworthOrder: ButterworthOrder
+    ) {
+        sendViewEvent(ViewEvents.ShowLoading)
+        val x = calculateX(
+            filterEnabled,
+            butterworthFrequency,
+            butterworthOrder
+        )
+        sendViewEvent(ViewEvents.HideLoading)
         updateViewState(
             (getViewState() as ViewState.Content).copy(
-                butterworthCoefficients = getButterworthCoefficients(
-                    butterworthFrequency,
-                    butterworthOrder
-                )
+                x,
+                filterEnabled,
+                butterworthFrequency,
+                butterworthOrder
             )
         )
     }
 
+    private suspend fun calculateX(
+        filterEnabled: Boolean,
+        butterworthFrequency: ButterworthFrequency,
+        butterworthOrder: ButterworthOrder
+    ): DoubleArray = withContext(Dispatchers.Default) {
+        val xBytes = recorder.getXBytes()
+        val butterworthCoefficients = getButterworthCoefficients(
+            butterworthFrequency,
+            butterworthOrder
+        )
+        val x = if (xBytes.isNotEmpty()) {
+            if (filterEnabled) {
+                xBytes
+                    .toDoubleSamples()
+                    .toDivisibleBy32()
+                    .normalize()
+                    .filterIIR(butterworthCoefficients)
+                    .muteStart(0.05, Recorder.SAMPLE_RATE)
+            } else {
+                xBytes
+                    .toDoubleSamples()
+                    .toDivisibleBy32()
+                    .normalize()
+            }
+        } else {
+            doubleArrayOf()
+        }
+        return@withContext x
+    }
+
     sealed class ViewState {
         data class Content(
-            val xBytes: ByteArray,
-            val butterworthFrequency: ButterworthFrequency = ButterworthFrequency.FREQUENCY_125,
+            val x: DoubleArray,
             val filterEnabled: Boolean = false,
+            val butterworthFrequency: ButterworthFrequency = ButterworthFrequency.FREQUENCY_125,
             val butterworthOrder: ButterworthOrder = ButterworthOrder.N_2,
             val butterworthCoefficients: ButterworthCoefficients = ButterworthCoefficientsOrder2.FREQUENCY_125
         ) : ViewState()
     }
 
     sealed class ViewEvents {
-        object Foo : ViewEvents()
+        object ShowLoading : ViewEvents()
+        object HideLoading : ViewEvents()
     }
 }

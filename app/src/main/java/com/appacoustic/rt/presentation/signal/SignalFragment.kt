@@ -4,8 +4,6 @@ import android.widget.ArrayAdapter
 import com.appacoustic.rt.R
 import com.appacoustic.rt.data.filter.butterworth.ButterworthFrequency
 import com.appacoustic.rt.data.filter.butterworth.ButterworthOrder
-import com.appacoustic.rt.domain.calculator.processing.*
-import com.appacoustic.rt.framework.audio.recorder.Recorder
 import com.appacoustic.rt.framework.base.fragment.BaseFragment
 import com.appacoustic.rt.framework.extension.*
 import com.github.mikephil.charting.components.XAxis
@@ -37,7 +35,6 @@ class SignalFragment : BaseFragment<
         initSwitchFilter()
         initSpinnerFrequency()
         initSpinnerOrder()
-        viewModel.updateContent()
     }
 
     private fun initLineChart() {
@@ -109,50 +106,37 @@ class SignalFragment : BaseFragment<
     }
 
     private fun showContent(content: SignalViewModel.ViewState.Content) {
-        val xBytes = content.xBytes
-        val butterworthCoefficients = content.butterworthCoefficients
-        if (xBytes.isNotEmpty()) {
-            val filterEnabled = content.filterEnabled
-            val x = if (filterEnabled) {
-                xBytes
-                    .toDoubleSamples()
-                    .toDivisibleBy32()
-                    .normalize()
-                    .filterIIR(butterworthCoefficients)
-                    .muteStart(0.05, Recorder.SAMPLE_RATE)
-            } else {
-                xBytes
-                    .toDoubleSamples()
-                    .toDivisibleBy32()
-                    .normalize()
-            }
-
-            val entries = mutableListOf<Entry>()
-            x.forEachIndexed { index, sample ->
-                entries.add(Entry(index.toFloat(), sample.toFloat()))
-            }
-
-            val dataSet = LineDataSet(
-                entries,
-                getString(R.string.signal)
-            )
-            dataSet.color = accentColor
-            dataSet.setCircleColor(accentColor)
-            dataSet.circleRadius = 1f
-
-            val lineData = LineData(dataSet)
-            lineChart.data = lineData
-            lineChart.invalidate()
+        val x = content.x
+        val entries = mutableListOf<Entry>()
+        x.forEachIndexed { index, sample ->
+            entries.add(Entry(index.toFloat(), sample.toFloat()))
         }
+
+        val dataSet = LineDataSet(
+            entries,
+            getString(R.string.signal)
+        )
+        dataSet.color = accentColor
+        dataSet.setCircleColor(accentColor)
+        dataSet.circleRadius = 1f
+
+        val lineData = LineData(dataSet)
+        lineChart.data = lineData
+        lineChart.invalidate()
     }
 
     override fun handleViewEvent(viewEvent: SignalViewModel.ViewEvents) {
         when (viewEvent) {
-            SignalViewModel.ViewEvents.Foo -> foo()
+            SignalViewModel.ViewEvents.ShowLoading -> showLoading()
+            SignalViewModel.ViewEvents.HideLoading -> hideLoading()
         }.exhaustive
     }
 
-    private fun foo() {
-        debugToast("foo")
+    private fun showLoading() {
+        pb.visible()
+    }
+
+    private fun hideLoading() {
+        pb.gone()
     }
 }
