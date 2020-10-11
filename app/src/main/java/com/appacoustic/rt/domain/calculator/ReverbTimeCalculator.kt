@@ -3,15 +3,20 @@ package com.appacoustic.rt.domain.calculator
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
+import com.appacoustic.rt.data.analytics.AnalyticsTrackerComponent
 import com.appacoustic.rt.data.filter.butterworth.ButterworthCoefficients
 import com.appacoustic.rt.data.filter.butterworth.ButterworthCoefficientsOrder2
 import com.appacoustic.rt.data.filter.butterworth.ButterworthCoefficientsOrder4
 import com.appacoustic.rt.data.filter.butterworth.ButterworthCoefficientsOrder8
 import com.appacoustic.rt.domain.Measure
+import com.appacoustic.rt.domain.calculator.analytics.ReverbTimeCalculatorEvents
 import com.appacoustic.rt.domain.calculator.processing.*
 import com.appacoustic.rt.framework.audio.recorder.Recorder
+import com.appacoustic.rt.framework.extension.getSizeInMB
 
-class ReverbTimeCalculator {
+class ReverbTimeCalculator(
+    private val analyticsTrackerComponent: AnalyticsTrackerComponent
+) {
 
     class EmptyByteArraySignalException : Exception("The ByteArray signal is empty.")
     class EmptyDoubleArraySignalException : Exception("The DoubleArray signal is empty.")
@@ -21,6 +26,11 @@ class ReverbTimeCalculator {
             EmptyByteArraySignalException().left()
         } else {
             try {
+                analyticsTrackerComponent.trackEvent(
+                    ReverbTimeCalculatorEvents.DataByteArraySize(
+                        xBytes.getSizeInMB()
+                    )
+                )
                 val x = xBytes
                     .toDoubleSamples()
                     .toDivisibleBy32()

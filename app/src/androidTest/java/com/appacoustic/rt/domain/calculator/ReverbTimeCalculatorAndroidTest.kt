@@ -4,15 +4,19 @@ import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.appacoustic.rt.R
+import com.appacoustic.rt.data.analytics.AnalyticsTrackerComponent
 import com.appacoustic.rt.framework.KLog
 import com.appacoustic.rt.framework.audio.recorder.Recorder
+import io.mockk.mockk
 import org.junit.Assert.assertTrue
 import org.junit.Assert.fail
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class ReverbTimeCalculatorTest {
+class ReverbTimeCalculatorAndroidTest {
+
+    private val analyticsTrackerComponent = mockk<AnalyticsTrackerComponent>(relaxed = true)
 
     /**
      * We have a reference measures made by some MATLAB scripts and executed in Octave.
@@ -37,7 +41,7 @@ class ReverbTimeCalculatorTest {
         val inputStream = context.resources.openRawResource(R.raw.clap)
         val xBytes = inputStream.readBytes()
 
-        val reverbTimeCalculator = ReverbTimeCalculator()
+        val reverbTimeCalculator = ReverbTimeCalculator(analyticsTrackerComponent)
         reverbTimeCalculator(xBytes, Recorder.SAMPLE_RATE)
             .fold({
                 KLog.e("exception: ${it.message}")
@@ -57,4 +61,6 @@ class ReverbTimeCalculatorTest {
                 assertTrue(0.33143f == rt4000)
             })
     }
+
+    private fun buildReverbTimeCalculator() = ReverbTimeCalculator(analyticsTrackerComponent)
 }
