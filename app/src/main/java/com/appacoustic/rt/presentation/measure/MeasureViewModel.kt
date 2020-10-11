@@ -112,6 +112,7 @@ class MeasureViewModel(
                                         )
                                     }
                                 }, { measures ->
+                                    analyticsTrackerComponent.trackEvent(MeasureEvents.DataMeasures(measures.toString()))
                                     updateViewState(
                                         (getViewState() as ViewState.Content).copy(
                                             textResId = state.toStringResId(),
