@@ -1,5 +1,6 @@
 package com.appacoustic.rt.domain.calculator.processing
 
+import com.appacoustic.rt.common.mockLogs
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -7,6 +8,8 @@ class ToDoubleSamplesKtTest {
 
     @Test
     fun `check typical values`() {
+        mockLogs()
+
         val bytes = ByteArray(8)
         bytes[0] = 1
         bytes[1] = 0
