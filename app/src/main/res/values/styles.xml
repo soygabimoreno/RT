@@ -10,6 +10,11 @@
         <item name="android:statusBarColor">@color/primaryDark_darkened_3</item>
     </style>
 
+    <style name="AppTheme.Splash">
+        <item name="android:statusBarColor">@color/primary</item>
+        <item name="android:windowBackground">@drawable/splash_drawable</item>
+    </style>
+
     <style name="AppTheme.Light">
         <item name="android:background">@color/white</item>
         <item name="android:textColor">@color/primaryDark_darkened_2</item>

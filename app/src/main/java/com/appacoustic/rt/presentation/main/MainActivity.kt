@@ -1,5 +1,6 @@
 package com.appacoustic.rt.presentation.main
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.view.Menu
@@ -22,6 +23,13 @@ class MainActivity : StatelessBaseActivity<
     MainViewModel.ViewEvents,
     MainViewModel
     >() {
+
+    companion object {
+        fun launch(context: Context) {
+            val intent = Intent(context, MainActivity::class.java)
+            context.startActivity(intent)
+        }
+    }
 
     override val layoutResId = R.layout.activity_main
     override val viewModel: MainViewModel by koinScope.viewModel(this)
