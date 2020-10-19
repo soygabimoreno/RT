@@ -5,10 +5,12 @@ import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
 import arrow.core.Either
+import com.appacoustic.rt.data.analytics.AmplitudeAnalyticsTrackerComponent
 import com.appacoustic.rt.data.analytics.error.ErrorTrackerComponent
 import com.appacoustic.rt.domain.Measure
 import com.appacoustic.rt.domain.calculator.ReverbTimeCalculator
 import com.appacoustic.rt.framework.KLog
+import com.appacoustic.rt.framework.audio.recorder.analytics.RecorderEvents
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -20,6 +22,7 @@ import java.io.FileOutputStream
 class Recorder(
     private val context: Context,
     private val reverbTimeCalculator: ReverbTimeCalculator,
+    private val analyticsTrackerComponent: AmplitudeAnalyticsTrackerComponent,
     private val errorTrackerComponent: ErrorTrackerComponent
 ) {
 
@@ -95,9 +98,10 @@ class Recorder(
 
     private suspend fun writeRawTempFile() = coroutineScope {
         launch {
-            KLog.d("tempPath: $tempPath")
-
+            analyticsTrackerComponent.trackEvent(RecorderEvents.DataTempPath(tempPath))
+            analyticsTrackerComponent.trackEvent(RecorderEvents.DataBufferSize(bufferSize))
             val fos = FileOutputStream(tempPath)
+            analyticsTrackerComponent.trackEvent(RecorderEvents.DataFileOutputStreamCreated)
             val data = ByteArray(bufferSize)
             while (recording) {
                 val read = audioRecord.read(data, 0, bufferSize)
@@ -105,7 +109,9 @@ class Recorder(
                     fos.write(data)
                 }
             }
+            analyticsTrackerComponent.trackEvent(RecorderEvents.DataAudioRecorded)
             fos.close()
+            analyticsTrackerComponent.trackEvent(RecorderEvents.DataFileOutputStreamClosed)
         }
     }
 
