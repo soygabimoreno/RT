@@ -5,7 +5,7 @@ import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
 import arrow.core.Either
-import com.appacoustic.rt.data.analytics.AmplitudeAnalyticsTrackerComponent
+import com.appacoustic.rt.data.analytics.AnalyticsTrackerComponent
 import com.appacoustic.rt.data.analytics.error.ErrorTrackerComponent
 import com.appacoustic.rt.domain.Measure
 import com.appacoustic.rt.domain.calculator.ReverbTimeCalculator
@@ -22,7 +22,7 @@ import java.io.FileOutputStream
 class Recorder(
     private val context: Context,
     private val reverbTimeCalculator: ReverbTimeCalculator,
-    private val analyticsTrackerComponent: AmplitudeAnalyticsTrackerComponent,
+    private val analyticsTrackerComponent: AnalyticsTrackerComponent,
     private val errorTrackerComponent: ErrorTrackerComponent
 ) {
 
