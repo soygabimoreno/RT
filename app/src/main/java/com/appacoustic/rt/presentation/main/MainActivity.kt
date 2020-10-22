@@ -68,7 +68,7 @@ class MainActivity : StatelessBaseActivity<
 
     override fun handleViewEvent(viewEvent: MainViewModel.ViewEvents) {
         when (viewEvent) {
-            is MainViewModel.ViewEvents.NavigateToMeasure -> navigateToMeasure()
+            is MainViewModel.ViewEvents.NavigateToMeasure -> navigateToMeasure(viewEvent.updateContent)
             MainViewModel.ViewEvents.NavigateToSignal -> navigateToSignal()
             MainViewModel.ViewEvents.Share -> share()
             MainViewModel.ViewEvents.SendEmail -> sendEmail()
@@ -77,10 +77,11 @@ class MainActivity : StatelessBaseActivity<
         }.exhaustive
     }
 
-    private fun navigateToMeasure() {
+    private fun navigateToMeasure(updateContent: Boolean) {
         navigateTo(
             R.id.flContainer,
             MeasureFragment.newInstance(
+                updateContent = updateContent,
                 navigateToPermission = ::navigateToPermission
             )
         )

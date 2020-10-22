@@ -15,7 +15,7 @@ class MainViewModel(
         analyticsTrackerComponent.trackEvent(MainEvents.ScreenMain)
         viewModelScope.launch {
             analyticsTrackerComponent.trackEvent(MainEvents.NavigateToMeasure)
-            sendViewEvent(ViewEvents.NavigateToMeasure)
+            sendViewEvent(ViewEvents.NavigateToMeasure(updateContent = false))
         }
     }
 
@@ -50,19 +50,22 @@ class MainViewModel(
     fun handleBottomNavigationMenuMeasureClicked() {
         viewModelScope.launch {
             analyticsTrackerComponent.trackEvent(MainEvents.ClickMeasure)
-            sendViewEvent(ViewEvents.NavigateToMeasure)
+            sendViewEvent(ViewEvents.NavigateToMeasure(updateContent = true))
         }
     }
 
     fun handleBottomNavigationMenuSignalClicked() {
         viewModelScope.launch {
             analyticsTrackerComponent.trackEvent(MainEvents.ClickSignal)
+
+            // TODO: Go only if audio permission granted
+
             sendViewEvent(ViewEvents.NavigateToSignal)
         }
     }
 
     sealed class ViewEvents {
-        object NavigateToMeasure : ViewEvents()
+        data class NavigateToMeasure(val updateContent: Boolean) : ViewEvents()
         object NavigateToSignal : ViewEvents()
         object Share : ViewEvents()
         object SendEmail : ViewEvents()

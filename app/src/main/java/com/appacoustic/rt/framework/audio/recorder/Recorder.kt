@@ -97,7 +97,11 @@ class Recorder(
             writeWavFile()
             buildByteArrayFromTempFile()
             deleteFile(tempPath)
-            calculateReverbTime(onReverbTimeCalculated)
+            if (xBytes.isNotEmpty()) {
+                calculateReverbTime(onReverbTimeCalculated)
+            } else {
+                errorTrackerComponent.trackError(Exception("xBytes is empty after stop recording"))
+            }
         } catch (e: Exception) {
             errorTrackerComponent.trackError(e)
         }

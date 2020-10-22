@@ -18,13 +18,16 @@ class MeasureFragment : BaseFragment<
 
     companion object {
         fun newInstance(
+            updateContent: Boolean,
             navigateToPermission: () -> Unit
         ): MeasureFragment =
             MeasureFragment().apply {
+                this.updateContent = updateContent
                 this.navigateToPermission = navigateToPermission
             }
     }
 
+    private var updateContent = false
     private lateinit var navigateToPermission: () -> Unit
 
     override val layoutResId = R.layout.fragment_measure
@@ -34,7 +37,9 @@ class MeasureFragment : BaseFragment<
 
     override fun initUI() {
         initButton()
-        viewModel.updateContent()
+        if (updateContent) {
+            viewModel.updateContent()
+        }
     }
 
     private fun initButton() {
