@@ -11,6 +11,7 @@ import com.appacoustic.rt.domain.Measure
 import com.appacoustic.rt.domain.calculator.ReverbTimeCalculator
 import com.appacoustic.rt.framework.KLog
 import com.appacoustic.rt.framework.audio.recorder.analytics.RecorderEvents
+import com.appacoustic.rt.framework.extension.getSizeInMB
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -90,7 +91,10 @@ class Recorder(
     }
 
     fun calculateReverbTime(onReverbTimeCalculated: (Either<Throwable, List<Measure>>) -> Unit) {
-        val either = reverbTimeCalculator(xBytes, SAMPLE_RATE)
+        val either = reverbTimeCalculator(
+            xBytes,
+            SAMPLE_RATE
+        )
         onReverbTimeCalculated(either)
     }
 
@@ -98,33 +102,48 @@ class Recorder(
 
     private suspend fun writeRawTempFile() = coroutineScope {
         launch {
-            analyticsTrackerComponent.trackEvent(RecorderEvents.DataTempPath(tempPath))
-            analyticsTrackerComponent.trackEvent(RecorderEvents.DataBufferSize(bufferSize))
-            val fos = FileOutputStream(tempPath)
-            analyticsTrackerComponent.trackEvent(RecorderEvents.DataFileOutputStreamCreated)
-            val data = ByteArray(bufferSize)
-            while (recording) {
-                val read = audioRecord.read(data, 0, bufferSize)
-                if (read != AudioRecord.ERROR_INVALID_OPERATION) {
-                    fos.write(data)
+            try {
+                analyticsTrackerComponent.trackEvent(RecorderEvents.DataTempPath(tempPath))
+                analyticsTrackerComponent.trackEvent(RecorderEvents.DataBufferSize(bufferSize))
+                val fos = FileOutputStream(tempPath)
+                analyticsTrackerComponent.trackEvent(RecorderEvents.DataFileOutputStreamCreated)
+                val data = ByteArray(bufferSize)
+                while (recording) {
+                    val read = audioRecord.read(
+                        data,
+                        0,
+                        bufferSize
+                    )
+                    if (read != AudioRecord.ERROR_INVALID_OPERATION) {
+                        fos.write(data)
+                    }
                 }
+                analyticsTrackerComponent.trackEvent(RecorderEvents.DataAudioRecorded)
+                fos.close()
+                analyticsTrackerComponent.trackEvent(RecorderEvents.DataFileOutputStreamClosed)
+            } catch (e: Exception) {
+                errorTrackerComponent.trackError(e)
+                e.printStackTrace()
             }
-            analyticsTrackerComponent.trackEvent(RecorderEvents.DataAudioRecorded)
-            fos.close()
-            analyticsTrackerComponent.trackEvent(RecorderEvents.DataFileOutputStreamClosed)
         }
     }
 
     private fun getTempPath(): String {
         val filePath = context.filesDir
-        val file = File(filePath, FOLDER_RECORDINGS)
+        val file = File(
+            filePath,
+            FOLDER_RECORDINGS
+        )
 
         if (!file.exists()) {
             file.mkdirs()
         }
 
         val tempFilename = "record_temp.raw"
-        val tempFile = File(filePath, tempFilename)
+        val tempFile = File(
+            filePath,
+            tempFilename
+        )
         if (tempFile.exists()) {
             tempFile.delete()
         }
@@ -134,7 +153,10 @@ class Recorder(
 
     private fun getPath(): String {
         val filePath = context.filesDir
-        val file = File(filePath, FOLDER_RECORDINGS)
+        val file = File(
+            filePath,
+            FOLDER_RECORDINGS
+        )
 
         if (!file.exists()) {
             file.mkdirs()
@@ -145,26 +167,31 @@ class Recorder(
 
     private suspend fun writeWavFile() = coroutineScope {
         launch {
-            val fis = FileInputStream(tempPath)
-            val fos = FileOutputStream(path)
+            try {
+                val fis = FileInputStream(tempPath)
+                val fos = FileOutputStream(path)
 
-            val data = ByteArray(bufferSize)
-            totalAudioLength = fis.channel.size()
-            val totalDataLength = totalAudioLength + 36
-            writeWavHeader(
-                fos = fos,
-                totalAudioLength = totalAudioLength,
-                totalDataLength = totalDataLength,
-                sampleRate = SAMPLE_RATE,
-                nChannels = N_CHANNELS,
-                byteRate = BYTE_RATE,
-                bitPerSample = BITS_PER_SAMPLE
-            )
-            while (fis.read(data) != -1) {
-                fos.write(data)
+                val data = ByteArray(bufferSize)
+                totalAudioLength = fis.channel.size()
+                val totalDataLength = totalAudioLength + 36
+                writeWavHeader(
+                    fos = fos,
+                    totalAudioLength = totalAudioLength,
+                    totalDataLength = totalDataLength,
+                    sampleRate = SAMPLE_RATE,
+                    nChannels = N_CHANNELS,
+                    byteRate = BYTE_RATE,
+                    bitPerSample = BITS_PER_SAMPLE
+                )
+                while (fis.read(data) != -1) {
+                    fos.write(data)
+                }
+                fis.close()
+                fos.close()
+            } catch (e: Exception) {
+                errorTrackerComponent.trackError(e)
+                e.printStackTrace()
             }
-            fis.close()
-            fos.close()
 
 //            val mediaPlayer = MediaPlayer.create(context, Uri.parse(path))
 //            mediaPlayer.start()
@@ -173,19 +200,25 @@ class Recorder(
 
     private suspend fun buildByteArrayFromTempFile() = coroutineScope {
         launch {
-            val fis = FileInputStream(tempPath)
-            val baos = ByteArrayOutputStream()
-            val data = ByteArray(bufferSize)
+            try {
+                val fis = FileInputStream(tempPath)
+                val baos = ByteArrayOutputStream()
+                val data = ByteArray(bufferSize)
 
-            while (fis.read(data) != -1) {
-                baos.write(data)
+                while (fis.read(data) != -1) {
+                    baos.write(data)
+                }
+
+                KLog.d("baos.size(): ${baos.size()}")
+                KLog.d("baos size: ${baos.getSizeInMB()} MB")
+                xBytes = ByteArray(baos.size())
+                xBytes = baos.toByteArray()
+                fis.close()
+                baos.close()
+            } catch (e: Exception) {
+                errorTrackerComponent.trackError(e)
+                e.printStackTrace()
             }
-
-            xBytes = ByteArray(baos.size())
-            xBytes = baos.toByteArray()
-
-            fis.close()
-            baos.close()
         }
     }
 

@@ -7,13 +7,14 @@ class ButtonStateHandler(
 ) {
 
     companion object {
-        const val MILLIS_IN_FUTURE = 5000L
+        const val MILLIS_IN_FUTURE = 6000L
         const val COUNTDOWN_INTERVAL = 1000L
         val step1 = (MILLIS_IN_FUTURE - 0 * COUNTDOWN_INTERVAL) downTo (MILLIS_IN_FUTURE - 1 * COUNTDOWN_INTERVAL + 1)
         val step2 = (MILLIS_IN_FUTURE - 1 * COUNTDOWN_INTERVAL) downTo (MILLIS_IN_FUTURE - 2 * COUNTDOWN_INTERVAL + 1)
         val step3 = (MILLIS_IN_FUTURE - 2 * COUNTDOWN_INTERVAL) downTo (MILLIS_IN_FUTURE - 3 * COUNTDOWN_INTERVAL + 1)
         val step4 = (MILLIS_IN_FUTURE - 3 * COUNTDOWN_INTERVAL) downTo (MILLIS_IN_FUTURE - 4 * COUNTDOWN_INTERVAL + 1)
         val step5 = (MILLIS_IN_FUTURE - 4 * COUNTDOWN_INTERVAL) downTo (MILLIS_IN_FUTURE - 5 * COUNTDOWN_INTERVAL + 1)
+        val step6 = (MILLIS_IN_FUTURE - 5 * COUNTDOWN_INTERVAL) downTo (MILLIS_IN_FUTURE - 6 * COUNTDOWN_INTERVAL + 1)
     }
 
     enum class State {
@@ -44,7 +45,8 @@ class ButtonStateHandler(
                         listener.onReduceButtonTextSize()
                         State.MEASURING
                     }
-                    in step5 -> State.CALCULATING
+                    in step5 -> State.MEASURING
+                    in step6 -> State.CALCULATING
                     else -> State.IDLE
                 }
                 listener.onTick(state)
