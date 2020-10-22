@@ -12,6 +12,8 @@ import com.appacoustic.rt.domain.calculator.ReverbTimeCalculator
 import com.appacoustic.rt.framework.KLog
 import com.appacoustic.rt.framework.audio.recorder.analytics.RecorderEvents
 import com.appacoustic.rt.framework.extension.getSizeInMB
+import com.appacoustic.rt.framework.extension.isInitialized
+import com.appacoustic.rt.framework.extension.isRecording
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -54,10 +56,21 @@ class Recorder(
 
     fun start() {
         audioRecord = buildAudioRecord()
+        if (!audioRecord.isInitialized()) {
+            errorTrackerComponent.trackError(Exception("AudioRecord is not initialized"))
+            return
+        }
+
         bufferSize = audioRecord.bufferSizeInFrames
-        KLog.d("audioRecord: $audioRecord")
+        KLog.d("bufferSize: $bufferSize")
+
         audioRecord.startRecording()
+        if (!audioRecord.isRecording()) {
+            errorTrackerComponent.trackError(Exception("AudioRecord is not recording"))
+            return
+        }
         recording = true
+
         GlobalScope.launch {
             writeRawTempFile()
         }
@@ -209,7 +222,6 @@ class Recorder(
                     baos.write(data)
                 }
 
-                KLog.d("baos.size(): ${baos.size()}")
                 KLog.d("baos size: ${baos.getSizeInMB()} MB")
                 xBytes = ByteArray(baos.size())
                 xBytes = baos.toByteArray()

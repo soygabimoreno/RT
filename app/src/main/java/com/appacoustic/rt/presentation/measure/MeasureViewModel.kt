@@ -76,6 +76,8 @@ class MeasureViewModel(
             if (userSession.isRecordAudioPermissionGranted()) {
                 sendViewEvent(ViewEvents.DisableButton)
                 ButtonStateHandler(object : ButtonStateHandler.Listener {
+                    private var recordingStarted = false
+
                     override fun onTick(state: ButtonStateHandler.State) {
                         analyticsTrackerComponent.trackEvent(MeasureEvents.ButtonState(state.name))
                         updateViewState(
@@ -86,7 +88,10 @@ class MeasureViewModel(
 
                         when (state) {
                             ButtonStateHandler.State.MEASURING -> {
-                                recorder.start()
+                                if (!recordingStarted) {
+                                    recorder.start()
+                                    recordingStarted = true
+                                }
                             }
                         }
                     }
@@ -95,32 +100,35 @@ class MeasureViewModel(
                         viewModelScope.launch {
                             analyticsTrackerComponent.trackEvent(MeasureEvents.ButtonState(state.name))
                             sendViewEvent(ViewEvents.EnableButton)
+                            recordingStarted = false
                             recorder.stop {
-                                it.fold({ exception ->
-                                    errorTrackerComponent.trackError(
-                                        NonStandardErrorEvent(
-                                            "EMPTY_SIGNAL_ERROR",
-                                            mapOf("exception" to exception)
-                                        )
-                                    )
-                                    viewModelScope.launch {
-                                        sendViewEvent(ViewEvents.EmptySignalError)
-                                        updateViewState(
-                                            (getViewState() as ViewState.Content).copy(
-                                                textResId = state.toStringResId()
+                                it.fold(
+                                    { exception ->
+                                        errorTrackerComponent.trackError(
+                                            NonStandardErrorEvent(
+                                                "EMPTY_SIGNAL_ERROR",
+                                                mapOf("exception" to exception)
                                             )
                                         )
-                                    }
-                                }, { measures ->
-                                    analyticsTrackerComponent.trackEvent(MeasureEvents.DataMeasures(measures.toHumanReadable()))
-                                    updateViewState(
-                                        (getViewState() as ViewState.Content).copy(
-                                            textResId = state.toStringResId(),
-                                            measures = measures,
-                                            averageReverbTime = calculateAverageReverbTime(measures)
+                                        viewModelScope.launch {
+                                            sendViewEvent(ViewEvents.EmptySignalError)
+                                            updateViewState(
+                                                (getViewState() as ViewState.Content).copy(
+                                                    textResId = state.toStringResId()
+                                                )
+                                            )
+                                        }
+                                    },
+                                    { measures ->
+                                        analyticsTrackerComponent.trackEvent(MeasureEvents.DataMeasures(measures.toHumanReadable()))
+                                        updateViewState(
+                                            (getViewState() as ViewState.Content).copy(
+                                                textResId = state.toStringResId(),
+                                                measures = measures,
+                                                averageReverbTime = calculateAverageReverbTime(measures)
+                                            )
                                         )
-                                    )
-                                })
+                                    })
                             }
                         }
                     }
