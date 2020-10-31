@@ -105,7 +105,7 @@ class SignalViewModel(
         filterEnabled: Boolean,
         butterworthFrequency: ButterworthFrequency,
         butterworthOrder: ButterworthOrder
-    ): DoubleArray = withContext(Dispatchers.Default) {
+    ): DoubleArray = withContext(Dispatchers.IO) {
         val xBytes = recorder.getXBytes()
         val butterworthCoefficients = getButterworthCoefficients(
             butterworthFrequency,
@@ -118,7 +118,10 @@ class SignalViewModel(
                     .toDivisibleBy32()
                     .normalize()
                     .filterIIR(butterworthCoefficients)
-                    .muteStart(0.05, Recorder.SAMPLE_RATE)
+                    .muteStart(
+                        0.05,
+                        Recorder.SAMPLE_RATE
+                    )
             } else {
                 xBytes
                     .toDoubleSamples()

@@ -11,15 +11,12 @@ import com.appacoustic.rt.domain.Measure
 import com.appacoustic.rt.domain.UserSession
 import com.appacoustic.rt.domain.calculator.ReverbTimeCalculator
 import com.appacoustic.rt.framework.KLog
+import com.appacoustic.rt.framework.audio.player.Player
 import com.appacoustic.rt.framework.audio.recorder.analytics.RecorderEvents
-import com.appacoustic.rt.framework.extension.debugToast
 import com.appacoustic.rt.framework.extension.getSizeInMB
 import com.appacoustic.rt.framework.extension.isInitialized
 import com.appacoustic.rt.framework.extension.isRecording
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
@@ -29,6 +26,7 @@ class Recorder(
     private val context: Context,
     private val reverbTimeCalculator: ReverbTimeCalculator,
     private val userSession: UserSession,
+    private val player: Player,
     private val analyticsTrackerComponent: AnalyticsTrackerComponent,
     private val errorTrackerComponent: ErrorTrackerComponent
 ) {
@@ -79,10 +77,12 @@ class Recorder(
             writeRawTempFile()
         }
 
-        CoroutineScope(Dispatchers.Main).launch {
-            //            diracPlayer.play()
-//            delay(100)
-            context.debugToast("Dirac")
+
+        if (userSession.isTestSignalEnabled()) {
+            CoroutineScope(Dispatchers.Main).launch {
+                delay(100)
+                player.start()
+            }
         }
     }
 

@@ -57,9 +57,6 @@ class MainViewModel(
     fun handleBottomNavigationMenuSignalClicked() {
         viewModelScope.launch {
             analyticsTrackerComponent.trackEvent(MainEvents.ClickSignal)
-
-            // TODO: Go only if audio permission granted
-
             sendViewEvent(ViewEvents.NavigateToSignal)
         }
     }

@@ -15,9 +15,9 @@ class DefaultUserSession(
         this.recordAudioPermissionGranted = recordAudioPermissionGranted
     }
 
-    override suspend fun isTestSignalEnabled(): Boolean = persistentRepository.isTestSignalEnabled()
+    override fun isTestSignalEnabled(): Boolean = persistentRepository.isTestSignalEnabled()
 
-    override suspend fun setTestSignalEnabled(testSignalEnabled: Boolean) {
+    override fun setTestSignalEnabled(testSignalEnabled: Boolean) {
         persistentRepository.setTestSignalEnabled(testSignalEnabled)
     }
 }

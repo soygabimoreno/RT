@@ -10,14 +10,14 @@ class SharedPreferencesPersistentRepository(
         private const val TEST_SIGNAL_ENABLED = "TEST_SIGNAL_ENABLED"
     }
 
-    override suspend fun isTestSignalEnabled(): Boolean {
+    override fun isTestSignalEnabled(): Boolean {
         return sharedPreferences.getBoolean(
             TEST_SIGNAL_ENABLED,
             false
         )
     }
 
-    override suspend fun setTestSignalEnabled(testSignalEnabled: Boolean) {
+    override fun setTestSignalEnabled(testSignalEnabled: Boolean) {
         sharedPreferences
             .edit()
             .putBoolean(
