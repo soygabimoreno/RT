@@ -2,11 +2,13 @@ package com.appacoustic.rt.presentation.main
 
 import androidx.lifecycle.viewModelScope
 import com.appacoustic.rt.data.analytics.AnalyticsTrackerComponent
+import com.appacoustic.rt.domain.UserSession
 import com.appacoustic.rt.framework.base.viewmodel.StatelessBaseViewModel
 import com.appacoustic.rt.presentation.main.analytics.MainEvents
 import kotlinx.coroutines.launch
 
 class MainViewModel(
+    private val userSession: UserSession,
     private val analyticsTrackerComponent: AnalyticsTrackerComponent
 ) : StatelessBaseViewModel<
     MainViewModel.ViewEvents>() {

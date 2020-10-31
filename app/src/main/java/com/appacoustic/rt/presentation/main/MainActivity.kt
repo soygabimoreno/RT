@@ -12,6 +12,7 @@ import com.appacoustic.rt.R
 import com.appacoustic.rt.framework.base.activity.StatelessBaseActivity
 import com.appacoustic.rt.framework.extension.exhaustive
 import com.appacoustic.rt.framework.extension.navigateTo
+import com.appacoustic.rt.framework.extension.setVisibleOrGone
 import com.appacoustic.rt.presentation.measure.MeasureFragment
 import com.appacoustic.rt.presentation.permission.PermissionFragment
 import com.appacoustic.rt.presentation.settings.SettingsFragment
@@ -27,7 +28,10 @@ class MainActivity : StatelessBaseActivity<
 
     companion object {
         fun launch(context: Context) {
-            val intent = Intent(context, MainActivity::class.java)
+            val intent = Intent(
+                context,
+                MainActivity::class.java
+            )
             context.startActivity(intent)
         }
     }
@@ -35,28 +39,41 @@ class MainActivity : StatelessBaseActivity<
     override val layoutResId = R.layout.activity_main
     override val viewModel: MainViewModel by koinScope.viewModel(this)
 
+    private var areButtonsAvailable = true
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.menu_main, menu)
+        inflater.inflate(
+            R.menu.menu_main,
+            menu
+        )
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menuShare -> {
-                viewModel.handleShareClicked()
+                if (areButtonsAvailable) {
+                    viewModel.handleShareClicked()
+                }
                 true
             }
             R.id.menuEmail -> {
-                viewModel.handleEmailClicked()
+                if (areButtonsAvailable) {
+                    viewModel.handleEmailClicked()
+                }
                 true
             }
             R.id.menuRate -> {
-                viewModel.handleRateClicked()
+                if (areButtonsAvailable) {
+                    viewModel.handleRateClicked()
+                }
                 true
             }
             R.id.menuInfo -> {
-                viewModel.handleInfoClicked()
+                if (areButtonsAvailable) {
+                    viewModel.handleInfoClicked()
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -84,7 +101,8 @@ class MainActivity : StatelessBaseActivity<
             R.id.flContainer,
             MeasureFragment.newInstance(
                 updateContent = updateContent,
-                navigateToPermission = ::navigateToPermission
+                navigateToPermission = ::navigateToPermission,
+                enableScreen = ::enableScreen
             )
         )
     }
@@ -123,23 +141,45 @@ class MainActivity : StatelessBaseActivity<
     private fun sendEmail() {
         val intent = Intent(Intent.ACTION_SENDTO)
         intent.data = Uri.parse("mailto:")
-        intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.email_to)))
-        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject))
-        startActivity(Intent.createChooser(intent, getString(R.string.email_title)))
+        intent.putExtra(
+            Intent.EXTRA_EMAIL,
+            arrayOf(getString(R.string.email_to))
+        )
+        intent.putExtra(
+            Intent.EXTRA_SUBJECT,
+            getString(R.string.email_subject)
+        )
+        startActivity(
+            Intent.createChooser(
+                intent,
+                getString(R.string.email_title)
+            )
+        )
     }
 
     private fun rate() {
         val appPackageName = if (BuildConfig.DEBUG) "com.appacoustic.rt" else packageName
         try {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName")))
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("market://details?id=$appPackageName")
+                )
+            )
         } catch (exception: Exception) {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")))
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
+                )
+            )
         }
     }
 
     private fun navigateToPermission() {
         navigateTo(
-            R.id.flContainer, PermissionFragment.newInstance(
+            R.id.flContainer,
+            PermissionFragment.newInstance(
                 ::navigateToMeasure
             )
         )
@@ -164,19 +204,30 @@ class MainActivity : StatelessBaseActivity<
             )
     }
 
+    private fun enableScreen(enable: Boolean) {
+        this.areButtonsAvailable = enable
+        vOverlay.setVisibleOrGone(!enable)
+    }
+
     private fun initBottomNavigation() {
         bnv.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.bnmMeasures -> {
-                    viewModel.handleBottomNavigationMenuMeasureClicked()
+                    if (areButtonsAvailable) {
+                        viewModel.handleBottomNavigationMenuMeasureClicked()
+                    }
                     true
                 }
                 R.id.bnmSignal -> {
-                    viewModel.handleBottomNavigationMenuSignalClicked()
+                    if (areButtonsAvailable) {
+                        viewModel.handleBottomNavigationMenuSignalClicked()
+                    }
                     true
                 }
                 R.id.bnmSettings -> {
-                    viewModel.handleBottomNavigationMenuSettingsClicked()
+                    if (areButtonsAvailable) {
+                        viewModel.handleBottomNavigationMenuSettingsClicked()
+                    }
                     true
                 }
                 else -> false

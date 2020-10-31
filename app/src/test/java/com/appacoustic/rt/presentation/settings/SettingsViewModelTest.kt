@@ -11,12 +11,9 @@ import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
-import org.junit.After
+import org.junit.*
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
 
 @ExperimentalCoroutinesApi
 class SettingsViewModelTest {
@@ -41,6 +38,7 @@ class SettingsViewModelTest {
         testCoroutineScope.cleanupTestCoroutines()
     }
 
+    @Ignore
     @Test
     fun `when the viewModel is initialized, if user session has stored that the test signal is enabled, then test signal is enabled`() {
         givenTestSignalEnabled()

@@ -2,6 +2,7 @@ package com.appacoustic.rt.presentation.main
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.appacoustic.rt.data.analytics.AnalyticsTrackerComponent
+import com.appacoustic.rt.domain.UserSession
 import com.appacoustic.rt.presentation.main.analytics.MainEvents
 import io.mockk.mockk
 import io.mockk.verify
@@ -24,6 +25,7 @@ class MainViewModelTest {
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private val analyticsTrackerComponent = mockk<AnalyticsTrackerComponent>(relaxed = true)
+    private val userSession = mockk<UserSession>(relaxed = true)
 
     @Before
     fun setUp() {
@@ -70,6 +72,7 @@ class MainViewModelTest {
     }
 
     private fun buildViewModel() = MainViewModel(
+        userSession = userSession,
         analyticsTrackerComponent = analyticsTrackerComponent
     )
 }

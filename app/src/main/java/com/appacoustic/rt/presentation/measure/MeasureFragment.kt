@@ -5,7 +5,10 @@ import com.appacoustic.rt.R
 import com.appacoustic.rt.domain.Measure
 import com.appacoustic.rt.framework.base.fragment.BaseFragment
 import com.appacoustic.rt.framework.customview.FrequencyTimeView
-import com.appacoustic.rt.framework.extension.*
+import com.appacoustic.rt.framework.extension.debugToast
+import com.appacoustic.rt.framework.extension.exhaustive
+import com.appacoustic.rt.framework.extension.formatTo2Decimals
+import com.appacoustic.rt.framework.extension.toast
 import kotlinx.android.synthetic.main.fragment_measure.*
 import org.koin.androidx.viewmodel.scope.viewModel
 import org.koin.androidx.scope.lifecycleScope as koinScope
@@ -19,16 +22,19 @@ class MeasureFragment : BaseFragment<
     companion object {
         fun newInstance(
             updateContent: Boolean,
-            navigateToPermission: () -> Unit
+            navigateToPermission: () -> Unit,
+            enableScreen: (enable: Boolean) -> Unit
         ): MeasureFragment =
             MeasureFragment().apply {
                 this.updateContent = updateContent
                 this.navigateToPermission = navigateToPermission
+                this.enableScreen = enableScreen
             }
     }
 
     private var updateContent = false
     private lateinit var navigateToPermission: () -> Unit
+    private lateinit var enableScreen: (enable: Boolean) -> Unit
 
     override val layoutResId = R.layout.fragment_measure
     override val viewModel: MeasureViewModel by koinScope.viewModel(this)
@@ -97,8 +103,8 @@ class MeasureFragment : BaseFragment<
     override fun handleViewEvent(viewEvent: MeasureViewModel.ViewEvents) {
         when (viewEvent) {
             MeasureViewModel.ViewEvents.EmptySignalError -> showEmptySignalError()
-            MeasureViewModel.ViewEvents.EnableButton -> btn.enable()
-            MeasureViewModel.ViewEvents.DisableButton -> btn.disable()
+            MeasureViewModel.ViewEvents.EnableButton -> enableScreen(true)
+            MeasureViewModel.ViewEvents.DisableButton -> enableScreen(false)
             MeasureViewModel.ViewEvents.ReduceButtonTextSize -> reduceButtonTextSize()
             MeasureViewModel.ViewEvents.AmplifyButtonTextSize -> amplifyButtonTextSize()
             MeasureViewModel.ViewEvents.NavigateToPermission -> navigateToPermission()

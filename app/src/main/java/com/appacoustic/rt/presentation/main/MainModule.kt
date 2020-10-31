@@ -11,6 +11,7 @@ val mainModule = module {
     scope(named<MainActivity>()) {
         viewModel {
             MainViewModel(
+                userSession = get(),
                 analyticsTrackerComponent = get()
             )
         }

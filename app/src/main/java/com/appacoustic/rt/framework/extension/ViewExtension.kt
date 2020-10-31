@@ -2,6 +2,14 @@ package com.appacoustic.rt.framework.extension
 
 import android.view.View
 
+fun View.setVisibleOrGone(visible: Boolean) {
+    if (visible) {
+        visible()
+    } else {
+        gone()
+    }
+}
+
 fun View.visible() {
     visibility = View.VISIBLE
 }
