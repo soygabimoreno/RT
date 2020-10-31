@@ -12,6 +12,7 @@ val audioModule = module {
             reverbTimeCalculator = ReverbTimeCalculator(
                 analyticsTrackerComponent = get()
             ),
+            userSession = get(),
             analyticsTrackerComponent = get(),
             errorTrackerComponent = get()
         )

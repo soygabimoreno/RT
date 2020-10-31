@@ -39,13 +39,9 @@ class SettingsFragment : BaseFragment<
 
     private fun initSwitchFilter() {
         viewModel.toggleSwitchTestSignal()
-        switchTestSignal.setOnCheckedChangeListener { _, filterEnabled ->
-            if (filterEnabled) {
-                switchTestSignal.setText(R.string.using_dirac_test_signal)
-            } else {
-                switchTestSignal.setText(R.string.not_using_dirac_test_signal)
-            }
-            viewModel.handleSwitchFilterChanged(filterEnabled)
+        switchTestSignal.setOnCheckedChangeListener { _, testSignalEnabled ->
+            toggleSwitchTextSignalText(testSignalEnabled)
+            viewModel.handleSwitchFilterChanged(testSignalEnabled)
         }
     }
 
@@ -67,5 +63,16 @@ class SettingsFragment : BaseFragment<
 
     private fun toggleSwitchTestSignal(testSignalEnabled: Boolean) {
         switchTestSignal.isChecked = testSignalEnabled
+        toggleSwitchTextSignalText(testSignalEnabled)
+    }
+
+    private fun toggleSwitchTextSignalText(testSignalEnabled: Boolean) {
+        if (testSignalEnabled) {
+            switchTestSignal.setText(R.string.using_dirac_test_signal)
+            switchTestSignal.setTextColor(accentColor)
+        } else {
+            switchTestSignal.setText(R.string.not_using_dirac_test_signal)
+            switchTestSignal.setTextColor(grayLightColor)
+        }
     }
 }

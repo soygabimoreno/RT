@@ -33,7 +33,16 @@ class MeasureFragment : BaseFragment<
     override val layoutResId = R.layout.fragment_measure
     override val viewModel: MeasureViewModel by koinScope.viewModel(this)
 
-    private val ftvs by lazy { listOf(ftv125, ftv250, ftv500, ftv1000, ftv2000, ftv4000) }
+    private val ftvs by lazy {
+        listOf(
+            ftv125,
+            ftv250,
+            ftv500,
+            ftv1000,
+            ftv2000,
+            ftv4000
+        )
+    }
 
     override fun initUI() {
         initButton()
@@ -72,10 +81,16 @@ class MeasureFragment : BaseFragment<
             val measures = content.measures
             ftvs.setTime(measures)
             val averageReverbTime = content.averageReverbTime
-            tvAverage.text = getString(R.string.average_x_s, averageReverbTime.formatTo2Decimals())
+            tvAverage.text = getString(
+                R.string.average_x_s,
+                averageReverbTime.formatTo2Decimals()
+            )
         } else {
             ftvs.setUndefinedTime()
-            tvAverage.text = getString(R.string.average_x_s, "?")
+            tvAverage.text = getString(
+                R.string.average_x_s,
+                "?"
+            )
         }
     }
 
@@ -95,11 +110,17 @@ class MeasureFragment : BaseFragment<
     }
 
     private fun reduceButtonTextSize() {
-        btn.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.textSizeXXS))
+        btn.setTextSize(
+            TypedValue.COMPLEX_UNIT_PX,
+            resources.getDimension(R.dimen.textSizeXXS)
+        )
     }
 
     private fun amplifyButtonTextSize() {
-        btn.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.textSizeL))
+        btn.setTextSize(
+            TypedValue.COMPLEX_UNIT_PX,
+            resources.getDimension(R.dimen.textSizeL)
+        )
     }
 
     private fun List<FrequencyTimeView>.setTime(measures: List<Measure>) =

@@ -2,7 +2,8 @@ package com.appacoustic.rt.data.analytics.error
 
 import com.appacoustic.rt.domain.UserSession
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CrashlyticsErrorTrackerComponent(
@@ -12,7 +13,7 @@ class CrashlyticsErrorTrackerComponent(
 
     override fun <E : ErrorEvent> trackError(event: E) {
         with(crashlytics) {
-            GlobalScope.launch {
+            CoroutineScope(Dispatchers.IO).launch {
                 val eventWithCommonAttributes = addCommonAttributes(event)
                 eventWithCommonAttributes.parameters.forEach { (key, value) ->
                     setCustomKey(

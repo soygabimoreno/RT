@@ -31,20 +31,40 @@ class MeasureViewModel(
 
     private fun initContent() {
         viewModelScope.launch {
-            recordAudioPermissionChecker().fold({
-                userSession.setRecordAudioPermissionGranted(false)
-            }, { onPermissionRequested ->
-                val recordAudioPermissionGranted = onPermissionRequested == PermissionRequester.PermissionState.GRANTED
-                userSession.setRecordAudioPermissionGranted(recordAudioPermissionGranted)
-            })
+            recordAudioPermissionChecker().fold(
+                {
+                    userSession.setRecordAudioPermissionGranted(false)
+                },
+                { onPermissionRequested ->
+                    val recordAudioPermissionGranted = onPermissionRequested == PermissionRequester.PermissionState.GRANTED
+                    userSession.setRecordAudioPermissionGranted(recordAudioPermissionGranted)
+                })
         }
         val measures = listOf(
-            Measure(Measure.Frequency.FREQUENCY_125, 0f),
-            Measure(Measure.Frequency.FREQUENCY_250, 0f),
-            Measure(Measure.Frequency.FREQUENCY_500, 0f),
-            Measure(Measure.Frequency.FREQUENCY_1000, 0f),
-            Measure(Measure.Frequency.FREQUENCY_2000, 0f),
-            Measure(Measure.Frequency.FREQUENCY_4000, 0f),
+            Measure(
+                Measure.Frequency.FREQUENCY_125,
+                0f
+            ),
+            Measure(
+                Measure.Frequency.FREQUENCY_250,
+                0f
+            ),
+            Measure(
+                Measure.Frequency.FREQUENCY_500,
+                0f
+            ),
+            Measure(
+                Measure.Frequency.FREQUENCY_1000,
+                0f
+            ),
+            Measure(
+                Measure.Frequency.FREQUENCY_2000,
+                0f
+            ),
+            Measure(
+                Measure.Frequency.FREQUENCY_4000,
+                0f
+            ),
         )
         updateViewState(
             ViewState.Content(
@@ -57,16 +77,18 @@ class MeasureViewModel(
 
     fun updateContent() {
         recorder.calculateReverbTime {
-            it.fold({ exception ->
-                errorTrackerComponent.trackError(exception)
-            }, { measures ->
-                updateViewState(
-                    (getViewState() as ViewState.Content).copy(
-                        measures = measures,
-                        averageReverbTime = calculateAverageReverbTime(measures)
+            it.fold(
+                { exception ->
+                    errorTrackerComponent.trackError(exception)
+                },
+                { measures ->
+                    updateViewState(
+                        (getViewState() as ViewState.Content).copy(
+                            measures = measures,
+                            averageReverbTime = calculateAverageReverbTime(measures)
+                        )
                     )
-                )
-            })
+                })
         }
     }
 
