@@ -8,6 +8,7 @@ val settingsModule = module {
     scope(named<SettingsFragment>()) {
         viewModel {
             SettingsViewModel(
+                userSession = get(),
                 analyticsTrackerComponent = get()
             )
         }

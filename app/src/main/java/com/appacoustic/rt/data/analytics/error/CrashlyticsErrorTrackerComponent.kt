@@ -25,8 +25,10 @@ class CrashlyticsErrorTrackerComponent(
 
     private fun <E : ErrorEvent> addCommonAttributes(event: E): ErrorEvent {
         val isRecordAudioPermissionGranted = userSession.isRecordAudioPermissionGranted()
+        val testSignalEnabled = userSession.isTestSignalEnabled()
         val commonParameters = mapOf(
-            "isRecordAudioPermissionGranted" to isRecordAudioPermissionGranted
+            "isRecordAudioPermissionGranted" to isRecordAudioPermissionGranted,
+            "testSignalEnabled" to testSignalEnabled
         )
         val parameters = event.parameters + commonParameters
         return when (event) {

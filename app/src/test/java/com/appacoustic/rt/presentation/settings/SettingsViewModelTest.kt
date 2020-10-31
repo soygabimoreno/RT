@@ -2,6 +2,8 @@ package com.appacoustic.rt.presentation.settings
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.appacoustic.rt.data.analytics.AnalyticsTrackerComponent
+import com.appacoustic.rt.domain.UserSession
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -10,6 +12,7 @@ import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
@@ -24,9 +27,8 @@ class SettingsViewModelTest {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
+    private val userSession = mockk<UserSession>()
     private val analyticsTrackerComponent = mockk<AnalyticsTrackerComponent>(relaxed = true)
-
-    private val testSignalEnabled = false
 
     @Before
     fun setUp() {
@@ -40,15 +42,35 @@ class SettingsViewModelTest {
     }
 
     @Test
-    fun `when the app starts, then test signal is enabled or disabled depending on the last stored state`() {
+    fun `when the viewModel is initialized, if user session has stored that the test signal is enabled, then test signal is enabled`() {
+        givenTestSignalEnabled()
         val viewModel = buildViewModel()
 
         val state = viewModel.viewState.value!!
         assertTrue(state is SettingsViewModel.ViewState.Content)
-        assertTrue(testSignalEnabled == (state as SettingsViewModel.ViewState.Content).testSignalEnabled)
+        assertTrue((state as SettingsViewModel.ViewState.Content).testSignalEnabled)
+    }
+
+    @Test
+    fun `when the viewModel is initialized, if user session has stored that the test signal is disabled, then test signal is disabled`() {
+        givenTestSignalDisabled()
+        val viewModel = buildViewModel()
+
+        val state = viewModel.viewState.value!!
+        assertTrue(state is SettingsViewModel.ViewState.Content)
+        assertFalse((state as SettingsViewModel.ViewState.Content).testSignalEnabled)
+    }
+
+    private fun givenTestSignalEnabled() {
+        every { userSession.isTestSignalEnabled() } returns true
+    }
+
+    private fun givenTestSignalDisabled() {
+        every { userSession.isTestSignalEnabled() } returns false
     }
 
     private fun buildViewModel() = SettingsViewModel(
+        userSession = userSession,
         analyticsTrackerComponent = analyticsTrackerComponent
     )
 }

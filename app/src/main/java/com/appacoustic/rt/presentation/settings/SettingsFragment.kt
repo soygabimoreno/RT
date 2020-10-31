@@ -38,6 +38,7 @@ class SettingsFragment : BaseFragment<
     }
 
     private fun initSwitchFilter() {
+        viewModel.toggleSwitchTestSignal()
         switchTestSignal.setOnCheckedChangeListener { _, filterEnabled ->
             if (filterEnabled) {
                 switchTestSignal.setText(R.string.using_dirac_test_signal)
@@ -50,21 +51,21 @@ class SettingsFragment : BaseFragment<
 
     override fun renderViewState(viewState: SettingsViewModel.ViewState) {
         when (viewState) {
-            is SettingsViewModel.ViewState.Content -> showContent(viewState)
+            is SettingsViewModel.ViewState.Content -> showContent(viewState.testSignalEnabled)
         }.exhaustive
     }
 
-    private fun showContent(content: SettingsViewModel.ViewState.Content) {
+    private fun showContent(testSignalEnabled: Boolean) {
         // TODO
     }
 
     override fun handleViewEvent(viewEvent: SettingsViewModel.ViewEvents) {
         when (viewEvent) {
-            SettingsViewModel.ViewEvents.Foo -> foo()
+            is SettingsViewModel.ViewEvents.ToggleSwitchTestSignal -> toggleSwitchTestSignal(viewEvent.testSignalEnabled)
         }.exhaustive
     }
 
-    private fun foo() {
-        // TODO
+    private fun toggleSwitchTestSignal(testSignalEnabled: Boolean) {
+        switchTestSignal.isChecked = testSignalEnabled
     }
 }

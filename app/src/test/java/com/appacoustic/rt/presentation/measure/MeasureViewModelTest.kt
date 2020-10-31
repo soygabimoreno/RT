@@ -45,14 +45,6 @@ class MeasureViewModelTest {
         testCoroutineScope.cleanupTestCoroutines()
     }
 
-    private fun buildViewModel() = MeasureViewModel(
-        recordAudioPermissionChecker = recordAudioPermissionChecker,
-        recorder = recorder,
-        userSession = userSession,
-        analyticsTrackerComponent = analyticsTrackerComponent,
-        errorTrackerComponent = errorTrackerComponent
-    )
-
     private fun givenRecordAudioPermissionGranted() {
         every { userSession.isRecordAudioPermissionGranted() } returns true
     }
@@ -60,4 +52,12 @@ class MeasureViewModelTest {
     private fun givenRecordAudioPermissionNotGranted() {
         every { userSession.isRecordAudioPermissionGranted() } returns false
     }
+
+    private fun buildViewModel() = MeasureViewModel(
+        recordAudioPermissionChecker = recordAudioPermissionChecker,
+        recorder = recorder,
+        userSession = userSession,
+        analyticsTrackerComponent = analyticsTrackerComponent,
+        errorTrackerComponent = errorTrackerComponent
+    )
 }
