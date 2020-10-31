@@ -125,9 +125,18 @@ class MeasureFragment : BaseFragment<
 
     private fun List<FrequencyTimeView>.setTime(measures: List<Measure>) =
         forEachIndexed { index, ftv ->
-            ftv.setTime(measures[index].time.formatTo2Decimals())
+            val time = measures[index].time
+            if (time < 2) {
+                ftv.setDefaultColor()
+            } else {
+                ftv.setErrorColor()
+            }
+            ftv.setTime(time.formatTo2Decimals())
         }
 
     private fun List<FrequencyTimeView>.setUndefinedTime() =
-        forEach { it.setTime("?") }
+        forEach { ftv ->
+            ftv.setTime("?")
+            ftv.setDefaultColor()
+        }
 }

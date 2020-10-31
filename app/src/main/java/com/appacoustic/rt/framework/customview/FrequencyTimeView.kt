@@ -26,7 +26,10 @@ class FrequencyTimeView @JvmOverloads constructor(
     }
 
     private fun initIcon(typedArray: TypedArray) {
-        val resId = typedArray.getResourceId(R.styleable.FrequencyTimeView_custom_text, 0)
+        val resId = typedArray.getResourceId(
+            R.styleable.FrequencyTimeView_custom_text,
+            0
+        )
         if (resId != 0) {
             tvFrequency.setText(resId)
         } else {
@@ -36,6 +39,24 @@ class FrequencyTimeView @JvmOverloads constructor(
 
     fun setTime(text: String) {
         tvTime.text = text
+    }
+
+    fun setDefaultColor() {
+        tvTime.setTextColor(
+            resources.getColor(
+                R.color.gray_medium,
+                null
+            )
+        )
+    }
+
+    fun setErrorColor() {
+        tvTime.setTextColor(
+            resources.getColor(
+                R.color.sizzlingRed,
+                null
+            )
+        )
     }
 }
 
