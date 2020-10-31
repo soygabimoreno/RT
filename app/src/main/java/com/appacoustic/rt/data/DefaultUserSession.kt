@@ -1,11 +1,13 @@
 package com.appacoustic.rt.data
 
+import com.appacoustic.rt.data.persistent.repository.PersistentRepository
 import com.appacoustic.rt.domain.UserSession
 
-class DefaultUserSession : UserSession {
+class DefaultUserSession(
+    private val persistentRepository: PersistentRepository
+) : UserSession {
 
     private var recordAudioPermissionGranted = false
-    private var testSignalEnabled = false
 
     override fun isRecordAudioPermissionGranted(): Boolean = recordAudioPermissionGranted
 
@@ -13,9 +15,9 @@ class DefaultUserSession : UserSession {
         this.recordAudioPermissionGranted = recordAudioPermissionGranted
     }
 
-    override fun isTestSignalEnabled(): Boolean = testSignalEnabled
+    override suspend fun isTestSignalEnabled(): Boolean = persistentRepository.isTestSignalEnabled()
 
-    override fun setTestSignalEnabled(testSignalEnabled: Boolean) {
-        this.testSignalEnabled = testSignalEnabled
+    override suspend fun setTestSignalEnabled(testSignalEnabled: Boolean) {
+        persistentRepository.setTestSignalEnabled(testSignalEnabled)
     }
 }

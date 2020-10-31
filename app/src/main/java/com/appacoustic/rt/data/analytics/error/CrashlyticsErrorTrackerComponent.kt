@@ -2,6 +2,8 @@ package com.appacoustic.rt.data.analytics.error
 
 import com.appacoustic.rt.domain.UserSession
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class CrashlyticsErrorTrackerComponent(
     private val crashlytics: FirebaseCrashlytics,
@@ -10,20 +12,24 @@ class CrashlyticsErrorTrackerComponent(
 
     override fun <E : ErrorEvent> trackError(event: E) {
         with(crashlytics) {
-            val eventWithCommonAttributes = addCommonAttributes(event)
+            GlobalScope.launch {
+                val eventWithCommonAttributes = addCommonAttributes(event)
+                eventWithCommonAttributes.parameters.forEach { (key, value) ->
+                    setCustomKey(
+                        key,
+                        value.toString()
+                    )
+                }
 
-            eventWithCommonAttributes.parameters.forEach { (key, value) ->
-                setCustomKey(key, value.toString())
-            }
-
-            when (event) {
-                is NonStandardErrorEvent -> recordException(Exception(event.tag))
-                is ThrowableErrorEvent -> recordException(event.throwable)
+                when (event) {
+                    is NonStandardErrorEvent -> recordException(Exception(event.tag))
+                    is ThrowableErrorEvent -> recordException(event.throwable)
+                }
             }
         }
     }
 
-    private fun <E : ErrorEvent> addCommonAttributes(event: E): ErrorEvent {
+    private suspend fun <E : ErrorEvent> addCommonAttributes(event: E): ErrorEvent {
         val isRecordAudioPermissionGranted = userSession.isRecordAudioPermissionGranted()
         val testSignalEnabled = userSession.isTestSignalEnabled()
         val commonParameters = mapOf(

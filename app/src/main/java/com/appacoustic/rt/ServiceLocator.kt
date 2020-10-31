@@ -2,6 +2,7 @@ package com.appacoustic.rt
 
 import com.appacoustic.rt.data.analytics.analyticsTrackerModule
 import com.appacoustic.rt.data.analytics.error.errorTrackerModule
+import com.appacoustic.rt.data.persistent.db.persistentModule
 import com.appacoustic.rt.data.remoteconfig.remoteConfigModule
 import com.appacoustic.rt.framework.audio.audioModule
 import com.appacoustic.rt.presentation.main.mainModule
@@ -15,6 +16,8 @@ val serviceLocator = listOf(
 
     analyticsTrackerModule,
     errorTrackerModule,
+
+    persistentModule,
 
     mainModule,
     permissionModule,

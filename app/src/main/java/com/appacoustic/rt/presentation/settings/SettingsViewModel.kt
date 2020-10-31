@@ -18,26 +18,26 @@ class SettingsViewModel(
         analyticsTrackerComponent.trackEvent(SettingsEvents.ScreenSettings)
         updateViewState(
             ViewState.Content(
-                testSignalEnabled = userSession.isTestSignalEnabled()
+                testSignalEnabled = false
             )
         )
     }
 
     fun toggleSwitchTestSignal() {
         viewModelScope.launch {
-            val testSignalEnabled = (getViewState() as ViewState.Content).testSignalEnabled
+            val testSignalEnabled = userSession.isTestSignalEnabled()
             sendViewEvent(ViewEvents.ToggleSwitchTestSignal(testSignalEnabled))
         }
     }
 
     fun handleSwitchFilterChanged(testSignalEnabled: Boolean) {
-        userSession.setTestSignalEnabled(testSignalEnabled)
-        if (testSignalEnabled) {
-            analyticsTrackerComponent.trackEvent(SettingsEvents.ClickEnableTestSignal)
-        } else {
-            analyticsTrackerComponent.trackEvent(SettingsEvents.ClickDisableTestSignal)
-        }
         viewModelScope.launch {
+            userSession.setTestSignalEnabled(testSignalEnabled)
+            if (testSignalEnabled) {
+                analyticsTrackerComponent.trackEvent(SettingsEvents.ClickEnableTestSignal)
+            } else {
+                analyticsTrackerComponent.trackEvent(SettingsEvents.ClickDisableTestSignal)
+            }
             updateViewState(
                 (getViewState() as ViewState.Content).copy(
                     testSignalEnabled = testSignalEnabled
