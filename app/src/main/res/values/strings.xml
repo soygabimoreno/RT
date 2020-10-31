@@ -22,6 +22,7 @@
 
     <string name="bottom_navigation_menu_measure">Measure</string>
     <string name="bottom_navigation_menu_signal">Signal</string>
+    <string name="bottom_navigation_menu_settings">Settings</string>
 
     <string name="spinner_frequency_125">125 Hz</string>
     <string name="spinner_frequency_250">250 Hz</string>
@@ -54,5 +55,7 @@
     <string name="signal">Signal</string>
     <string name="filter_enabled">Filter enabled</string>
     <string name="filter_disabled">Filter disabled</string>
+    <string name="using_dirac_test_signal">Using a Dirac test signal</string>
+    <string name="not_using_dirac_test_signal">Not using a Dirac test signal</string>
     <string name="take_a_measure_to_see_its_signal">Take a measure to see its signal</string>
 </resources>

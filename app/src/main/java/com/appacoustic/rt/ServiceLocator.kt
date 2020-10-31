@@ -7,6 +7,7 @@ import com.appacoustic.rt.framework.audio.audioModule
 import com.appacoustic.rt.presentation.main.mainModule
 import com.appacoustic.rt.presentation.measure.measureModule
 import com.appacoustic.rt.presentation.permission.permissionModule
+import com.appacoustic.rt.presentation.settings.settingsModule
 import com.appacoustic.rt.presentation.signal.signalModule
 
 val serviceLocator = listOf(
@@ -19,6 +20,7 @@ val serviceLocator = listOf(
     permissionModule,
     measureModule,
     signalModule,
+    settingsModule,
 
     audioModule
 )

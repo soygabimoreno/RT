@@ -64,9 +64,17 @@ class MainViewModel(
         }
     }
 
+    fun handleBottomNavigationMenuSettingsClicked() {
+        viewModelScope.launch {
+            analyticsTrackerComponent.trackEvent(MainEvents.ClickSettings)
+            sendViewEvent(ViewEvents.NavigateToSettings)
+        }
+    }
+
     sealed class ViewEvents {
         data class NavigateToMeasure(val updateContent: Boolean) : ViewEvents()
         object NavigateToSignal : ViewEvents()
+        object NavigateToSettings : ViewEvents()
         object Share : ViewEvents()
         object SendEmail : ViewEvents()
         object Rate : ViewEvents()

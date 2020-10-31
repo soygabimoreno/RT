@@ -14,6 +14,7 @@ import com.appacoustic.rt.framework.extension.exhaustive
 import com.appacoustic.rt.framework.extension.navigateTo
 import com.appacoustic.rt.presentation.measure.MeasureFragment
 import com.appacoustic.rt.presentation.permission.PermissionFragment
+import com.appacoustic.rt.presentation.settings.SettingsFragment
 import com.appacoustic.rt.presentation.signal.SignalFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.scope.viewModel
@@ -70,6 +71,7 @@ class MainActivity : StatelessBaseActivity<
         when (viewEvent) {
             is MainViewModel.ViewEvents.NavigateToMeasure -> navigateToMeasure(viewEvent.updateContent)
             MainViewModel.ViewEvents.NavigateToSignal -> navigateToSignal()
+            MainViewModel.ViewEvents.NavigateToSettings -> navigateToSettings()
             MainViewModel.ViewEvents.Share -> share()
             MainViewModel.ViewEvents.SendEmail -> sendEmail()
             MainViewModel.ViewEvents.Rate -> rate()
@@ -94,14 +96,27 @@ class MainActivity : StatelessBaseActivity<
         )
     }
 
+    private fun navigateToSettings() {
+        navigateTo(
+            R.id.flContainer,
+            SettingsFragment.newInstance()
+        )
+    }
+
     private fun share() {
         val sendIntent: Intent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text))
+            putExtra(
+                Intent.EXTRA_TEXT,
+                getString(R.string.share_text)
+            )
             type = "text/plain"
         }
 
-        val shareIntent = Intent.createChooser(sendIntent, getString(R.string.share_title))
+        val shareIntent = Intent.createChooser(
+            sendIntent,
+            getString(R.string.share_title)
+        )
         startActivity(shareIntent)
     }
 
@@ -156,8 +171,12 @@ class MainActivity : StatelessBaseActivity<
                     viewModel.handleBottomNavigationMenuMeasureClicked()
                     true
                 }
-                R.id.bnmSignals -> {
+                R.id.bnmSignal -> {
                     viewModel.handleBottomNavigationMenuSignalClicked()
+                    true
+                }
+                R.id.bnmSettings -> {
+                    viewModel.handleBottomNavigationMenuSettingsClicked()
                     true
                 }
                 else -> false

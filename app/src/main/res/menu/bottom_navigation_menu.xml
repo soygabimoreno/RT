@@ -5,8 +5,13 @@
         android:icon="@drawable/selector_bottom_navigation_measures"
         android:title="@string/bottom_navigation_menu_measure"/>
     <item
-        android:id="@+id/bnmSignals"
+        android:id="@+id/bnmSignal"
         android:enabled="true"
-        android:icon="@drawable/selector_bottom_navigation_signals"
+        android:icon="@drawable/selector_bottom_navigation_signal"
         android:title="@string/bottom_navigation_menu_signal"/>
+    <item
+        android:id="@+id/bnmSettings"
+        android:enabled="true"
+        android:icon="@drawable/selector_bottom_navigation_settings"
+        android:title="@string/bottom_navigation_menu_settings"/>
 </menu>
