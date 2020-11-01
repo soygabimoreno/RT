@@ -15,6 +15,7 @@ import com.appacoustic.rt.framework.extension.exhaustive
 import com.appacoustic.rt.framework.extension.navigateTo
 import com.appacoustic.rt.presentation.measure.MeasureFragment
 import com.appacoustic.rt.presentation.permission.PermissionFragment
+import com.appacoustic.rt.presentation.player.PlayerFragment
 import com.appacoustic.rt.presentation.settings.SettingsFragment
 import com.appacoustic.rt.presentation.signal.SignalFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -81,6 +82,7 @@ class MainActivity : StatelessBaseActivity<
         when (viewEvent) {
             is MainViewModel.ViewEvents.NavigateToMeasure -> navigateToMeasure(viewEvent.updateContent)
             MainViewModel.ViewEvents.NavigateToSignal -> navigateToSignal()
+            MainViewModel.ViewEvents.NavigateToPlayer -> navigateToPlayer()
             MainViewModel.ViewEvents.NavigateToSettings -> navigateToSettings()
             MainViewModel.ViewEvents.Share -> share()
             MainViewModel.ViewEvents.SendEmail -> sendEmail()
@@ -104,6 +106,13 @@ class MainActivity : StatelessBaseActivity<
         navigateTo(
             R.id.flContainer,
             SignalFragment.newInstance()
+        )
+    }
+
+    private fun navigateToPlayer() {
+        navigateTo(
+            R.id.flContainer,
+            PlayerFragment.newInstance()
         )
     }
 
@@ -215,6 +224,10 @@ class MainActivity : StatelessBaseActivity<
                 }
                 R.id.bnmSignal -> {
                     viewModel.handleBottomNavigationMenuSignalClicked()
+                    true
+                }
+                R.id.bnmPlayer -> {
+                    viewModel.handleBottomNavigationMenuPlayerClicked()
                     true
                 }
                 R.id.bnmSettings -> {

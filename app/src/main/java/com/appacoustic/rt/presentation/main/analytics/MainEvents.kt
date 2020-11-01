@@ -10,6 +10,7 @@ private const val CLICK_RATE = "CLICK_RATE"
 private const val CLICK_INFO = "CLICK_INFO"
 private const val CLICK_MEASURE = "CLICK_MEASURE"
 private const val CLICK_SIGNAL = "CLICK_SIGNAL"
+private const val CLICK_PLAYER = "CLICK_PLAYER"
 private const val CLICK_SETTINGS = "CLICK_SETTINGS"
 
 sealed class MainEvents(
@@ -25,5 +26,6 @@ sealed class MainEvents(
     object ClickInfo : MainEvents(CLICK_INFO)
     object ClickMeasure : MainEvents(CLICK_MEASURE)
     object ClickSignal : MainEvents(CLICK_SIGNAL)
+    object ClickPlayer : MainEvents(CLICK_PLAYER)
     object ClickSettings : MainEvents(CLICK_SETTINGS)
 }

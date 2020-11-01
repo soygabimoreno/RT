@@ -5,6 +5,7 @@ import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
 import arrow.core.Either
+import com.appacoustic.rt.R
 import com.appacoustic.rt.data.analytics.AnalyticsTrackerComponent
 import com.appacoustic.rt.data.analytics.error.ErrorTrackerComponent
 import com.appacoustic.rt.domain.Measure
@@ -81,7 +82,7 @@ class Recorder(
         if (userSession.isTestSignalEnabled()) {
             CoroutineScope(Dispatchers.Main).launch {
                 delay(100)
-                player.start()
+                player.start(R.raw.white_noise_100ms)
             }
         }
     }

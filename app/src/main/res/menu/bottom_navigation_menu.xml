@@ -10,6 +10,11 @@
         android:icon="@drawable/selector_bottom_navigation_signal"
         android:title="@string/bottom_navigation_menu_signal"/>
     <item
+        android:id="@+id/bnmPlayer"
+        android:enabled="true"
+        android:icon="@drawable/selector_bottom_navigation_player"
+        android:title="@string/bottom_navigation_menu_player"/>
+    <item
         android:id="@+id/bnmSettings"
         android:enabled="true"
         android:icon="@drawable/selector_bottom_navigation_settings"
