@@ -15,6 +15,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
+        android:lines="1"
+        android:ellipsize="end"
         android:text="@string/not_using_dirac_test_signal"
         android:textColor="@color/accent"
         app:layout_constraintEnd_toEndOf="parent"

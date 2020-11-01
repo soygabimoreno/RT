@@ -55,7 +55,7 @@
     <string name="signal">Signal</string>
     <string name="filter_enabled">Filter enabled</string>
     <string name="filter_disabled">Filter disabled</string>
-    <string name="using_dirac_test_signal">Using a Dirac test signal</string>
-    <string name="not_using_dirac_test_signal">Not using a Dirac test signal</string>
+    <string name="using_dirac_test_signal">Using test signal (use external microphone)</string>
+    <string name="not_using_dirac_test_signal">Not using test signal</string>
     <string name="take_a_measure_to_see_its_signal">Take a measure to see its signal</string>
 </resources>
