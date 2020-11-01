@@ -5,7 +5,7 @@ import com.appacoustic.rt.data.analytics.AnalyticsEvent
 private const val SCREEN_PLAYER = "SCREEN_PLAYER"
 private const val CLICK_PLAY_TEST_SIGNAL = "CLICK_PLAY_TEST_SIGNAL"
 
-private const val FINENAME = "FINENAME"
+private const val FILENAME = "FILENAME"
 
 sealed class PlayerEvents(
     override val name: String,
@@ -19,7 +19,7 @@ sealed class PlayerEvents(
     ) : PlayerEvents(
         CLICK_PLAY_TEST_SIGNAL,
         mapOf(
-            FINENAME to filename
+            FILENAME to filename
         )
     )
 }
