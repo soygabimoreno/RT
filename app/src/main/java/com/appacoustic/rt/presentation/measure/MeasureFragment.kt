@@ -5,10 +5,7 @@ import com.appacoustic.rt.R
 import com.appacoustic.rt.domain.Measure
 import com.appacoustic.rt.framework.base.fragment.BaseFragment
 import com.appacoustic.rt.framework.customview.FrequencyTimeView
-import com.appacoustic.rt.framework.extension.debugToast
-import com.appacoustic.rt.framework.extension.exhaustive
-import com.appacoustic.rt.framework.extension.formatTo2Decimals
-import com.appacoustic.rt.framework.extension.toast
+import com.appacoustic.rt.framework.extension.*
 import kotlinx.android.synthetic.main.fragment_measure.*
 import org.koin.androidx.viewmodel.scope.viewModel
 import org.koin.androidx.scope.lifecycleScope as koinScope
@@ -103,8 +100,7 @@ class MeasureFragment : BaseFragment<
     override fun handleViewEvent(viewEvent: MeasureViewModel.ViewEvents) {
         when (viewEvent) {
             MeasureViewModel.ViewEvents.EmptySignalError -> showEmptySignalError()
-            MeasureViewModel.ViewEvents.EnableButton -> enableScreen(true)
-            MeasureViewModel.ViewEvents.DisableButton -> enableScreen(false)
+            is MeasureViewModel.ViewEvents.EnableScreen -> enableScreenPerform(viewEvent.enable)
             MeasureViewModel.ViewEvents.ReduceButtonTextSize -> reduceButtonTextSize()
             MeasureViewModel.ViewEvents.AmplifyButtonTextSize -> amplifyButtonTextSize()
             MeasureViewModel.ViewEvents.NavigateToPermission -> navigateToPermission()
@@ -113,6 +109,11 @@ class MeasureFragment : BaseFragment<
 
     private fun showEmptySignalError() {
         toast(R.string.error_empty_signal)
+    }
+
+    private fun enableScreenPerform(enable: Boolean) {
+        enableScreen(enable)
+        btn.setEnableOrDisable(enable)
     }
 
     private fun reduceButtonTextSize() {

@@ -18,6 +18,14 @@ fun View.gone() {
     visibility = View.GONE
 }
 
+fun View.setEnableOrDisable(enable: Boolean) {
+    if (enable) {
+        enable()
+    } else {
+        disable()
+    }
+}
+
 fun View.enable() {
     isEnabled = true
 }

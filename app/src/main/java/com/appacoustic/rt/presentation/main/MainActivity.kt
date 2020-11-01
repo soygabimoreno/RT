@@ -7,12 +7,12 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.view.forEach
 import com.appacoustic.rt.BuildConfig
 import com.appacoustic.rt.R
 import com.appacoustic.rt.framework.base.activity.StatelessBaseActivity
 import com.appacoustic.rt.framework.extension.exhaustive
 import com.appacoustic.rt.framework.extension.navigateTo
-import com.appacoustic.rt.framework.extension.setVisibleOrGone
 import com.appacoustic.rt.presentation.measure.MeasureFragment
 import com.appacoustic.rt.presentation.permission.PermissionFragment
 import com.appacoustic.rt.presentation.settings.SettingsFragment
@@ -39,9 +39,10 @@ class MainActivity : StatelessBaseActivity<
     override val layoutResId = R.layout.activity_main
     override val viewModel: MainViewModel by koinScope.viewModel(this)
 
-    private var areButtonsAvailable = true
+    private lateinit var menu: Menu
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        this.menu = menu!!
         val inflater: MenuInflater = menuInflater
         inflater.inflate(
             R.menu.menu_main,
@@ -53,27 +54,19 @@ class MainActivity : StatelessBaseActivity<
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menuShare -> {
-                if (areButtonsAvailable) {
-                    viewModel.handleShareClicked()
-                }
+                viewModel.handleShareClicked()
                 true
             }
             R.id.menuEmail -> {
-                if (areButtonsAvailable) {
-                    viewModel.handleEmailClicked()
-                }
+                viewModel.handleEmailClicked()
                 true
             }
             R.id.menuRate -> {
-                if (areButtonsAvailable) {
-                    viewModel.handleRateClicked()
-                }
+                viewModel.handleRateClicked()
                 true
             }
             R.id.menuInfo -> {
-                if (areButtonsAvailable) {
-                    viewModel.handleInfoClicked()
-                }
+                viewModel.handleInfoClicked()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -205,29 +198,27 @@ class MainActivity : StatelessBaseActivity<
     }
 
     private fun enableScreen(enable: Boolean) {
-        this.areButtonsAvailable = enable
-        vOverlay.setVisibleOrGone(!enable)
+        menu.forEach { menuItem ->
+            menuItem.isEnabled = enable
+        }
+        bnv.menu.forEach { menuItem ->
+            menuItem.isEnabled = enable
+        }
     }
 
     private fun initBottomNavigation() {
         bnv.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.bnmMeasures -> {
-                    if (areButtonsAvailable) {
-                        viewModel.handleBottomNavigationMenuMeasureClicked()
-                    }
+                    viewModel.handleBottomNavigationMenuMeasureClicked()
                     true
                 }
                 R.id.bnmSignal -> {
-                    if (areButtonsAvailable) {
-                        viewModel.handleBottomNavigationMenuSignalClicked()
-                    }
+                    viewModel.handleBottomNavigationMenuSignalClicked()
                     true
                 }
                 R.id.bnmSettings -> {
-                    if (areButtonsAvailable) {
-                        viewModel.handleBottomNavigationMenuSettingsClicked()
-                    }
+                    viewModel.handleBottomNavigationMenuSettingsClicked()
                     true
                 }
                 else -> false

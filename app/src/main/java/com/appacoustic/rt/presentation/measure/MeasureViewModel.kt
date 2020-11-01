@@ -96,7 +96,7 @@ class MeasureViewModel(
         viewModelScope.launch {
             analyticsTrackerComponent.trackEvent(MeasureEvents.ClickStart)
             if (userSession.isRecordAudioPermissionGranted()) {
-                sendViewEvent(ViewEvents.DisableButton)
+                sendViewEvent(ViewEvents.EnableScreen(false))
                 ButtonStateHandler(object : ButtonStateHandler.Listener {
                     private var recordingStarted = false
 
@@ -121,7 +121,7 @@ class MeasureViewModel(
                     override fun onFinish(state: ButtonStateHandler.State) {
                         viewModelScope.launch {
                             analyticsTrackerComponent.trackEvent(MeasureEvents.ButtonState(state.name))
-                            sendViewEvent(ViewEvents.EnableButton)
+                            sendViewEvent(ViewEvents.EnableScreen(true))
                             recordingStarted = false
                             recorder.stop {
                                 it.fold(
@@ -188,8 +188,7 @@ class MeasureViewModel(
 
     sealed class ViewEvents {
         object EmptySignalError : ViewEvents()
-        object EnableButton : ViewEvents()
-        object DisableButton : ViewEvents()
+        data class EnableScreen(val enable: Boolean) : ViewEvents()
         object ReduceButtonTextSize : ViewEvents()
         object AmplifyButtonTextSize : ViewEvents()
         object NavigateToPermission : ViewEvents()
