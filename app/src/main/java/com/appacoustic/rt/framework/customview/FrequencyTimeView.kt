@@ -14,18 +14,17 @@ class FrequencyTimeView @JvmOverloads constructor(
 ) : LinearLayout(context, attrs) {
 
     init {
-        background = null
         LayoutInflater.from(context).inflate(R.layout.custom_frequency_time, this, true)
         attrs?.let {
             val typedArray = context.obtainStyledAttributes(it, R.styleable.FrequencyTimeView)
             typedArray.apply {
-                initIcon(this)
+                initText(this)
             }
             typedArray.recycle()
         }
     }
 
-    private fun initIcon(typedArray: TypedArray) {
+    private fun initText(typedArray: TypedArray) {
         val resId = typedArray.getResourceId(
             R.styleable.FrequencyTimeView_custom_text,
             0
@@ -59,9 +58,3 @@ class FrequencyTimeView @JvmOverloads constructor(
         )
     }
 }
-
-class TextNotDefinedException : Exception(
-    "The 'custom_text' attribute has not been defined." +
-        " Please, do it to ensure a proper UX.\n" +
-        "This check is to ensure this attribute is filled as soon as possible and avoid UI errors."
-)

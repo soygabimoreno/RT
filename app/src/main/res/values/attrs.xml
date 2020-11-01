@@ -4,4 +4,7 @@
     <declare-styleable name="FrequencyTimeView">
         <attr name="custom_text"/>
     </declare-styleable>
+    <declare-styleable name="PlayTestSignalView">
+        <attr name="custom_text"/>
+    </declare-styleable>
 </resources>

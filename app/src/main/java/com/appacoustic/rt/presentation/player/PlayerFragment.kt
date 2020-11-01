@@ -19,10 +19,28 @@ class PlayerFragment : StatelessBaseFragment<
     override val viewModel: PlayerViewModel by koinScope.viewModel(this)
 
     override fun initUI() {
-        fabPlay1.setOnClickListener {
+        ptsvWhiteNoise100ms.setOnClickListener {
             viewModel.handlePlayButtonClicked(
                 "white_noise_100ms",
                 R.raw.white_noise_100ms
+            )
+        }
+        ptsvWhiteNoise300ms.setOnClickListener {
+            viewModel.handlePlayButtonClicked(
+                "white_noise_300ms",
+                R.raw.white_noise_300ms
+            )
+        }
+        ptsvPinkNoise100ms.setOnClickListener {
+            viewModel.handlePlayButtonClicked(
+                "pink_noise_100ms",
+                R.raw.pink_noise_100ms
+            )
+        }
+        ptsvPinkNoise300ms.setOnClickListener {
+            viewModel.handlePlayButtonClicked(
+                "pink_noise_300ms",
+                R.raw.pink_noise_300ms
             )
         }
     }

@@ -10,12 +10,12 @@
 
     <TextView
         android:id="@+id/tvTitle"
-        android:textSize="20sp"
-        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dirac Test Signals"
         android:layout_marginTop="16dp"
+        android:text="Dirac Test Signals"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -23,36 +23,34 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTitle">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.appacoustic.rt.framework.customview.PlayTestSignalView
+            android:id="@+id/ptsvWhiteNoise100ms"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:custom_text="@string/test_signal_white_noise_100_ms"/>
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fabPlay1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:src="@drawable/ic_fab_play"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+        <com.appacoustic.rt.framework.customview.PlayTestSignalView
+            android:id="@+id/ptsvWhiteNoise300ms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:custom_text="@string/test_signal_white_noise_300_ms"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="White Noise 100 ms"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/fabPlay1"
-                app:layout_constraintTop_toTopOf="parent"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.appacoustic.rt.framework.customview.PlayTestSignalView
+            android:id="@+id/ptsvPinkNoise100ms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:custom_text="@string/test_signal_pink_noise_100_ms"/>
 
+        <com.appacoustic.rt.framework.customview.PlayTestSignalView
+            android:id="@+id/ptsvPinkNoise300ms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:custom_text="@string/test_signal_pink_noise_300_ms"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
