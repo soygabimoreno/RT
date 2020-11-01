@@ -216,6 +216,7 @@ class MainActivity : StatelessBaseActivity<
     }
 
     private fun initBottomNavigation() {
+        bnv.menu.getItem(1).isVisible = false
         bnv.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.bnmMeasures -> {

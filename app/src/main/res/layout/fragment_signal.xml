@@ -8,37 +8,46 @@
     android:background="@color/background"
     tools:context=".presentation.main.MainActivity">
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/switchFilter"
-        android:layout_width="128dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clControls"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/filter_disabled"
-        android:textColor="@color/accent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:switchPadding="8dp"/>
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Spinner
-        android:id="@+id/spFrequency"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="@id/switchFilter"
-        app:layout_constraintStart_toEndOf="@id/switchFilter"
-        app:layout_constraintTop_toTopOf="@id/switchFilter"
-        tools:listitem="@android:layout/simple_list_item_1"/>
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchFilter"
+            android:layout_width="128dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/filter_disabled"
+            android:textColor="@color/accent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:switchPadding="8dp"/>
 
-    <Spinner
-        android:id="@+id/spOrder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="@id/spFrequency"
-        app:layout_constraintStart_toEndOf="@id/spFrequency"
-        app:layout_constraintTop_toTopOf="@id/spFrequency"
-        tools:listitem="@android:layout/simple_list_item_1"/>
+        <Spinner
+            android:id="@+id/spFrequency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="@id/switchFilter"
+            app:layout_constraintStart_toEndOf="@id/switchFilter"
+            app:layout_constraintTop_toTopOf="@id/switchFilter"
+            tools:listitem="@android:layout/simple_list_item_1"/>
+
+        <Spinner
+            android:id="@+id/spOrder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="@id/spFrequency"
+            app:layout_constraintStart_toEndOf="@id/spFrequency"
+            app:layout_constraintTop_toTopOf="@id/spFrequency"
+            tools:listitem="@android:layout/simple_list_item_1"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/lineChart"
@@ -48,7 +57,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spFrequency"/>
+        app:layout_constraintTop_toBottomOf="@id/clControls"/>
 
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/pb"

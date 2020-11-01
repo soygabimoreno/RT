@@ -36,10 +36,10 @@
     <string name="spinner_order_4">Order 4</string>
     <string name="spinner_order_8">Order 8</string>
 
-    <string name="test_signal_white_noise_100_ms">White Noise 100 ms</string>
-    <string name="test_signal_white_noise_300_ms">White Noise 300 ms</string>
-    <string name="test_signal_pink_noise_100_ms">Pink Noise 100 ms</string>
-    <string name="test_signal_pink_noise_300_ms">Pink Noise 300 ms</string>
+    <string name="test_signal_white_noise_100_ms">White Noise (100 ms)</string>
+    <string name="test_signal_white_noise_300_ms">White Noise (300 ms)</string>
+    <string name="test_signal_pink_noise_100_ms">Pink Noise (100 ms)</string>
+    <string name="test_signal_pink_noise_300_ms">Pink Noise (300 ms)</string>
 
     <string name="start">START</string>
     <string name="frequency_hz">Freq (Hz)</string>
