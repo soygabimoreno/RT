@@ -14,9 +14,13 @@ class Player(
 
     fun start(rawResId: Int) {
         analyticsTrackerComponent.trackEvent(PlayerEvents.PlayerStart)
-        MediaPlayer.create(
+        val mediaPlayer = MediaPlayer.create(
             context,
             rawResId
-        ).start()
+        )
+        mediaPlayer.start()
+        mediaPlayer.setOnCompletionListener {
+            mediaPlayer.release()
+        }
     }
 }

@@ -112,8 +112,8 @@
 
     <Button
         android:id="@+id/btn"
-        android:layout_width="192dp"
-        android:layout_height="192dp"
+        android:layout_width="144dp"
+        android:layout_height="144dp"
         android:layout_gravity="center"
         android:background="@drawable/selector_bg_btn"
         android:textAllCaps="false"

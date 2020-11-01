@@ -64,4 +64,5 @@
     <string name="using_dirac_test_signal">Using test signal (use external microphone)</string>
     <string name="not_using_dirac_test_signal">Not using test signal</string>
     <string name="take_a_measure_to_see_its_signal">Take a measure to see its signal</string>
+    <string name="dirac_test_signals">Dirac Test Signals</string>
 </resources>

@@ -119,7 +119,7 @@ class MeasureFragment : BaseFragment<
     private fun reduceButtonTextSize() {
         btn.setTextSize(
             TypedValue.COMPLEX_UNIT_PX,
-            resources.getDimension(R.dimen.textSizeXXS)
+            resources.getDimension(R.dimen.textSizeXXXS)
         )
     }
 

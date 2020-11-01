@@ -17,6 +17,7 @@ class PlayTestSignalView @JvmOverloads constructor(
 ) {
 
     init {
+        setBackgroundResource(R.drawable.bg_btn_ripple)
         LayoutInflater.from(context).inflate(
             R.layout.custom_play_test_signal,
             this,
