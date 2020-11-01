@@ -12,4 +12,6 @@ Install it on [Google Play](https://play.google.com/store/apps/details?id=com.ap
 
 To achieve optimum results, it is highly recommended trying to locate the device away from reflective surfaces and clap stick farther from the critical radius, so that the sound reverberated outweighs the direct one.
 
+The IIR filters used to perform the calculations are the implemented by *Bernd Porr* in [iirj](https://github.com/berndporr/iirj)
+
 More info on [AppAcoustiC](http://appacoustic.com/).
