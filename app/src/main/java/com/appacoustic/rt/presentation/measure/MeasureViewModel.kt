@@ -88,23 +88,7 @@ class MeasureViewModel(
                             averageReverbTime = calculateAverageReverbTime(measures)
                         )
                     )
-                    checkRightMeasuresAndTryInAppRating(measures)
                 })
-    }
-
-    private fun checkRightMeasuresAndTryInAppRating(measures: List<Measure>) {
-        val size = measures.size
-        var count = 0
-        measures.forEach { measure ->
-            if (measure.time < 1.3) {
-                count++
-            }
-        }
-        if (count == size) {
-            viewModelScope.launch {
-                sendViewEvent(ViewEvents.TryInAppRating)
-            }
-        }
     }
 
     fun handleStartClicked() {
@@ -165,6 +149,7 @@ class MeasureViewModel(
                                                 averageReverbTime = calculateAverageReverbTime(measures)
                                             )
                                         )
+                                        checkRightMeasuresAndTryInAppRating(measures)
                                     })
                         }
                     }
@@ -189,6 +174,21 @@ class MeasureViewModel(
 
     private fun calculateAverageReverbTime(measures: List<Measure>): Float =
         (measures[4].time + measures[5].time) / 2
+
+    private fun checkRightMeasuresAndTryInAppRating(measures: List<Measure>) {
+        val size = measures.size
+        var count = 0
+        measures.forEach { measure ->
+            if (measure.time < 1.3) {
+                count++
+            }
+        }
+        if (count == size) {
+            viewModelScope.launch {
+                sendViewEvent(ViewEvents.TryInAppRating)
+            }
+        }
+    }
 
     sealed class ViewState {
         object Loading : ViewState()

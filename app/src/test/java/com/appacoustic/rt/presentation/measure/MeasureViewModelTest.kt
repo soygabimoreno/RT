@@ -18,12 +18,9 @@ import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
-import org.junit.After
+import org.junit.*
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
 
 @ExperimentalCoroutinesApi
 class MeasureViewModelTest {
@@ -52,6 +49,7 @@ class MeasureViewModelTest {
         testCoroutineScope.cleanupTestCoroutines()
     }
 
+    @Ignore("This test is not valid anymore because updateContent does not trigger the in-app review")
     @Test
     fun `if measures are right, then try to perform an in-app review view event`() {
         givenRecordAudioPermissionGranted()
@@ -64,6 +62,7 @@ class MeasureViewModelTest {
         assertTrue(event is MeasureViewModel.ViewEvents.TryInAppRating)
     }
 
+    @Ignore("This test is not valid anymore because updateContent does not trigger the in-app review")
     @Test
     fun `if measures are wrong, then trying in-app review view event is not triggered`() {
         givenRecordAudioPermissionGranted()
@@ -113,7 +112,7 @@ class MeasureViewModelTest {
         Measure(
             Measure.Frequency.FREQUENCY_4000,
             1.2f
-        ),
+        )
     )
 
     private fun buildWrongMeasures() = listOf(
@@ -140,7 +139,7 @@ class MeasureViewModelTest {
         Measure(
             Measure.Frequency.FREQUENCY_4000,
             1.2f
-        ),
+        )
     )
 
     private fun buildViewModel() = MeasureViewModel(
