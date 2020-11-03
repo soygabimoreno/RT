@@ -76,8 +76,8 @@ class MeasureViewModel(
     }
 
     fun updateContent() {
-        recorder.calculateReverbTime {
-            it.fold(
+        recorder.calculateReverbTime()
+            .fold(
                 { exception ->
                     errorTrackerComponent.trackError(exception)
                 },
@@ -90,14 +90,13 @@ class MeasureViewModel(
                     )
                     checkRightMeasuresAndTryInAppRating(measures)
                 })
-        }
     }
 
     private fun checkRightMeasuresAndTryInAppRating(measures: List<Measure>) {
         val size = measures.size
         var count = 0
         measures.forEach { measure ->
-            if (measure.time < 1.5) {
+            if (measure.time < 1.3) {
                 count++
             }
         }
@@ -139,8 +138,8 @@ class MeasureViewModel(
                             analyticsTrackerComponent.trackEvent(MeasureEvents.ButtonState(state.name))
                             sendViewEvent(ViewEvents.EnableScreen(true))
                             recordingStarted = false
-                            recorder.stop {
-                                it.fold(
+                            recorder.stop()
+                                .fold(
                                     { exception ->
                                         errorTrackerComponent.trackError(
                                             NonStandardErrorEvent(
@@ -167,7 +166,6 @@ class MeasureViewModel(
                                             )
                                         )
                                     })
-                            }
                         }
                     }
 

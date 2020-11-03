@@ -5,6 +5,7 @@ import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
 import arrow.core.Either
+import arrow.core.left
 import com.appacoustic.rt.R
 import com.appacoustic.rt.data.analytics.AnalyticsTrackerComponent
 import com.appacoustic.rt.data.analytics.error.ErrorTrackerComponent
@@ -99,7 +100,7 @@ class Recorder(
         )
     )
 
-    suspend fun stop(onReverbTimeCalculated: (Either<Throwable, List<Measure>>) -> Unit) {
+    suspend fun stop(): Either<Throwable, List<Measure>> {
         try {
             recording = false
             audioRecord.stop()
@@ -108,23 +109,24 @@ class Recorder(
             writeWavFile()
             buildByteArrayFromTempFile()
             deleteFile(tempPath)
-            if (xBytes.isNotEmpty()) {
-                calculateReverbTime(onReverbTimeCalculated)
+            return if (xBytes.isNotEmpty()) {
+                calculateReverbTime()
             } else {
-                errorTrackerComponent.trackError(Exception("xBytes is empty after stop recording"))
+                val error = Exception("xBytes is empty after stop recording")
+                errorTrackerComponent.trackError(error)
+                error.left()
             }
         } catch (e: Exception) {
             errorTrackerComponent.trackError(e)
+            return e.left()
         }
     }
 
-    fun calculateReverbTime(onReverbTimeCalculated: (Either<Throwable, List<Measure>>) -> Unit) {
-        val either = reverbTimeCalculator(
+    fun calculateReverbTime(): Either<Throwable, List<Measure>> =
+        reverbTimeCalculator(
             xBytes,
             SAMPLE_RATE
         )
-        onReverbTimeCalculated(either)
-    }
 
     fun getXBytes() = xBytes
 
