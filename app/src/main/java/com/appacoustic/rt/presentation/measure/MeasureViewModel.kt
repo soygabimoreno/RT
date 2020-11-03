@@ -88,7 +88,23 @@ class MeasureViewModel(
                             averageReverbTime = calculateAverageReverbTime(measures)
                         )
                     )
+                    checkRightMeasuresAndTryInAppRating(measures)
                 })
+        }
+    }
+
+    private fun checkRightMeasuresAndTryInAppRating(measures: List<Measure>) {
+        val size = measures.size
+        var count = 0
+        measures.forEach { measure ->
+            if (measure.time < 1.5) {
+                count++
+            }
+        }
+        if (count == size) {
+            viewModelScope.launch {
+                sendViewEvent(ViewEvents.TryInAppRating)
+            }
         }
     }
 
@@ -192,5 +208,6 @@ class MeasureViewModel(
         object ReduceButtonTextSize : ViewEvents()
         object AmplifyButtonTextSize : ViewEvents()
         object NavigateToPermission : ViewEvents()
+        object TryInAppRating : ViewEvents()
     }
 }

@@ -86,7 +86,7 @@ class MainActivity : StatelessBaseActivity<
             MainViewModel.ViewEvents.NavigateToSettings -> navigateToSettings()
             MainViewModel.ViewEvents.Share -> share()
             MainViewModel.ViewEvents.SendEmail -> sendEmail()
-            MainViewModel.ViewEvents.Rate -> rate()
+            MainViewModel.ViewEvents.ExternalRate -> externalRate()
             is MainViewModel.ViewEvents.NavigateToWeb -> navigateToWeb(viewEvent.uriString)
         }.exhaustive
     }
@@ -159,7 +159,7 @@ class MainActivity : StatelessBaseActivity<
         )
     }
 
-    private fun rate() {
+    private fun externalRate() {
         val appPackageName = if (BuildConfig.DEBUG) "com.appacoustic.rt" else packageName
         try {
             startActivity(

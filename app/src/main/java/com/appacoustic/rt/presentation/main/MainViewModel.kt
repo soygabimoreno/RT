@@ -38,7 +38,7 @@ class MainViewModel(
     fun handleRateClicked() {
         viewModelScope.launch {
             analyticsTrackerComponent.trackEvent(MainEvents.ClickRate)
-            sendViewEvent(ViewEvents.Rate)
+            sendViewEvent(ViewEvents.ExternalRate)
         }
     }
 
@@ -84,7 +84,7 @@ class MainViewModel(
         object NavigateToSettings : ViewEvents()
         object Share : ViewEvents()
         object SendEmail : ViewEvents()
-        object Rate : ViewEvents()
+        object ExternalRate : ViewEvents()
         data class NavigateToWeb(val uriString: String) : ViewEvents()
     }
 }

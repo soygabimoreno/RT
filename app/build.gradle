@@ -25,7 +25,7 @@ android {
         applicationId "com.appacoustic.rt"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 27
+        versionCode 29
         versionName "3.8.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -81,6 +81,7 @@ dependencies {
     implementation "com.google.firebase:firebase-config-ktx"
 
     implementation "com.google.android.material:material:1.2.1"
+    implementation "com.google.android.play:core:1.8.3"
 
     implementation "org.koin:koin-androidx-scope:2.1.6"
     implementation "org.koin:koin-androidx-viewmodel:2.1.6"

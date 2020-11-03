@@ -6,7 +6,9 @@ import com.appacoustic.rt.domain.Measure
 import com.appacoustic.rt.framework.base.fragment.BaseFragment
 import com.appacoustic.rt.framework.customview.FrequencyTimeView
 import com.appacoustic.rt.framework.extension.*
+import com.appacoustic.rt.framework.rating.InAppRate
 import kotlinx.android.synthetic.main.fragment_measure.*
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.scope.viewModel
 import org.koin.androidx.scope.lifecycleScope as koinScope
 
@@ -79,7 +81,6 @@ class MeasureFragment : BaseFragment<
     private fun showContent(content: MeasureViewModel.ViewState.Content) {
         val textResId = content.textResId
         btn.setText(textResId)
-
         if (textResId == R.string.start) {
             val measures = content.measures
             ftvs.setTime(measures)
@@ -104,6 +105,7 @@ class MeasureFragment : BaseFragment<
             MeasureViewModel.ViewEvents.ReduceButtonTextSize -> reduceButtonTextSize()
             MeasureViewModel.ViewEvents.AmplifyButtonTextSize -> amplifyButtonTextSize()
             MeasureViewModel.ViewEvents.NavigateToPermission -> navigateToPermission()
+            MeasureViewModel.ViewEvents.TryInAppRating -> tryInAppRating()
         }.exhaustive
     }
 
@@ -146,4 +148,9 @@ class MeasureFragment : BaseFragment<
             ftv.setTime("?")
             ftv.setDefaultColor()
         }
+
+    private fun tryInAppRating() {
+        val inAppRate: InAppRate by inject()
+        inAppRate(requireActivity())
+    }
 }

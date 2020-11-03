@@ -5,6 +5,7 @@ import com.appacoustic.rt.data.analytics.error.errorTrackerModule
 import com.appacoustic.rt.data.persistent.db.persistentModule
 import com.appacoustic.rt.data.remoteconfig.remoteConfigModule
 import com.appacoustic.rt.framework.audio.audioModule
+import com.appacoustic.rt.framework.rating.inAppRateModule
 import com.appacoustic.rt.presentation.main.mainModule
 import com.appacoustic.rt.presentation.measure.measureModule
 import com.appacoustic.rt.presentation.permission.permissionModule
@@ -19,6 +20,8 @@ val serviceLocator = listOf(
     errorTrackerModule,
 
     persistentModule,
+
+    inAppRateModule,
 
     mainModule,
     permissionModule,
