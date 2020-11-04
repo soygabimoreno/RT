@@ -185,7 +185,7 @@ class MeasureViewModel(
         }
         if (count == size) {
             viewModelScope.launch {
-                sendViewEvent(ViewEvents.TryInAppRating)
+                sendViewEvent(ViewEvents.ShowInAppReview)
             }
         }
     }
@@ -206,6 +206,6 @@ class MeasureViewModel(
         object ReduceButtonTextSize : ViewEvents()
         object AmplifyButtonTextSize : ViewEvents()
         object NavigateToPermission : ViewEvents()
-        object TryInAppRating : ViewEvents()
+        object ShowInAppReview : ViewEvents()
     }
 }

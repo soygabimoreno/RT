@@ -1,10 +1,10 @@
-package com.appacoustic.rt.framework.rating
+package com.appacoustic.rt.framework.showinappreview
 
 import android.app.Activity
 import com.appacoustic.rt.data.analytics.error.ErrorTrackerComponent
 import com.google.android.play.core.review.ReviewManagerFactory
 
-class InAppRate(
+class ShowInAppReview(
     private val errorTrackerComponent: ErrorTrackerComponent
 ) {
 

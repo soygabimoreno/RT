@@ -59,7 +59,7 @@ class MeasureViewModelTest {
         viewModel.updateContent()
 
         val event = viewModel.viewEvents.poll()
-        assertTrue(event is MeasureViewModel.ViewEvents.TryInAppRating)
+        assertTrue(event is MeasureViewModel.ViewEvents.ShowInAppReview)
     }
 
     @Ignore("This test is not valid anymore because updateContent does not trigger the in-app review")
@@ -72,7 +72,7 @@ class MeasureViewModelTest {
         viewModel.updateContent()
 
         val event = viewModel.viewEvents.poll()
-        assertFalse(event is MeasureViewModel.ViewEvents.TryInAppRating)
+        assertFalse(event is MeasureViewModel.ViewEvents.ShowInAppReview)
     }
 
     private fun givenRecordAudioPermissionGranted() {
