@@ -3,8 +3,7 @@ package com.appacoustic.rt.presentation.player
 import com.appacoustic.rt.R
 import com.appacoustic.rt.framework.base.fragment.StatelessBaseFragment
 import kotlinx.android.synthetic.main.fragment_player.*
-import org.koin.androidx.viewmodel.scope.viewModel
-import org.koin.androidx.scope.lifecycleScope as koinScope
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlayerFragment : StatelessBaseFragment<
     PlayerViewModel.ViewEvents,
@@ -16,7 +15,7 @@ class PlayerFragment : StatelessBaseFragment<
     }
 
     override val layoutResId = R.layout.fragment_player
-    override val viewModel: PlayerViewModel by koinScope.viewModel(this)
+    override val viewModel: PlayerViewModel by viewModel()
 
     override fun initUI() {
         ptsvWhiteNoise100ms.setOnClickListener {

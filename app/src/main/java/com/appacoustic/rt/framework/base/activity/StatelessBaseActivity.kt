@@ -2,17 +2,17 @@ package com.appacoustic.rt.framework.base.activity
 
 import android.os.Bundle
 import androidx.annotation.LayoutRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.appacoustic.rt.framework.base.viewmodel.StatelessBaseViewModel
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.koin.androidx.scope.ScopeActivity
 
 abstract class StatelessBaseActivity<
     VIEW_EVENT,
     VIEW_MODEL : StatelessBaseViewModel<VIEW_EVENT>
-    > : AppCompatActivity() {
+    > : ScopeActivity() {
 
     @get:LayoutRes
     protected abstract val layoutResId: Int

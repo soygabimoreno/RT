@@ -8,8 +8,7 @@ import com.appacoustic.rt.framework.base.fragment.StatelessBaseFragment
 import com.appacoustic.rt.framework.customview.InfoAlertDialog
 import com.appacoustic.rt.framework.extension.debugToast
 import com.appacoustic.rt.framework.extension.exhaustive
-import org.koin.androidx.viewmodel.scope.viewModel
-import org.koin.androidx.scope.lifecycleScope as koinScope
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PermissionFragment : StatelessBaseFragment<
     PermissionViewModel.ViewEvents,
@@ -28,7 +27,7 @@ class PermissionFragment : StatelessBaseFragment<
     private lateinit var navigateToMeasure: (updateContent: Boolean) -> Unit
 
     override val layoutResId = R.layout.fragment_permission
-    override val viewModel: PermissionViewModel by koinScope.viewModel(this)
+    override val viewModel: PermissionViewModel by viewModel()
 
     override fun initUI() {}
 

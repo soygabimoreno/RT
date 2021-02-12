@@ -19,8 +19,7 @@ import com.appacoustic.rt.presentation.player.PlayerFragment
 import com.appacoustic.rt.presentation.settings.SettingsFragment
 import com.appacoustic.rt.presentation.signal.SignalFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import org.koin.androidx.viewmodel.scope.viewModel
-import org.koin.androidx.scope.lifecycleScope as koinScope
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : StatelessBaseActivity<
     MainViewModel.ViewEvents,
@@ -38,7 +37,7 @@ class MainActivity : StatelessBaseActivity<
     }
 
     override val layoutResId = R.layout.activity_main
-    override val viewModel: MainViewModel by koinScope.viewModel(this)
+    override val viewModel: MainViewModel by viewModel()
 
     private lateinit var menu: Menu
 

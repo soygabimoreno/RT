@@ -5,14 +5,18 @@ import com.appacoustic.rt.R
 import com.appacoustic.rt.data.filter.butterworth.ButterworthFrequency
 import com.appacoustic.rt.data.filter.butterworth.ButterworthOrder
 import com.appacoustic.rt.framework.base.fragment.BaseFragment
-import com.appacoustic.rt.framework.extension.*
+import com.appacoustic.rt.framework.extension.disable
+import com.appacoustic.rt.framework.extension.enable
+import com.appacoustic.rt.framework.extension.exhaustive
+import com.appacoustic.rt.framework.extension.gone
+import com.appacoustic.rt.framework.extension.setOnItemSelected
+import com.appacoustic.rt.framework.extension.visible
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import kotlinx.android.synthetic.main.fragment_signal.*
-import org.koin.androidx.viewmodel.scope.viewModel
-import org.koin.androidx.scope.lifecycleScope as koinScope
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SignalFragment : BaseFragment<
     SignalViewModel.ViewState,
@@ -25,7 +29,7 @@ class SignalFragment : BaseFragment<
     }
 
     override val layoutResId = R.layout.fragment_signal
-    override val viewModel: SignalViewModel by koinScope.viewModel(this)
+    override val viewModel: SignalViewModel by viewModel()
 
     private val accentColor by lazy { resources.getColor(R.color.accent, null) }
     private val grayLightColor by lazy { resources.getColor(R.color.gray_light, null) }

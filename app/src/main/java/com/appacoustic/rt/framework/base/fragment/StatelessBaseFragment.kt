@@ -5,17 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.appacoustic.rt.framework.base.viewmodel.StatelessBaseViewModel
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.koin.androidx.scope.ScopeFragment
 
 abstract class StatelessBaseFragment<
     VIEW_EVENT,
     VIEW_MODEL : StatelessBaseViewModel<VIEW_EVENT>
-    > : Fragment() {
+    > : ScopeFragment() {
 
     @get:LayoutRes
     protected abstract val layoutResId: Int

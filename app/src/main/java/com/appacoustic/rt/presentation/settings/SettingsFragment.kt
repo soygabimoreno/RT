@@ -4,8 +4,7 @@ import com.appacoustic.rt.R
 import com.appacoustic.rt.framework.base.fragment.BaseFragment
 import com.appacoustic.rt.framework.extension.exhaustive
 import kotlinx.android.synthetic.main.fragment_settings.*
-import org.koin.androidx.viewmodel.scope.viewModel
-import org.koin.androidx.scope.lifecycleScope as koinScope
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsFragment : BaseFragment<
     SettingsViewModel.ViewState,
@@ -18,7 +17,7 @@ class SettingsFragment : BaseFragment<
     }
 
     override val layoutResId = R.layout.fragment_settings
-    override val viewModel: SettingsViewModel by koinScope.viewModel(this)
+    override val viewModel: SettingsViewModel by viewModel()
 
     private val accentColor by lazy {
         resources.getColor(

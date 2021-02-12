@@ -5,12 +5,14 @@ import com.appacoustic.rt.R
 import com.appacoustic.rt.domain.Measure
 import com.appacoustic.rt.framework.base.fragment.BaseFragment
 import com.appacoustic.rt.framework.customview.FrequencyTimeView
-import com.appacoustic.rt.framework.extension.*
+import com.appacoustic.rt.framework.extension.debugToast
+import com.appacoustic.rt.framework.extension.exhaustive
+import com.appacoustic.rt.framework.extension.formatTo2Decimals
+import com.appacoustic.rt.framework.extension.setEnableOrDisable
+import com.appacoustic.rt.framework.extension.toast
 import com.appacoustic.rt.framework.showinappreview.ShowInAppReview
 import kotlinx.android.synthetic.main.fragment_measure.*
-import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.scope.viewModel
-import org.koin.androidx.scope.lifecycleScope as koinScope
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MeasureFragment : BaseFragment<
     MeasureViewModel.ViewState,
@@ -36,7 +38,7 @@ class MeasureFragment : BaseFragment<
     private lateinit var enableScreen: (enable: Boolean) -> Unit
 
     override val layoutResId = R.layout.fragment_measure
-    override val viewModel: MeasureViewModel by koinScope.viewModel(this)
+    override val viewModel: MeasureViewModel by viewModel()
 
     private val ftvs by lazy {
         listOf(
