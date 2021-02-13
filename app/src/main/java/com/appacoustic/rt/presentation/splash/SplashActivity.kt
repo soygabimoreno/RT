@@ -4,21 +4,24 @@ import android.animation.Animator
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.appacoustic.rt.R
+import com.appacoustic.rt.databinding.ActivitySplashBinding
 import com.appacoustic.rt.presentation.main.MainActivity
-import kotlinx.android.synthetic.main.activity_splash.*
 
 class SplashActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivitySplashBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+        val binding = ActivitySplashBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        lav?.addAnimatorListener(
+        binding.lav.addAnimatorListener(
             object : Animator.AnimatorListener {
                 val initialFadeInDuration = 500L
 
                 override fun onAnimationStart(animation: Animator?) {
-                    lav
+                    binding.lav
                         .animate()
                         .alpha(1f)
                         .setDuration(initialFadeInDuration)
@@ -27,7 +30,10 @@ class SplashActivity : AppCompatActivity() {
 
                 override fun onAnimationEnd(animation: Animator?) {
                     navigateToCourses()
-                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+                    overridePendingTransition(
+                        R.anim.fade_in,
+                        R.anim.fade_out
+                    )
                 }
 
                 override fun onAnimationRepeat(animation: Animator?) {}

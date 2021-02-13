@@ -1,7 +1,10 @@
 package com.appacoustic.rt.presentation.measure
 
 import android.util.TypedValue
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import com.appacoustic.rt.R
+import com.appacoustic.rt.databinding.FragmentMeasureBinding
 import com.appacoustic.rt.domain.Measure
 import com.appacoustic.rt.framework.base.fragment.BaseFragment
 import com.appacoustic.rt.framework.customview.FrequencyTimeView
@@ -11,10 +14,10 @@ import com.appacoustic.rt.framework.extension.formatTo2Decimals
 import com.appacoustic.rt.framework.extension.setEnableOrDisable
 import com.appacoustic.rt.framework.extension.toast
 import com.appacoustic.rt.framework.showinappreview.ShowInAppReview
-import kotlinx.android.synthetic.main.fragment_measure.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MeasureFragment : BaseFragment<
+    FragmentMeasureBinding,
     MeasureViewModel.ViewState,
     MeasureViewModel.ViewEvents,
     MeasureViewModel
@@ -37,18 +40,27 @@ class MeasureFragment : BaseFragment<
     private lateinit var navigateToPermission: () -> Unit
     private lateinit var enableScreen: (enable: Boolean) -> Unit
 
-    override val layoutResId = R.layout.fragment_measure
+    override val viewBinding: (LayoutInflater, ViewGroup?) -> FragmentMeasureBinding = { layoutInflater, viewGroup ->
+        FragmentMeasureBinding.inflate(
+            layoutInflater,
+            viewGroup,
+            false
+        )
+    }
+
     override val viewModel: MeasureViewModel by viewModel()
 
     private val ftvs by lazy {
-        listOf(
-            ftv125,
-            ftv250,
-            ftv500,
-            ftv1000,
-            ftv2000,
-            ftv4000
-        )
+        with(binding) {
+            listOf(
+                ftv125,
+                ftv250,
+                ftv500,
+                ftv1000,
+                ftv2000,
+                ftv4000
+            )
+        }
     }
 
     override fun initUI() {
@@ -59,7 +71,7 @@ class MeasureFragment : BaseFragment<
     }
 
     private fun initButton() {
-        btn.setOnClickListener {
+        binding.btn.setOnClickListener {
             viewModel.handleStartClicked()
         }
     }
@@ -82,18 +94,18 @@ class MeasureFragment : BaseFragment<
 
     private fun showContent(content: MeasureViewModel.ViewState.Content) {
         val textResId = content.textResId
-        btn.setText(textResId)
+        binding.btn.setText(textResId)
         if (textResId == R.string.start) {
             val measures = content.measures
             ftvs.setTime(measures)
             val averageReverbTime = content.averageReverbTime
-            tvAverage.text = getString(
+            binding.tvAverage.text = getString(
                 R.string.average_x_s,
                 averageReverbTime.formatTo2Decimals()
             )
         } else {
             ftvs.setUndefinedTime()
-            tvAverage.text = getString(
+            binding.tvAverage.text = getString(
                 R.string.average_x_s,
                 "?"
             )
@@ -117,18 +129,18 @@ class MeasureFragment : BaseFragment<
 
     private fun enableScreenPerform(enable: Boolean) {
         enableScreen(enable)
-        btn.setEnableOrDisable(enable)
+        binding.btn.setEnableOrDisable(enable)
     }
 
     private fun reduceButtonTextSize() {
-        btn.setTextSize(
+        binding.btn.setTextSize(
             TypedValue.COMPLEX_UNIT_PX,
             resources.getDimension(R.dimen.textSizeXXXS)
         )
     }
 
     private fun amplifyButtonTextSize() {
-        btn.setTextSize(
+        binding.btn.setTextSize(
             TypedValue.COMPLEX_UNIT_PX,
             resources.getDimension(R.dimen.textSizeL)
         )

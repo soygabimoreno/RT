@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.appacoustic.rt.R
-import kotlinx.android.synthetic.main.custom_play_test_signal.view.*
+import com.appacoustic.rt.databinding.CustomPlayTestSignalBinding
 
 class PlayTestSignalView @JvmOverloads constructor(
     context: Context,
@@ -16,13 +16,13 @@ class PlayTestSignalView @JvmOverloads constructor(
     attrs
 ) {
 
+    val binding: CustomPlayTestSignalBinding = CustomPlayTestSignalBinding.inflate(
+        LayoutInflater.from(context),
+        this
+    )
+
     init {
         setBackgroundResource(R.drawable.bg_btn_ripple)
-        LayoutInflater.from(context).inflate(
-            R.layout.custom_play_test_signal,
-            this,
-            true
-        )
         attrs?.let {
             val typedArray = context.obtainStyledAttributes(
                 it,
@@ -41,7 +41,7 @@ class PlayTestSignalView @JvmOverloads constructor(
             0
         )
         if (resId != 0) {
-            tv.setText(resId)
+            binding.tv.setText(resId)
         } else {
             throw TextNotDefinedException()
         }

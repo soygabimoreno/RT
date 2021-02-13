@@ -3,7 +3,10 @@ package com.appacoustic.rt.presentation.permission
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import com.appacoustic.rt.R
+import com.appacoustic.rt.databinding.FragmentPermissionBinding
 import com.appacoustic.rt.framework.base.fragment.StatelessBaseFragment
 import com.appacoustic.rt.framework.customview.InfoAlertDialog
 import com.appacoustic.rt.framework.extension.debugToast
@@ -11,6 +14,7 @@ import com.appacoustic.rt.framework.extension.exhaustive
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PermissionFragment : StatelessBaseFragment<
+    FragmentPermissionBinding,
     PermissionViewModel.ViewEvents,
     PermissionViewModel
     >() {
@@ -26,7 +30,14 @@ class PermissionFragment : StatelessBaseFragment<
 
     private lateinit var navigateToMeasure: (updateContent: Boolean) -> Unit
 
-    override val layoutResId = R.layout.fragment_permission
+    override val viewBinding: (LayoutInflater, ViewGroup?) -> FragmentPermissionBinding = { layoutInflater, viewGroup ->
+        FragmentPermissionBinding.inflate(
+            layoutInflater,
+            viewGroup,
+            false
+        )
+    }
+
     override val viewModel: PermissionViewModel by viewModel()
 
     override fun initUI() {}

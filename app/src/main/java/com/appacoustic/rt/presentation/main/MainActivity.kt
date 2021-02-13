@@ -3,6 +3,7 @@ package com.appacoustic.rt.presentation.main
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -10,6 +11,7 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.view.forEach
 import com.appacoustic.rt.BuildConfig
 import com.appacoustic.rt.R
+import com.appacoustic.rt.databinding.ActivityMainBinding
 import com.appacoustic.rt.framework.base.activity.StatelessBaseActivity
 import com.appacoustic.rt.framework.extension.exhaustive
 import com.appacoustic.rt.framework.extension.navigateTo
@@ -18,10 +20,10 @@ import com.appacoustic.rt.presentation.permission.PermissionFragment
 import com.appacoustic.rt.presentation.player.PlayerFragment
 import com.appacoustic.rt.presentation.settings.SettingsFragment
 import com.appacoustic.rt.presentation.signal.SignalFragment
-import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : StatelessBaseActivity<
+    ActivityMainBinding,
     MainViewModel.ViewEvents,
     MainViewModel
     >() {
@@ -36,7 +38,9 @@ class MainActivity : StatelessBaseActivity<
         }
     }
 
-    override val layoutResId = R.layout.activity_main
+    override val viewBinding: (LayoutInflater) -> ActivityMainBinding = {
+        ActivityMainBinding.inflate(it)
+    }
     override val viewModel: MainViewModel by viewModel()
 
     private lateinit var menu: Menu
@@ -209,14 +213,14 @@ class MainActivity : StatelessBaseActivity<
         menu.forEach { menuItem ->
             menuItem.isEnabled = enable
         }
-        bnv.menu.forEach { menuItem ->
+        binding.bnv.menu.forEach { menuItem ->
             menuItem.isEnabled = enable
         }
     }
 
     private fun initBottomNavigation() {
-        bnv.menu.getItem(1).isVisible = false
-        bnv.setOnNavigationItemSelectedListener { item ->
+        binding.bnv.menu.getItem(1).isVisible = false
+        binding.bnv.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.bnmMeasures -> {
                     viewModel.handleBottomNavigationMenuMeasureClicked()
@@ -237,6 +241,6 @@ class MainActivity : StatelessBaseActivity<
                 else -> false
             }
         }
-        bnv.setOnNavigationItemReselectedListener { }
+        binding.bnv.setOnNavigationItemReselectedListener { }
     }
 }

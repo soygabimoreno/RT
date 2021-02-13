@@ -6,17 +6,24 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import com.appacoustic.rt.R
-import kotlinx.android.synthetic.main.custom_frequency_time.view.*
+import com.appacoustic.rt.databinding.CustomFrequencyTimeBinding
 
 class FrequencyTimeView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
 ) : LinearLayout(context, attrs) {
 
+    val binding: CustomFrequencyTimeBinding = CustomFrequencyTimeBinding.inflate(
+        LayoutInflater.from(context),
+        this
+    )
+
     init {
-        LayoutInflater.from(context).inflate(R.layout.custom_frequency_time, this, true)
         attrs?.let {
-            val typedArray = context.obtainStyledAttributes(it, R.styleable.FrequencyTimeView)
+            val typedArray = context.obtainStyledAttributes(
+                it,
+                R.styleable.FrequencyTimeView
+            )
             typedArray.apply {
                 initText(this)
             }
@@ -30,18 +37,18 @@ class FrequencyTimeView @JvmOverloads constructor(
             0
         )
         if (resId != 0) {
-            tvFrequency.setText(resId)
+            binding.tvFrequency.setText(resId)
         } else {
             throw TextNotDefinedException()
         }
     }
 
     fun setTime(text: String) {
-        tvTime.text = text
+        binding.tvTime.text = text
     }
 
     fun setDefaultColor() {
-        tvTime.setTextColor(
+        binding.tvTime.setTextColor(
             resources.getColor(
                 R.color.gray_medium,
                 null
@@ -50,7 +57,7 @@ class FrequencyTimeView @JvmOverloads constructor(
     }
 
     fun setErrorColor() {
-        tvTime.setTextColor(
+        binding.tvTime.setTextColor(
             resources.getColor(
                 R.color.sizzlingRed,
                 null

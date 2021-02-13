@@ -5,9 +5,8 @@ import android.content.Context
 import android.os.Bundle
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import com.appacoustic.rt.R
+import com.appacoustic.rt.databinding.DialogInfoBinding
 import com.appacoustic.rt.framework.extension.gone
-import kotlinx.android.synthetic.main.dialog_info.*
 
 class InfoAlertDialog private constructor(
     context: Context,
@@ -19,26 +18,32 @@ class InfoAlertDialog private constructor(
     private val cancelable: Boolean
 ) : AlertDialog(context) {
 
+    private lateinit var binding: DialogInfoBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.dialog_info)
+        binding = DialogInfoBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         initUI()
     }
 
     private fun initUI() {
-        if (drawableResId != null) {
-            iv.setImageResource(drawableResId)
-        } else {
-            iv.gone()
+        with(binding) {
+            if (drawableResId != null) {
+                iv.setImageResource(drawableResId)
+            } else {
+                iv.gone()
+            }
+
+            tvTitle.setText(titleResId)
+            tvDescription.setText(descriptionResId)
+            btn.setText(btnTextResId)
+            btn.setOnClickListener {
+                dismiss()
+                onButtonClicked()
+            }
         }
 
-        tvTitle.setText(titleResId)
-        tvDescription.setText(descriptionResId)
-        btn.setText(btnTextResId)
-        btn.setOnClickListener {
-            dismiss()
-            onButtonClicked()
-        }
         setCancelable(cancelable)
     }
 

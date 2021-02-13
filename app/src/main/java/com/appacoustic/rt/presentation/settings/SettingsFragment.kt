@@ -1,12 +1,15 @@
 package com.appacoustic.rt.presentation.settings
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import com.appacoustic.rt.R
+import com.appacoustic.rt.databinding.FragmentSettingsBinding
 import com.appacoustic.rt.framework.base.fragment.BaseFragment
 import com.appacoustic.rt.framework.extension.exhaustive
-import kotlinx.android.synthetic.main.fragment_settings.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsFragment : BaseFragment<
+    FragmentSettingsBinding,
     SettingsViewModel.ViewState,
     SettingsViewModel.ViewEvents,
     SettingsViewModel
@@ -16,7 +19,14 @@ class SettingsFragment : BaseFragment<
         fun newInstance() = SettingsFragment()
     }
 
-    override val layoutResId = R.layout.fragment_settings
+    override val viewBinding: (LayoutInflater, ViewGroup?) -> FragmentSettingsBinding = { layoutInflater, viewGroup ->
+        FragmentSettingsBinding.inflate(
+            layoutInflater,
+            viewGroup,
+            false
+        )
+    }
+
     override val viewModel: SettingsViewModel by viewModel()
 
     private val accentColor by lazy {
@@ -38,7 +48,7 @@ class SettingsFragment : BaseFragment<
 
     private fun initSwitchFilter() {
         viewModel.toggleSwitchTestSignal()
-        switchTestSignal.setOnCheckedChangeListener { _, testSignalEnabled ->
+        binding.switchTestSignal.setOnCheckedChangeListener { _, testSignalEnabled ->
             toggleSwitchTextSignalText(testSignalEnabled)
             viewModel.handleSwitchFilterChanged(testSignalEnabled)
         }
@@ -61,17 +71,19 @@ class SettingsFragment : BaseFragment<
     }
 
     private fun toggleSwitchTestSignal(testSignalEnabled: Boolean) {
-        switchTestSignal.isChecked = testSignalEnabled
+        binding.switchTestSignal.isChecked = testSignalEnabled
         toggleSwitchTextSignalText(testSignalEnabled)
     }
 
     private fun toggleSwitchTextSignalText(testSignalEnabled: Boolean) {
-        if (testSignalEnabled) {
-            switchTestSignal.setText(R.string.using_dirac_test_signal)
-            switchTestSignal.setTextColor(accentColor)
-        } else {
-            switchTestSignal.setText(R.string.not_using_dirac_test_signal)
-            switchTestSignal.setTextColor(grayLightColor)
+        with(binding) {
+            if (testSignalEnabled) {
+                switchTestSignal.setText(R.string.using_dirac_test_signal)
+                switchTestSignal.setTextColor(accentColor)
+            } else {
+                switchTestSignal.setText(R.string.not_using_dirac_test_signal)
+                switchTestSignal.setTextColor(grayLightColor)
+            }
         }
     }
 }
