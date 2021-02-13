@@ -41,6 +41,7 @@ class MainActivity : StatelessBaseActivity<
     override val viewBinding: (LayoutInflater) -> ActivityMainBinding = {
         ActivityMainBinding.inflate(it)
     }
+
     override val viewModel: MainViewModel by viewModel()
 
     private lateinit var menu: Menu
