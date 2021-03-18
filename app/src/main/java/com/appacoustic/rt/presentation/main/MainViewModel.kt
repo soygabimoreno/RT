@@ -21,6 +21,13 @@ class MainViewModel(
         }
     }
 
+    fun handleHelpClicked() {
+        viewModelScope.launch {
+            analyticsTrackerComponent.trackEvent(MainEvents.ClickHelp)
+            sendViewEvent(ViewEvents.Help)
+        }
+    }
+
     fun handleShareClicked() {
         viewModelScope.launch {
             analyticsTrackerComponent.trackEvent(MainEvents.ClickShare)
@@ -82,6 +89,7 @@ class MainViewModel(
         object NavigateToSignal : ViewEvents()
         object NavigateToPlayer : ViewEvents()
         object NavigateToSettings : ViewEvents()
+        object Help : ViewEvents()
         object Share : ViewEvents()
         object SendEmail : ViewEvents()
         object ExternalRate : ViewEvents()

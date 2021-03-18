@@ -13,6 +13,7 @@ import com.appacoustic.rt.BuildConfig
 import com.appacoustic.rt.R
 import com.appacoustic.rt.databinding.ActivityMainBinding
 import com.appacoustic.rt.framework.base.activity.StatelessBaseActivity
+import com.appacoustic.rt.framework.extension.debugToast
 import com.appacoustic.rt.framework.extension.exhaustive
 import com.appacoustic.rt.framework.extension.navigateTo
 import com.appacoustic.rt.presentation.measure.MeasureFragment
@@ -58,6 +59,10 @@ class MainActivity : StatelessBaseActivity<
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.menuHelp -> {
+                viewModel.handleHelpClicked()
+                true
+            }
             R.id.menuShare -> {
                 viewModel.handleShareClicked()
                 true
@@ -88,6 +93,7 @@ class MainActivity : StatelessBaseActivity<
             MainViewModel.ViewEvents.NavigateToSignal -> navigateToSignal()
             MainViewModel.ViewEvents.NavigateToPlayer -> navigateToPlayer()
             MainViewModel.ViewEvents.NavigateToSettings -> navigateToSettings()
+            MainViewModel.ViewEvents.Help -> help()
             MainViewModel.ViewEvents.Share -> share()
             MainViewModel.ViewEvents.SendEmail -> sendEmail()
             MainViewModel.ViewEvents.ExternalRate -> externalRate()
@@ -125,6 +131,10 @@ class MainActivity : StatelessBaseActivity<
             R.id.flContainer,
             SettingsFragment.newInstance()
         )
+    }
+
+    private fun help() {
+        debugToast("HELP")
     }
 
     private fun share() {
