@@ -6,6 +6,9 @@
     <string name="dialog_app_settings_title">Grant permissions</string>
     <string name="dialog_app_settings_description">Please, add manually the required permissions.\n\nThey are required to use the app.</string>
     <string name="dialog_app_settings_btn_text">OK</string>
+    <string name="dialog_help_title">Instructions</string>
+    <string name="dialog_help_description">App for measuring Reverb Time in octaves or average in a really easy way.\n\nSteps:\n1. Press START\n2. Clap your hands after the countdown (measuring step)\n3. See results\n\nWatch video: https://www.youtube.com/watch?v=CnWFxmBcNlk\n\nTo achieve optimum results, it is highly recommended to try to locate the device away from reflective surfaces and clap stick farther from the critical radius, so that the sound reverberated outweighs the direct one.</string>
+    <string name="dialog_help_btn_text">OK</string>
 
     <string name="menu_help">Help</string>
     <string name="menu_share">Share the app</string>

@@ -13,7 +13,7 @@ import com.appacoustic.rt.BuildConfig
 import com.appacoustic.rt.R
 import com.appacoustic.rt.databinding.ActivityMainBinding
 import com.appacoustic.rt.framework.base.activity.StatelessBaseActivity
-import com.appacoustic.rt.framework.extension.debugToast
+import com.appacoustic.rt.framework.customview.InfoAlertDialog
 import com.appacoustic.rt.framework.extension.exhaustive
 import com.appacoustic.rt.framework.extension.navigateTo
 import com.appacoustic.rt.presentation.measure.MeasureFragment
@@ -134,7 +134,12 @@ class MainActivity : StatelessBaseActivity<
     }
 
     private fun help() {
-        debugToast("HELP")
+        InfoAlertDialog.Builder(this)
+            .drawable(R.drawable.ic_menu_help_24)
+            .title(R.string.dialog_help_title)
+            .description(R.string.dialog_help_description)
+            .btnText(R.string.dialog_help_btn_text)
+            .buildAndShow()
     }
 
     private fun share() {
