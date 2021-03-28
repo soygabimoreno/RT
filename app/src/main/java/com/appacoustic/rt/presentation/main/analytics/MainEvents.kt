@@ -4,6 +4,7 @@ import com.appacoustic.rt.data.analytics.AnalyticsEvent
 
 private const val SCREEN_MAIN = "SCREEN_MAIN"
 private const val NAVIGATE_TO_MEASURE = "NAVIGATE_TO_MEASURE"
+private const val CLICK_AUTHENTICATION = "CLICK_AUTHENTICATION"
 private const val CLICK_HELP = "CLICK_HELP"
 private const val CLICK_SHARE = "CLICK_SHARE"
 private const val CLICK_EMAIL = "CLICK_EMAIL"
@@ -21,6 +22,7 @@ sealed class MainEvents(
 
     object ScreenMain : MainEvents(SCREEN_MAIN)
     object NavigateToMeasure : MainEvents(NAVIGATE_TO_MEASURE)
+    object ClickAuthentication : MainEvents(CLICK_AUTHENTICATION)
     object ClickHelp : MainEvents(CLICK_HELP)
     object ClickShare : MainEvents(CLICK_SHARE)
     object ClickEmail : MainEvents(CLICK_EMAIL)

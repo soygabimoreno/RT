@@ -16,6 +16,7 @@ import com.appacoustic.rt.framework.base.activity.StatelessBaseActivity
 import com.appacoustic.rt.framework.customview.InfoAlertDialog
 import com.appacoustic.rt.framework.extension.exhaustive
 import com.appacoustic.rt.framework.extension.navigateTo
+import com.appacoustic.rt.presentation.authentication.AuthenticationActivity
 import com.appacoustic.rt.presentation.measure.MeasureFragment
 import com.appacoustic.rt.presentation.permission.PermissionFragment
 import com.appacoustic.rt.presentation.player.PlayerFragment
@@ -59,6 +60,10 @@ class MainActivity : StatelessBaseActivity<
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.menuAuthentication -> {
+                viewModel.handleAuthenticationClicked()
+                true
+            }
             R.id.menuHelp -> {
                 viewModel.handleHelpClicked()
                 true
@@ -93,6 +98,7 @@ class MainActivity : StatelessBaseActivity<
             MainViewModel.ViewEvents.NavigateToSignal -> navigateToSignal()
             MainViewModel.ViewEvents.NavigateToPlayer -> navigateToPlayer()
             MainViewModel.ViewEvents.NavigateToSettings -> navigateToSettings()
+            MainViewModel.ViewEvents.Authentication -> navigateToAuthentication()
             MainViewModel.ViewEvents.Help -> help()
             MainViewModel.ViewEvents.Share -> share()
             MainViewModel.ViewEvents.SendEmail -> sendEmail()
@@ -131,6 +137,10 @@ class MainActivity : StatelessBaseActivity<
             R.id.flContainer,
             SettingsFragment.newInstance()
         )
+    }
+
+    private fun navigateToAuthentication() {
+        AuthenticationActivity.launch(this)
     }
 
     private fun help() {
