@@ -16,11 +16,11 @@ class AuthenticationViewModel(
     init {
         analyticsTrackerComponent.trackEvent(AuthenticationEvents.ScreenAuthentication)
         viewModelScope.launch {
-            sendViewEvent(ViewEvents.Foo)
+            sendViewEvent(ViewEvents.NavigateRegister)
         }
     }
 
     sealed class ViewEvents {
-        object Foo : ViewEvents()
+        object NavigateRegister : ViewEvents()
     }
 }

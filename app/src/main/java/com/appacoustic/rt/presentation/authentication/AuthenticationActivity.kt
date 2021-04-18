@@ -3,9 +3,12 @@ package com.appacoustic.rt.presentation.authentication
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
+import com.appacoustic.rt.R
 import com.appacoustic.rt.databinding.ActivityAuthenticationBinding
 import com.appacoustic.rt.framework.base.activity.StatelessBaseActivity
 import com.appacoustic.rt.framework.extension.exhaustive
+import com.appacoustic.rt.framework.extension.navigateTo
+import com.appacoustic.rt.presentation.authentication.register.RegisterFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AuthenticationActivity : StatelessBaseActivity<
@@ -35,10 +38,14 @@ class AuthenticationActivity : StatelessBaseActivity<
 
     override fun handleViewEvent(viewEvent: AuthenticationViewModel.ViewEvents) {
         when (viewEvent) {
-            is AuthenticationViewModel.ViewEvents.Foo -> foo()
+            is AuthenticationViewModel.ViewEvents.NavigateRegister -> navigateRegister()
         }.exhaustive
     }
 
-    private fun foo() {
+    private fun navigateRegister() {
+        navigateTo(
+            R.id.flContainer,
+            RegisterFragment.newInstance(true)
+        )
     }
 }

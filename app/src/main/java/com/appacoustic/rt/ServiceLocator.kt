@@ -6,6 +6,7 @@ import com.appacoustic.rt.data.persistent.db.persistentModule
 import com.appacoustic.rt.framework.audio.audioModule
 import com.appacoustic.rt.framework.showinappreview.showInAppReviewModule
 import com.appacoustic.rt.presentation.authentication.authenticationModule
+import com.appacoustic.rt.presentation.authentication.register.registerModule
 import com.appacoustic.rt.presentation.main.mainModule
 import com.appacoustic.rt.presentation.measure.measureModule
 import com.appacoustic.rt.presentation.permission.permissionModule
@@ -22,6 +23,7 @@ val serviceLocator = listOf(
     showInAppReviewModule,
 
     authenticationModule,
+    registerModule,
 
     mainModule,
     permissionModule,
