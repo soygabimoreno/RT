@@ -18,6 +18,8 @@ class App : Application() {
         initKoin()
         initFirebase()
         initAmplitude()
+
+        // Just for a demo
     }
 
     private fun initKoin() {
