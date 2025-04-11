@@ -20,7 +20,7 @@ class SplashActivity : AppCompatActivity() {
             object : Animator.AnimatorListener {
                 val initialFadeInDuration = 500L
 
-                override fun onAnimationStart(animation: Animator?) {
+                override fun onAnimationStart(animation: Animator) {
                     binding.lav
                         .animate()
                         .alpha(1f)
@@ -28,7 +28,7 @@ class SplashActivity : AppCompatActivity() {
                         .start()
                 }
 
-                override fun onAnimationEnd(animation: Animator?) {
+                override fun onAnimationEnd(animation: Animator) {
                     navigateToCourses()
                     overridePendingTransition(
                         R.anim.fade_in,
@@ -36,9 +36,9 @@ class SplashActivity : AppCompatActivity() {
                     )
                 }
 
-                override fun onAnimationRepeat(animation: Animator?) {}
+                override fun onAnimationRepeat(animation: Animator) {}
 
-                override fun onAnimationCancel(animation: Animator?) {}
+                override fun onAnimationCancel(animation: Animator) {}
             })
     }
 
