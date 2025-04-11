@@ -114,6 +114,8 @@ class MeasureViewModel(
                                     recordingStarted = true
                                 }
                             }
+
+                            else -> Unit
                         }
                     }
 
