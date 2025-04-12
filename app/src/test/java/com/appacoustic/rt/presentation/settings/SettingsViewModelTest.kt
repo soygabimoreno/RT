@@ -7,9 +7,9 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertFalse
@@ -21,8 +21,7 @@ import org.junit.Test
 @ExperimentalCoroutinesApi
 class SettingsViewModelTest {
 
-    private val testDispatcher = TestCoroutineDispatcher()
-    private val testCoroutineScope = TestCoroutineScope(testDispatcher)
+    private val testDispatcher = StandardTestDispatcher()
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -38,7 +37,6 @@ class SettingsViewModelTest {
     @After
     fun cleanup() {
         Dispatchers.resetMain()
-        testCoroutineScope.cleanupTestCoroutines()
     }
 
     @Test
@@ -51,24 +49,28 @@ class SettingsViewModelTest {
     }
 
     @Test
-    fun `when toggleSwitchTestSignal is triggered, if user session has stored that the test signal is enabled, then send the corresponding view event`() {
+    fun `when toggleSwitchTestSignal is triggered, if user session has stored that the test signal is enabled, then send the corresponding view event`() = runTest {
         givenTestSignalEnabled()
         val viewModel = buildViewModel()
 
         viewModel.toggleSwitchTestSignal()
 
-        val event = viewModel.viewEvents.poll()
+        testScheduler.advanceUntilIdle()
+
+        val event = viewModel.viewEvents.tryReceive().getOrNull()
+        assertTrue(event is SettingsViewModel.ViewEvents.ToggleSwitchTestSignal)
         assertTrue((event as SettingsViewModel.ViewEvents.ToggleSwitchTestSignal).testSignalEnabled)
     }
 
     @Test
-    fun `when toggleSwitchTestSignal is triggered, if user session has stored that the test signal is disabled, then send the corresponding view event`() {
+    fun `when toggleSwitchTestSignal is triggered, if user session has stored that the test signal is disabled, then send the corresponding view event`() = runTest {
         givenTestSignalDisabled()
         val viewModel = buildViewModel()
 
         viewModel.toggleSwitchTestSignal()
+        testScheduler.advanceUntilIdle()
 
-        val event = viewModel.viewEvents.poll()
+        val event = viewModel.viewEvents.tryReceive().getOrNull()
         assertFalse((event as SettingsViewModel.ViewEvents.ToggleSwitchTestSignal).testSignalEnabled)
     }
 

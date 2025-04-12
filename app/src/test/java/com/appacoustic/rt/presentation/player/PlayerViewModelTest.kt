@@ -9,17 +9,19 @@ import io.mockk.slot
 import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
-import org.junit.*
+import org.junit.After
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 
 @ExperimentalCoroutinesApi
 class PlayerViewModelTest {
 
-    private val testDispatcher = TestCoroutineDispatcher()
-    private val testCoroutineScope = TestCoroutineScope(testDispatcher)
+    private val testDispatcher = StandardTestDispatcher()
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -35,7 +37,6 @@ class PlayerViewModelTest {
     @After
     fun cleanup() {
         Dispatchers.resetMain()
-        testCoroutineScope.cleanupTestCoroutines()
     }
 
     @Test
@@ -53,7 +54,7 @@ class PlayerViewModelTest {
     }
 
     @Test
-    fun `when an item is pressed, then its analytics event is tiggered`() {
+    fun `when an item is pressed, then its analytics event is triggered`() {
         val viewModel = buildViewModel()
 
         val filename = "abdc"

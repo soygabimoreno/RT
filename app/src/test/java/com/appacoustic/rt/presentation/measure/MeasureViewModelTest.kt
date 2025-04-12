@@ -14,8 +14,7 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.*
@@ -25,8 +24,7 @@ import org.junit.Assert.assertTrue
 @ExperimentalCoroutinesApi
 class MeasureViewModelTest {
 
-    private val testDispatcher = TestCoroutineDispatcher()
-    private val testCoroutineScope = TestCoroutineScope(testDispatcher)
+    private val testDispatcher = StandardTestDispatcher()
 
     private val recordAudioPermissionChecker = mockk<RecordAudioPermissionChecker>(relaxed = true)
     private val recorder = mockk<Recorder>(relaxed = true)
@@ -46,7 +44,6 @@ class MeasureViewModelTest {
     @After
     fun cleanup() {
         Dispatchers.resetMain()
-        testCoroutineScope.cleanupTestCoroutines()
     }
 
     @Ignore("This test is not valid anymore because updateContent does not trigger the in-app review")
@@ -58,7 +55,7 @@ class MeasureViewModelTest {
 
         viewModel.updateContent()
 
-        val event = viewModel.viewEvents.poll()
+        val event = viewModel.viewEvents.tryReceive().getOrNull()
         assertTrue(event is MeasureViewModel.ViewEvents.ShowInAppReview)
     }
 
@@ -71,7 +68,7 @@ class MeasureViewModelTest {
 
         viewModel.updateContent()
 
-        val event = viewModel.viewEvents.poll()
+        val event = viewModel.viewEvents.tryReceive().getOrNull()
         assertFalse(event is MeasureViewModel.ViewEvents.ShowInAppReview)
     }
 

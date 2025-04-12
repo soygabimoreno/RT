@@ -8,7 +8,10 @@ import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.*
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -18,8 +21,7 @@ import org.junit.Test
 @ExperimentalCoroutinesApi
 class MainViewModelTest {
 
-    private val testDispatcher = TestCoroutineDispatcher()
-    private val testCoroutineScope = TestCoroutineScope(testDispatcher)
+    private val testDispatcher = StandardTestDispatcher()
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -35,34 +37,33 @@ class MainViewModelTest {
     @After
     fun cleanup() {
         Dispatchers.resetMain()
-        testCoroutineScope.cleanupTestCoroutines()
     }
 
     @Test
-    fun `when the app starts, then go to measure screen`() {
-        testCoroutineScope.runBlockingTest {
-            val viewModel = buildViewModel()
+    fun `when the app starts, then go to measure screen`() = runTest {
+        val viewModel = buildViewModel()
 
-            val viewEvents = viewModel.viewEvents
-            val event = viewEvents.poll()
-            assertTrue(event is MainViewModel.ViewEvents.NavigateToMeasure)
-        }
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        val viewEvents = viewModel.viewEvents
+        val event = viewEvents.tryReceive().getOrNull()
+
+        assertTrue(event is MainViewModel.ViewEvents.NavigateToMeasure)
     }
 
     @Test
-    fun `when the user clicks on info, then navigate to the corresponding url`() {
-        testCoroutineScope.runBlockingTest {
-            val viewModel = buildViewModel()
+    fun `when the user clicks on info, then navigate to the corresponding url`() = runTest {
+        val viewModel = buildViewModel()
 
-            viewModel.handleInfoClicked()
+        viewModel.handleInfoClicked()
+        testDispatcher.scheduler.advanceUntilIdle()
 
-            val viewEvents = viewModel.viewEvents
-            val firstEvent = viewEvents.poll()
-            val secondEvent = viewEvents.poll()
+        val viewEvents = viewModel.viewEvents
+        val firstEvent = viewEvents.tryReceive().getOrNull()
+        val secondEvent = viewEvents.tryReceive().getOrNull()
 
-            assertTrue(firstEvent is MainViewModel.ViewEvents.NavigateToMeasure)
-            assertTrue(secondEvent is MainViewModel.ViewEvents.NavigateToWeb)
-        }
+        assertTrue(firstEvent is MainViewModel.ViewEvents.NavigateToMeasure)
+        assertTrue(secondEvent is MainViewModel.ViewEvents.NavigateToWeb)
     }
 
     @Test

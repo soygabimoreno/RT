@@ -83,6 +83,12 @@ android {
         arg("arrow.generate.optionals", "true")
     }
 
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1,LICENSE.md,LICENSE-notice.md}"
+        }
+    }
+
     externalNativeBuild {
         cmake {
             path = file("CMakeLists.txt")
@@ -132,7 +138,6 @@ dependencies {
 
     implementation(libs.iirj)
 
-    // Tests
     testImplementation(libs.junit)
     testImplementation(libs.mockk)
     testImplementation(libs.androidx.core.testing)
@@ -142,5 +147,5 @@ dependencies {
     androidTestImplementation(libs.androidx.test.runner)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.core)
-    androidTestImplementation(libs.mockk)
+    androidTestImplementation(libs.mockk.android)
 }
