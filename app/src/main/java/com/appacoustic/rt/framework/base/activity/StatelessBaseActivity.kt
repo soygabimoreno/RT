@@ -2,6 +2,11 @@ package com.appacoustic.rt.framework.base.activity
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import androidx.activity.enableEdgeToEdge
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import com.appacoustic.rt.framework.base.viewmodel.StatelessBaseViewModel
@@ -24,8 +29,16 @@ abstract class StatelessBaseActivity<
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         binding = viewBinding(layoutInflater)
         setContentView(binding.root)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
+            binding.root.updatePadding(
+                top = insets.getInsets(WindowInsetsCompat.Type.systemBars()).top
+            )
+            insets
+        }
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
         initUI()
         viewModel.viewEvents
             .consumeAsFlow()
