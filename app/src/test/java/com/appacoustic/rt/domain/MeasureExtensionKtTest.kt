@@ -1,5 +1,6 @@
 package com.appacoustic.rt.domain
 
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -18,6 +19,6 @@ class MeasureExtensionKtTest {
 
         val res = measures.toHumanReadable()
 
-        assertTrue("[0.12, 0.46, 0.79, 0.01, 0.34, 0.68]" == res)
+        assertEquals("[0,12, 0,46, 0,79, 0,01, 0,34, 0,68]", res)
     }
 }

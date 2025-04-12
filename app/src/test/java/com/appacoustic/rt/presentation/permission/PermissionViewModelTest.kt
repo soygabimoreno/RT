@@ -13,8 +13,7 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
@@ -26,8 +25,7 @@ import org.junit.Test
 @ExperimentalCoroutinesApi
 class PermissionViewModelTest {
 
-    private val testDispatcher = TestCoroutineDispatcher()
-    private val testCoroutineScope = TestCoroutineScope(testDispatcher)
+    private val testDispatcher = StandardTestDispatcher()
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -45,7 +43,6 @@ class PermissionViewModelTest {
     @After
     fun cleanup() {
         Dispatchers.resetMain()
-        testCoroutineScope.cleanupTestCoroutines()
     }
 
     @Test
@@ -53,8 +50,9 @@ class PermissionViewModelTest {
         givenRecordAudioPermissionGranted()
 
         val viewModel = buildViewModel()
+        testDispatcher.scheduler.advanceUntilIdle()
 
-        val event = viewModel.viewEvents.poll()
+        val event = viewModel.viewEvents.tryReceive().getOrNull()
         assertTrue(event is PermissionViewModel.ViewEvents.NavigateToMeasure)
     }
 
@@ -63,8 +61,9 @@ class PermissionViewModelTest {
         givenRecordAudioPermissionDenied()
 
         val viewModel = buildViewModel()
+        testDispatcher.scheduler.advanceUntilIdle()
 
-        val event = viewModel.viewEvents.poll()
+        val event = viewModel.viewEvents.tryReceive().getOrNull()
         assertTrue(event is PermissionViewModel.ViewEvents.ShowRecordAudioPermissionRequiredDialog)
     }
 
@@ -73,8 +72,9 @@ class PermissionViewModelTest {
         givenRecordAudioPermissionShowRationale()
 
         val viewModel = buildViewModel()
+        testDispatcher.scheduler.advanceUntilIdle()
 
-        val event = viewModel.viewEvents.poll()
+        val event = viewModel.viewEvents.tryReceive().getOrNull()
         assertTrue(event is PermissionViewModel.ViewEvents.ShowRationale)
     }
 
@@ -83,8 +83,9 @@ class PermissionViewModelTest {
         givenRecordAudioPermissionError()
 
         val viewModel = buildViewModel()
+        testDispatcher.scheduler.advanceUntilIdle()
 
-        val event = viewModel.viewEvents.poll()
+        val event = viewModel.viewEvents.tryReceive().getOrNull()
         assertTrue(event is PermissionViewModel.ViewEvents.ShowPermissionError)
     }
 
