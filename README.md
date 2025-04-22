@@ -14,7 +14,7 @@ To achieve optimum results, it is highly recommended trying to locate the device
 
 The IIR filters used to perform the calculations are the implemented by [**Bernd Porr**](https://github.com/berndporr) on [iirj](https://github.com/berndporr/iirj)
 
-More info on [AppAcoustiC](http://appacoustic.com/).
+More info on [AppAcoustiC](https://appacoustic.com).
 
 ### Collaborate
 

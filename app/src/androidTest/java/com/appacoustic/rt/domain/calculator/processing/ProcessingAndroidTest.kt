@@ -31,10 +31,10 @@ class ProcessingAndroidTest {
         val integratedArray = filteredArray.schroederIntegral()
 
         assertTrue(4 == integratedArray.size)
-//        assertTrue("1,4543E-13" == integratedArray[0].formatToExponential())
-//        assertTrue("6,1079E-12" == integratedArray[1].formatToExponential())
-//        assertTrue("6,9237E-11" == integratedArray[2].formatToExponential())
-        assertTrue("3,9626E-10" == integratedArray[3].formatToExponential())
+        assertTrue("1.4544E-13" == integratedArray[0].formatToExponential())
+        assertTrue("6.108E-12" == integratedArray[1].formatToExponential())
+        assertTrue("6.9238E-11" == integratedArray[2].formatToExponential())
+        assertTrue("3.9626E-10" == integratedArray[3].formatToExponential())
     }
 
     private fun givenFilteredArray(): DoubleArray {
