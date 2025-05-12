@@ -1,10 +1,10 @@
 [versions]
 # Build Tools
-agp = "8.9.1"
+agp = "8.9.2"
 
 # Kotlin & Language Tools
-kotlin = "2.1.10"
-ksp = "2.1.10-1.0.29"
+kotlin = "2.1.20"
+ksp = "2.1.20-1.0.31"
 coroutinesCore = "1.10.1"
 coroutinesAndroid = "1.10.1"
 coroutinesTest = "1.10.1"
@@ -14,7 +14,7 @@ activity = "1.10.1"
 appcompat = "1.7.0"
 constraintlayout = "2.2.1"
 coreKtx = "1.16.0"
-lifecycle = "2.8.7"
+lifecycle = "2.9.0"
 material = "1.12.0"
 browser = "1.8.0"
 
@@ -22,7 +22,7 @@ browser = "1.8.0"
 koin = "2.2.2"
 
 # Firebase
-firebaseBom = "33.12.0"
+firebaseBom = "33.13.0"
 firebase-crashlytics = "3.0.3"
 google-services = "4.4.2"
 
@@ -30,11 +30,11 @@ google-services = "4.4.2"
 arrowCore = "1.2.0"
 
 # Room
-room = "2.7.0"
+room = "2.7.1"
 
 # External Libraries
 amplitude = "3.35.1"
-dexter = "6.2.1"
+dexter = "6.2.3"
 gson = "2.11.0"
 lottie = "3.4.2"
 mpandroidchart = "v3.1.0"
