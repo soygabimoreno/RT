@@ -9,7 +9,6 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
-
 android {
 
     val properties = Properties().apply {
@@ -48,7 +47,7 @@ android {
             enableSplit = true
         }
         abi {
-            enableSplit = true
+            enableSplit = false
         }
         language {
             enableSplit = false

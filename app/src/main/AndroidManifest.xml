@@ -2,12 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.appacoustic.rt">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:name=".App"
         android:allowBackup="true"
+        android:extractNativeLibs="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
@@ -20,15 +21,15 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Splash">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".presentation.main.MainActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.authentication.AuthenticationActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
     </application>
 </manifest>
