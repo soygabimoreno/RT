@@ -1,4 +1,3 @@
-import jdk.tools.jlink.resources.plugins
 import java.io.FileInputStream
 import java.util.Properties
 
