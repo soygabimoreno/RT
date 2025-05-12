@@ -1,3 +1,4 @@
+import jdk.tools.jlink.resources.plugins
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -32,8 +33,8 @@ android {
         applicationId = "com.appacoustic.rt"
         minSdk = 23
         targetSdk = 35
-        versionCode = 38
-        versionName = "4.0.1"
+        versionCode = 39
+        versionName = "4.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
