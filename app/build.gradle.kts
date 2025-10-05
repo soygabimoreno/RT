@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -25,13 +27,13 @@ android {
     }
 
     namespace = "com.appacoustic.rt"
-    compileSdk = 35
-    buildToolsVersion = "35.0.0"
+    compileSdk = 36
+    ndkVersion = "27.3.13750724"
 
     defaultConfig {
         applicationId = "com.appacoustic.rt"
         minSdk = 23
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 39
         versionName = "4.0.2"
 
@@ -40,17 +42,11 @@ android {
         ndk {
             abiFilters += listOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
         }
-    }
-
-    bundle {
-        density {
-            enableSplit = true
-        }
-        abi {
-            enableSplit = false
-        }
-        language {
-            enableSplit = false
+        @Suppress("UnstableApiUsage")
+        externalNativeBuild {
+            cmake {
+                cppFlags += "-std=c++17"
+            }
         }
     }
 
@@ -74,14 +70,18 @@ android {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
     }
-    kotlinOptions {
-        jvmTarget = "21"
+
+    tasks.withType(KotlinCompile::class.java).configureEach {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.fromTarget(JavaVersion.VERSION_21.toString()))
+        }
     }
 
     buildFeatures {
         viewBinding = true
         buildConfig = true
     }
+
     ksp {
         arg("arrow.generate.optionals", "true")
     }
@@ -90,12 +90,23 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1,LICENSE.md,LICENSE-notice.md}"
         }
+        jniLibs {
+            useLegacyPackaging = true
+        }
     }
 
     externalNativeBuild {
         cmake {
             path = file("CMakeLists.txt")
+            version = "3.22.1"
         }
+    }
+
+    buildToolsVersion = "35.0.0"
+    bundle {
+        density.enableSplit = true
+        abi.enableSplit = false
+        language.enableSplit = false
     }
 }
 

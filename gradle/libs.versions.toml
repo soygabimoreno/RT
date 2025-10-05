@@ -1,56 +1,56 @@
 [versions]
 # Build Tools
-agp = "8.9.2"
+agp = "8.13.0"
 
 # Kotlin & Language Tools
-kotlin = "2.1.20"
-ksp = "2.1.20-1.0.31"
-coroutinesCore = "1.10.1"
-coroutinesAndroid = "1.10.1"
-coroutinesTest = "1.10.1"
+kotlin = "2.2.20"
+ksp = "2.2.20-2.0.3"
+coroutinesCore = "1.10.2"
+coroutinesAndroid = "1.10.2"
+coroutinesTest = "1.10.2"
 
 # AndroidX Core & UI
-activity = "1.10.1"
-appcompat = "1.7.0"
+activity = "1.11.0"
+appcompat = "1.7.1"
 constraintlayout = "2.2.1"
-coreKtx = "1.16.0"
-lifecycle = "2.9.0"
-material = "1.12.0"
-browser = "1.8.0"
+coreKtx = "1.17.0"
+lifecycle = "2.9.4"
+material = "1.13.0"
+browser = "1.9.0"
 
 # DI
-koin = "2.2.2"
+koin = "2.2.3"
 
 # Firebase
-firebaseBom = "33.13.0"
-firebase-crashlytics = "3.0.3"
-google-services = "4.4.2"
+firebaseBom = "34.3.0"
+firebase-crashlytics = "3.0.6"
+google-services = "4.4.3"
 
 # Arrow
-arrowCore = "1.2.0"
+arrowCore = "2.1.2"
 
 # Room
-room = "2.7.1"
+room = "2.8.1"
 
 # External Libraries
 amplitude = "3.35.1"
 dexter = "6.2.3"
-gson = "2.11.0"
-lottie = "3.4.2"
+gson = "2.13.2"
+lottie = "6.6.10"
 mpandroidchart = "v3.1.0"
-okhttp = "4.12.0"
+okhttp = "5.1.0"
 playReview = "2.0.2"
-iirj = "1.1"
+iirj = "1.7"
 
 # Testing
 junit = "4.13.2"
 junitVersion = "1.2.1"
-mockk = "1.13.10"
+mockk = "1.14.6"
 coreTesting = "2.2.0"
-espressoCore = "3.6.1"
-testRunner = "1.6.2"
-testExtJunit = "1.2.1"
-testCore = "1.6.1"
+espressoCore = "3.7.0"
+testRunner = "1.7.0"
+testExtJunit = "1.3.0"
+testCore = "1.7.0"
 
 [libraries]
 # AndroidX Core & UI
@@ -79,9 +79,9 @@ arrow-optics-ksp-plugin = { module = "io.arrow-kt:arrow-optics-ksp-plugin", vers
 
 # Firebase
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
-firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
-firebase-config = { module = "com.google.firebase:firebase-config-ktx" }
+firebase-config = { module = "com.google.firebase:firebase-config" }
 
 # Room
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
