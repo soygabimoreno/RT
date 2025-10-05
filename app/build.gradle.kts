@@ -34,8 +34,8 @@ android {
         applicationId = "com.appacoustic.rt"
         minSdk = 23
         targetSdk = 36
-        versionCode = 39
-        versionName = "4.0.2"
+        versionCode = 40
+        versionName = "4.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
